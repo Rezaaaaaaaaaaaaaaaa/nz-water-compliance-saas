@@ -1,0 +1,549 @@
+// Prisma Schema for NZ Water Compliance SaaS
+// Database schema designed for Taumata Arowai regulatory compliance
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// USERS & ORGANIZATIONS
+// ============================================================================
+
+enum UserRole {
+  SYSTEM_ADMIN      // Full system access
+  ORG_ADMIN         // Organization administration
+  COMPLIANCE_MANAGER // Can submit to regulator
+  INSPECTOR         // Field staff, data entry
+  AUDITOR           // Read-only, regulator role
+}
+
+model Organization {
+  id                String   @id @default(cuid())
+  name              String
+  type              OrganizationType
+  region            String
+  populationServed  Int?
+  contactEmail      String
+  contactPhone      String?
+  address           String?
+
+  // Metadata
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  deletedAt         DateTime? // Soft delete
+
+  // Relations
+  users             User[]
+  assets            Asset[]
+  documents         Document[]
+  compliancePlans   CompliancePlan[]
+  auditLogs         AuditLog[]
+  notifications     Notification[]
+  reports           Report[]
+  complianceScores  ComplianceScore[]
+
+  @@index([type])
+  @@index([deletedAt])
+}
+
+enum OrganizationType {
+  COUNCIL
+  CCO
+  PRIVATE_OPERATOR
+  IWI_AUTHORITY
+}
+
+model User {
+  id             String   @id @default(cuid())
+  auth0Id        String?  @unique // For Auth0 integration
+  email          String   @unique
+  firstName      String
+  lastName       String
+  role           UserRole
+  organizationId String
+
+  // Account status
+  isActive       Boolean  @default(true)
+  lastLoginAt    DateTime?
+
+  // Metadata
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  deletedAt      DateTime? // Soft delete
+
+  // Relations
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  createdDocuments Document[] @relation("DocumentCreator")
+  auditLogs      AuditLog[]
+  notifications  Notification[]
+
+  @@index([organizationId])
+  @@index([email])
+  @@index([role])
+  @@index([deletedAt])
+}
+
+// ============================================================================
+// ASSETS
+// ============================================================================
+
+enum AssetType {
+  WATER_TREATMENT_PLANT
+  RESERVOIR
+  PUMP_STATION
+  PIPELINE
+  VALVE
+  METER
+  CHLORINATION_STATION
+  UV_DISINFECTION
+  FILTRATION_SYSTEM
+  INTAKE_STRUCTURE
+  STORAGE_TANK
+  PRESSURE_REDUCING_VALVE
+  OTHER
+}
+
+enum AssetCondition {
+  EXCELLENT
+  GOOD
+  FAIR
+  POOR
+  VERY_POOR
+  UNKNOWN
+}
+
+model Asset {
+  id                  String          @id @default(cuid())
+  organizationId      String
+
+  // Asset Details
+  name                String
+  type                AssetType
+  description         String?
+  assetCode           String?         @unique
+
+  // Location (required for emergency response)
+  latitude            Float?
+  longitude           Float?
+  address             String?
+
+  // Asset Management (regulatory requirements)
+  installationDate    DateTime?
+  expectedLife        Int?            // Years
+  replacementValue    Decimal?        @db.Decimal(12, 2)
+  condition           AssetCondition  @default(UNKNOWN)
+  lastInspectionDate  DateTime?
+  nextInspectionDate  DateTime?
+
+  // Criticality Assessment
+  isCritical          Boolean         @default(false)
+  riskLevel           RiskLevel       @default(LOW)
+
+  // Custom Fields (JSON for flexibility)
+  metadata            Json?
+
+  // Metadata
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+  deletedAt           DateTime?       // Soft delete
+
+  // Relations
+  organization        Organization    @relation(fields: [organizationId], references: [id])
+  documents           AssetDocument[]
+  compliancePlans     AssetCompliancePlan[]
+
+  @@index([organizationId])
+  @@index([type])
+  @@index([condition])
+  @@index([isCritical])
+  @@index([deletedAt])
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+// ============================================================================
+// DOCUMENTS
+// ============================================================================
+
+enum DocumentType {
+  DWSP                    // Drinking Water Safety Plan
+  ASSET_MANAGEMENT_PLAN
+  COMPLIANCE_REPORT
+  INSPECTION_REPORT
+  WATER_QUALITY_REPORT
+  INCIDENT_REPORT
+  MAINTENANCE_RECORD
+  TRAINING_CERTIFICATE
+  AUDIT_REPORT
+  POLICY
+  PROCEDURE
+  DRAWING
+  PHOTO
+  OTHER
+}
+
+model Document {
+  id                String       @id @default(cuid())
+  organizationId    String
+
+  // Document Details
+  title             String
+  description       String?
+  documentType      DocumentType
+
+  // File Storage (S3)
+  fileKey           String       // S3 object key
+  fileSize          Int          // Bytes
+  fileType          String       // MIME type
+  fileName          String       // Original filename
+
+  // Version Control (regulatory requirement)
+  version           String       @default("1.0")
+  parentDocumentId  String?      // Previous version
+
+  // Categorization
+  tags              String[]
+
+  // Access Control
+  createdById       String
+  isPublic          Boolean      @default(false)
+
+  // Regulatory Compliance
+  effectiveDate     DateTime?
+  expiryDate        DateTime?
+  reviewDate        DateTime?
+
+  // Metadata
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  deletedAt         DateTime?    // Soft delete
+
+  // Relations
+  organization      Organization @relation(fields: [organizationId], references: [id])
+  createdBy         User         @relation("DocumentCreator", fields: [createdById], references: [id])
+  parentDocument    Document?    @relation("DocumentVersions", fields: [parentDocumentId], references: [id])
+  childVersions     Document[]   @relation("DocumentVersions")
+  assets            AssetDocument[]
+  compliancePlans   CompliancePlanDocument[]
+
+  @@index([organizationId])
+  @@index([documentType])
+  @@index([createdById])
+  @@index([deletedAt])
+}
+
+// Junction table for Asset-Document relationship
+model AssetDocument {
+  id         String   @id @default(cuid())
+  assetId    String
+  documentId String
+  createdAt  DateTime @default(now())
+
+  asset      Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@unique([assetId, documentId])
+  @@index([assetId])
+  @@index([documentId])
+}
+
+// ============================================================================
+// COMPLIANCE PLANS (Drinking Water Safety Plans)
+// ============================================================================
+
+enum CompliancePlanStatus {
+  DRAFT
+  IN_REVIEW
+  APPROVED
+  SUBMITTED
+  ACCEPTED
+  REJECTED
+  REQUIRES_UPDATE
+}
+
+enum CompliancePlanType {
+  DWSP             // Drinking Water Safety Plan
+  WASTEWATER_PLAN
+  ASSET_MANAGEMENT_PLAN
+  EMERGENCY_RESPONSE_PLAN
+  WATER_CONSERVATION_PLAN
+}
+
+model CompliancePlan {
+  id                    String                @id @default(cuid())
+  organizationId        String
+
+  // Plan Details
+  planType              CompliancePlanType
+  title                 String
+  description           String?
+  status                CompliancePlanStatus  @default(DRAFT)
+  version               String                @default("1.0")
+
+  // Taumata Arowai Requirements
+  waterSupplyName       String?
+  supplyPopulation      Int?
+  sourceTypes           String[]              // e.g., ["BORE", "SURFACE_WATER"]
+  treatmentProcesses    String[]
+
+  // Risk Assessment (DWSP Section 2)
+  hazards               Json?                 // Array of hazardous events
+  riskAssessments       Json?                 // Risk matrix data
+  preventiveMeasures    Json?                 // Control measures
+
+  // Monitoring (DWSP Sections 3-4)
+  operationalMonitoring Json?                 // Table 3.3
+  verificationMonitoring Json?                // Table 3.4
+  correctiveActions     Json?                 // Table 3.5
+
+  // Management (DWSP Section 5)
+  managementProcedures  Json?
+  communicationPlan     Json?
+  documentControl       Json?
+
+  // Submission to Regulator
+  submittedAt           DateTime?
+  submittedBy           String?
+  acknowledgmentReceived DateTime?
+  regulatorFeedback     String?
+
+  // Review Schedule (annual review required)
+  lastReviewDate        DateTime?
+  nextReviewDate        DateTime?
+  reviewNotes           String?
+
+  // Approval Workflow
+  approvedBy            String?
+  approvedAt            DateTime?
+  approvalNotes         String?
+
+  // Metadata
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+  deletedAt             DateTime?             // Soft delete
+
+  // Relations
+  organization          Organization          @relation(fields: [organizationId], references: [id])
+  documents             CompliancePlanDocument[]
+  assets                AssetCompliancePlan[]
+
+  @@index([organizationId])
+  @@index([status])
+  @@index([planType])
+  @@index([deletedAt])
+}
+
+// Junction table for CompliancePlan-Document relationship
+model CompliancePlanDocument {
+  id                String         @id @default(cuid())
+  compliancePlanId  String
+  documentId        String
+  createdAt         DateTime       @default(now())
+
+  compliancePlan    CompliancePlan @relation(fields: [compliancePlanId], references: [id], onDelete: Cascade)
+  document          Document       @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@unique([compliancePlanId, documentId])
+  @@index([compliancePlanId])
+  @@index([documentId])
+}
+
+// Junction table for Asset-CompliancePlan relationship
+model AssetCompliancePlan {
+  id                String         @id @default(cuid())
+  assetId           String
+  compliancePlanId  String
+  createdAt         DateTime       @default(now())
+
+  asset             Asset          @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  compliancePlan    CompliancePlan @relation(fields: [compliancePlanId], references: [id], onDelete: Cascade)
+
+  @@unique([assetId, compliancePlanId])
+  @@index([assetId])
+  @@index([compliancePlanId])
+}
+
+// ============================================================================
+// AUDIT LOGS (Immutable, 7-year retention)
+// ============================================================================
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+  VIEW
+  SUBMIT
+  APPROVE
+  REJECT
+  EXPORT
+  LOGIN
+  LOGOUT
+  PERMISSION_DENIED
+}
+
+model AuditLog {
+  id             String      @id @default(cuid())
+  organizationId String
+  userId         String?
+
+  // Action Details
+  action         AuditAction
+  resourceType   String      // e.g., "Asset", "Document", "CompliancePlan"
+  resourceId     String
+
+  // Change Tracking (for UPDATE actions)
+  changes        Json?       // { before: {...}, after: {...} }
+
+  // Context
+  ipAddress      String?
+  userAgent      String?
+  sessionId      String?
+  reason         String?     // Why action was taken
+
+  // Metadata
+  timestamp      DateTime    @default(now())
+
+  // Relations
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  user           User?        @relation(fields: [userId], references: [id])
+
+  @@index([organizationId])
+  @@index([userId])
+  @@index([action])
+  @@index([resourceType, resourceId])
+  @@index([timestamp])
+}
+
+// ============================================================================
+// REPORTS
+// ============================================================================
+
+enum ReportType {
+  ANNUAL_COMPLIANCE
+  INFORMATION_DISCLOSURE
+  ASSET_CONDITION
+  WATER_QUALITY
+  FINANCIAL_PERFORMANCE
+  CUSTOM
+}
+
+enum ReportStatus {
+  PENDING
+  GENERATING
+  COMPLETED
+  FAILED
+}
+
+model Report {
+  id             String       @id @default(cuid())
+  organizationId String
+
+  // Report Details
+  reportType     ReportType
+  title          String
+  description    String?
+  status         ReportStatus @default(PENDING)
+
+  // Parameters
+  parameters     Json?        // Date range, filters, etc.
+
+  // Output
+  fileKey        String?      // S3 key for generated report
+  fileSize       Int?
+  fileType       String?      // pdf, xlsx, etc.
+
+  // Job Tracking
+  jobId          String?      // BullMQ job ID
+  startedAt      DateTime?
+  completedAt    DateTime?
+  errorMessage   String?
+
+  // Metadata
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  // Relations
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
+  @@index([reportType])
+  @@index([status])
+}
+
+// ============================================================================
+// NOTIFICATIONS
+// ============================================================================
+
+enum NotificationType {
+  DEADLINE_REMINDER
+  PLAN_APPROVED
+  PLAN_REJECTED
+  DOCUMENT_UPLOADED
+  INSPECTION_DUE
+  REVIEW_REQUIRED
+  SYSTEM_ALERT
+}
+
+model Notification {
+  id             String           @id @default(cuid())
+  organizationId String
+  userId         String
+
+  // Notification Details
+  type           NotificationType
+  title          String
+  message        String
+  link           String?          // Link to relevant resource
+
+  // Delivery
+  isRead         Boolean          @default(false)
+  readAt         DateTime?
+  emailSent      Boolean          @default(false)
+  emailSentAt    DateTime?
+
+  // Metadata
+  createdAt      DateTime         @default(now())
+
+  // Relations
+  organization   Organization     @relation(fields: [organizationId], references: [id])
+  user           User             @relation(fields: [userId], references: [id])
+
+  @@index([userId, isRead])
+  @@index([createdAt])
+}
+
+// ============================================================================
+// COMPLIANCE SCORING
+// ============================================================================
+
+model ComplianceScore {
+  id             String   @id @default(cuid())
+  organizationId String
+
+  // Overall and component scores
+  overallScore   Int      // 0-100
+  dwspScore      Int      // 0-100
+  assetScore     Int      // 0-100
+  documentScore  Int      // 0-100
+  reportingScore Int      // 0-100
+  riskScore      Int      // 0-100
+  timelinessScore Int     // 0-100
+
+  // Metadata
+  calculatedAt   DateTime @default(now())
+
+  // Relations
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId, calculatedAt])
+}

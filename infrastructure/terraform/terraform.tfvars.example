@@ -1,0 +1,39 @@
+# Example Terraform variables file
+# Copy to terraform.tfvars and customize with your values
+
+aws_region  = "ap-southeast-2"
+environment = "production"
+project_name = "compliance-saas"
+
+# VPC Configuration
+vpc_cidr             = "10.0.0.0/16"
+public_subnet_cidrs  = ["10.0.1.0/24", "10.0.2.0/24"]
+private_subnet_cidrs = ["10.0.11.0/24", "10.0.12.0/24"]
+
+# Database Configuration
+db_name                  = "compliance_saas"
+db_username              = "dbadmin"
+db_password              = "CHANGE-THIS-STRONG-PASSWORD"
+db_instance_class        = "db.t3.medium"
+db_allocated_storage     = 100
+db_max_allocated_storage = 500
+backup_retention_period  = 30
+
+# Redis Configuration
+redis_node_type       = "cache.t3.medium"
+redis_num_cache_nodes = 1
+
+# ECS Configuration
+backend_image         = "123456789012.dkr.ecr.ap-southeast-2.amazonaws.com/compliance-saas-backend:latest"
+backend_cpu           = 1024
+backend_memory        = 2048
+backend_desired_count = 2
+
+# Application Configuration
+jwt_secret   = "CHANGE-THIS-STRONG-JWT-SECRET-MINIMUM-32-CHARACTERS"
+frontend_url = "https://app.compliance-saas.co.nz"
+certificate_arn = "arn:aws:acm:ap-southeast-2:123456789012:certificate/xxxxxx"
+
+# Monitoring
+log_retention_days = 2555  # 7 years for regulatory compliance
+alarm_email        = "alerts@compliance-saas.co.nz"

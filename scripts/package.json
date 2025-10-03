@@ -1,0 +1,17 @@
+{
+  "name": "compliance-saas-scripts",
+  "version": "1.0.0",
+  "description": "Utility scripts for NZ Water Compliance SaaS",
+  "main": "index.js",
+  "scripts": {
+    "download-regulations": "node download-regulations.js",
+    "check-updates": "node check-regulation-updates.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12"
+  },
+  "devDependencies": {},
+  "author": "",
+  "license": "MIT"
+}
