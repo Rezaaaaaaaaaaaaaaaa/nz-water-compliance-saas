@@ -16,7 +16,8 @@
       "Bash(git remote add:*)",
       "Bash(gh repo view:*)",
       "Bash(git remote get-url:*)",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
