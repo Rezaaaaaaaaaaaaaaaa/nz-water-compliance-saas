@@ -5,12 +5,15 @@
  */
 
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import { PrismaClient } from '@prisma/client';
 import { authenticate } from '../middleware/auth.js';
 import { requirePermission } from '../middleware/rbac.js';
 import { ResourceType, Action } from '../types/auth.js';
 import { getAllQueueStats } from '../services/queue.service.js';
 import { getWorkerStatus } from '../workers/index.js';
 import * as cacheService from '../services/cache.service.js';
+
+const prisma = new PrismaClient();
 
 export default async function monitoringRoutes(fastify: FastifyInstance) {
   // All routes require authentication and admin permission
@@ -150,7 +153,6 @@ export default async function monitoringRoutes(fastify: FastifyInstance) {
       preHandler: [requirePermission(ResourceType.ORGANIZATION, Action.AUDIT)],
       handler: async (request: FastifyRequest, reply: FastifyReply) => {
         try {
-          const { prisma } = fastify;
           const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
           // Get Phase 2 feature usage stats

@@ -9,7 +9,6 @@
 
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
 import { logger } from '../config/logger.js';
-import { config } from '../config/index.js';
 import { retryOperation } from '../utils/retry.util.js';
 
 // Email provider configuration

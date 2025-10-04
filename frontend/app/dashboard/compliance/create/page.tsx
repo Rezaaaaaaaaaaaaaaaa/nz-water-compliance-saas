@@ -315,7 +315,7 @@ export default function CreateCompliancePlanPage() {
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Select...</option>
-                <option value="LARGE">Large (>500 people)</option>
+                <option value="LARGE">Large (&gt;500 people)</option>
                 <option value="MEDIUM">Medium (101-500 people)</option>
                 <option value="SMALL">Small (25-100 people)</option>
                 <option value="MINOR">Minor (&lt;25 people)</option>

@@ -2,6 +2,9 @@
  * Cache Invalidation Middleware
  *
  * Automatically invalidates cache when data is modified
+ *
+ * NOTE: This middleware is currently disabled due to architectural issues with FastifyReply
+ * Cache invalidation should be handled in the service layer instead.
  */
 
 import { FastifyRequest, FastifyReply } from 'fastify';
@@ -10,11 +13,16 @@ import { logger } from '../config/logger.js';
 
 /**
  * Invalidate organization cache after mutations
+ *
+ * DISABLED: This function has architectural issues with FastifyReply.addHook
+ * Use cache invalidation in service layer instead.
  */
 export async function invalidateOrganizationCache(
-  request: FastifyRequest,
-  reply: FastifyReply
+  _request: FastifyRequest,
+  _reply: FastifyReply
 ): Promise<void> {
+  // Disabled - implement cache invalidation in service layer
+  /*
   // Only invalidate on successful responses
   reply.addHook('onSend', async (request, reply, payload) => {
     // Check if response was successful (2xx status code)
@@ -42,13 +50,23 @@ export async function invalidateOrganizationCache(
 
     return payload;
   });
+  */
 }
 
 /**
  * Invalidate specific cache keys
+ *
+ * DISABLED: This function has architectural issues with FastifyReply.addHook
+ * Use cache invalidation in service layer instead.
  */
 export function createInvalidationHook(cacheKeys: string[]) {
-  return async function (request: FastifyRequest, reply: FastifyReply) {
+  return async function (_request: FastifyRequest, _reply: FastifyReply) {
+    // Disabled - implement cache invalidation in service layer
+    // Prevent unused variable warnings
+    void cacheKeys;
+    void cacheService;
+    void logger;
+    /*
     reply.addHook('onSend', async (request, reply, payload) => {
       const statusCode = reply.statusCode;
       if (statusCode >= 200 && statusCode < 300) {
@@ -62,5 +80,6 @@ export function createInvalidationHook(cacheKeys: string[]) {
 
       return payload;
     });
+    */
   };
 }

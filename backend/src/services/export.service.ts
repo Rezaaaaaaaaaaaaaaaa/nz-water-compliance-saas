@@ -117,15 +117,17 @@ export async function exportDocumentsToCSV(organizationId: string): Promise<stri
     const row = [
       doc.id,
       escapeCSV(doc.title),
-      doc.type,
+      doc.documentType,
       escapeCSV(doc.description || ''),
       escapeCSV(doc.fileName),
       (doc.fileSize / (1024 * 1024)).toFixed(2),
-      doc.mimeType,
+      doc.fileType, // MIME type
       doc.version,
       escapeCSV(Array.isArray(doc.tags) ? (doc.tags as string[]).join('; ') : ''),
-      escapeCSV(`${doc.uploadedBy.firstName} ${doc.uploadedBy.lastName}`),
-      formatDate(doc.uploadedAt),
+      escapeCSV(
+        doc.uploadedBy ? `${doc.uploadedBy.firstName} ${doc.uploadedBy.lastName}` : ''
+      ),
+      doc.uploadedAt ? formatDate(doc.uploadedAt) : formatDate(doc.createdAt),
       doc.retentionUntil ? formatDate(doc.retentionUntil) : '',
     ];
 
@@ -180,7 +182,7 @@ export async function exportCompliancePlansToCSV(organizationId: string): Promis
     const row = [
       plan.id,
       escapeCSV(plan.title),
-      plan.type,
+      plan.planType,
       plan.status,
       plan.reportingPeriod || '',
       plan.targetDate ? formatDate(plan.targetDate) : '',
@@ -310,9 +312,9 @@ export async function exportComplianceOverviewReport(
     }),
   ]);
 
-  const dwsps = plans.filter((p) => p.type === 'DWSP');
+  const dwsps = plans.filter((p) => p.planType === 'DWSP');
   const approvedDWSPs = dwsps.filter((p) => p.status === 'APPROVED');
-  const reports = plans.filter((p) => p.type === 'REPORT');
+  const reports = plans.filter((p) => p.planType === 'DWSP');
   const criticalAssets = assets.filter((a) => a.isCritical || a.riskLevel === 'CRITICAL');
 
   const report = `

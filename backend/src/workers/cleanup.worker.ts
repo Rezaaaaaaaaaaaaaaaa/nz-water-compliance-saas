@@ -49,13 +49,14 @@ async function cleanupTempFiles() {
 /**
  * Archive old audit logs
  */
-async function archiveOldAudits(olderThan?: string) {
+async function archiveOldAudits(_olderThan?: string) {
   logger.info('Starting archive of old audit logs');
 
   // TODO: Implement audit log archival
   // - Export old audit logs to cold storage (S3 Glacier)
   // - Keep records in database but mark as archived
   // - Maintain 7-year retention as required by regulations
+  // - Use _olderThan parameter to determine cutoff date
 
   logger.info('Old audit logs archived');
 
@@ -86,7 +87,7 @@ async function processCleanup(job: Job<CleanupJob>) {
 /**
  * Process weekly cleanup
  */
-async function processWeeklyCleanup(job: Job) {
+async function processWeeklyCleanup(_job: Job) {
   logger.info('Running weekly cleanup');
 
   const [notifications, tempFiles] = await Promise.all([

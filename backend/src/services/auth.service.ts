@@ -16,7 +16,7 @@ const prisma = new PrismaClient();
  */
 export async function authenticateUser(
   email: string,
-  password: string
+  _password: string
 ): Promise<User | null> {
   // Find user by email
   const user = await prisma.user.findUnique({
@@ -36,7 +36,7 @@ export async function authenticateUser(
   // This would require adding password field to User model
   // For MVP, we'll use Auth0 or similar OAuth provider
   // Placeholder for password verification:
-  // const passwordMatch = await bcrypt.compare(password, user.password);
+  // const passwordMatch = await bcrypt.compare(_password, user.password);
   // if (!passwordMatch) {
   //   return null;
   // }

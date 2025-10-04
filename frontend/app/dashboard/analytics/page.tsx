@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { api } from '@/lib/api';
+import { apiClient } from '@/lib/api';
+import { useToast } from '@/components/ui';
 
 interface DashboardData {
   overview: {
@@ -50,6 +51,7 @@ interface DashboardData {
 }
 
 export default function AnalyticsPage() {
+  const toast = useToast();
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -62,7 +64,7 @@ export default function AnalyticsPage() {
   async function loadDashboardData() {
     try {
       setLoading(true);
-      const response = await api.get('/analytics/dashboard');
+      const response = await apiClient.get('/analytics/dashboard');
       setData(response.data.data);
       setError(null);
     } catch (err: any) {
@@ -75,7 +77,7 @@ export default function AnalyticsPage() {
   async function handleExport(type: 'assets' | 'documents' | 'compliance-overview', format: string = 'csv') {
     try {
       setExporting(true);
-      const response = await api.get(`/export/${type}?format=${format}`, {
+      const response = await apiClient.get(`/export/${type}?format=${format}`, {
         responseType: 'blob',
       });
 
@@ -91,8 +93,9 @@ export default function AnalyticsPage() {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
+      toast.success('Export completed successfully');
     } catch (err: any) {
-      alert(err.response?.data?.error || 'Export failed');
+      toast.error(err.response?.data?.error || 'Export failed');
     } finally {
       setExporting(false);
     }

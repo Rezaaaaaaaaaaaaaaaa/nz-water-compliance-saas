@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { dwspApi } from '@/lib/api';
 import Link from 'next/link';
+import { TablePagination } from '@/components/ui';
 
 interface CompliancePlan {
   id: string;
@@ -29,6 +30,9 @@ interface CompliancePlan {
 export default function CompliancePlansPage() {
   const [plans, setPlans] = useState<CompliancePlan[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalItems, setTotalItems] = useState(0);
   const [filters, setFilters] = useState({
     status: '',
     planType: '',
@@ -36,7 +40,7 @@ export default function CompliancePlansPage() {
 
   useEffect(() => {
     loadPlans();
-  }, [filters]);
+  }, [filters, currentPage, pageSize]);
 
   const loadPlans = async () => {
     try {
@@ -44,13 +48,25 @@ export default function CompliancePlansPage() {
       const response = await dwspApi.list({
         status: filters.status || undefined,
         planType: filters.planType || undefined,
+        page: currentPage,
+        limit: pageSize,
       });
       setPlans(response.compliancePlans || []);
+      setTotalItems(response.total || response.compliancePlans?.length || 0);
     } catch (error) {
       console.error('Failed to load compliance plans:', error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handlePageSizeChange = (size: number) => {
+    setPageSize(size);
+    setCurrentPage(1); // Reset to first page when changing page size
   };
 
   const getStatusColor = (status: string) => {
@@ -231,6 +247,18 @@ export default function CompliancePlansPage() {
                 ))}
               </tbody>
             </table>
+
+            {/* Pagination */}
+            {totalItems > 0 && (
+              <TablePagination
+                currentPage={currentPage}
+                totalPages={Math.ceil(totalItems / pageSize)}
+                pageSize={pageSize}
+                totalItems={totalItems}
+                onPageChange={handlePageChange}
+                onPageSizeChange={handlePageSizeChange}
+              />
+            )}
           </div>
         )}
 

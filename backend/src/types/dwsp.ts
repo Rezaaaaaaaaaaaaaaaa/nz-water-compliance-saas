@@ -5,8 +5,6 @@
  * 12 mandatory DWSP elements as per Water Services Act 2021
  */
 
-import { CompliancePlanStatus, CompliancePlanType } from '@prisma/client';
-
 /**
  * DWSP Element 1: Hazard Identification
  */

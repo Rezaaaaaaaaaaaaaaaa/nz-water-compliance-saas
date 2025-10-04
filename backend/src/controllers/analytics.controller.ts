@@ -8,6 +8,12 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import * as analyticsService from '../services/analytics.service.js';
 import * as cacheService from '../services/cache.service.js';
 import { logger } from '../config/logger.js';
+import type { AuthenticatedUser } from '../server.js';
+
+// Helper to get authenticated user from request
+function getUser(request: FastifyRequest): AuthenticatedUser {
+  return request.user as AuthenticatedUser;
+}
 
 /**
  * Get dashboard data for organization (with caching)
@@ -17,7 +23,7 @@ export async function getDashboard(
   reply: FastifyReply
 ): Promise<void> {
   try {
-    const organizationId = request.user.organizationId;
+    const organizationId = getUser(request).organizationId;
     const cacheKey = cacheService.getDashboardKey(organizationId);
 
     // Try to get from cache first
@@ -49,7 +55,7 @@ export async function getComplianceOverview(
   reply: FastifyReply
 ): Promise<void> {
   try {
-    const organizationId = request.user.organizationId;
+    const organizationId = getUser(request).organizationId;
 
     const overview = await analyticsService.getComplianceOverview(organizationId);
 
@@ -74,7 +80,7 @@ export async function getAssetAnalytics(
   reply: FastifyReply
 ): Promise<void> {
   try {
-    const organizationId = request.user.organizationId;
+    const organizationId = getUser(request).organizationId;
     const cacheKey = cacheService.getAssetAnalyticsKey(organizationId);
 
     const analytics = await cacheService.getOrSet(
@@ -104,7 +110,7 @@ export async function getDocumentAnalytics(
   reply: FastifyReply
 ): Promise<void> {
   try {
-    const organizationId = request.user.organizationId;
+    const organizationId = getUser(request).organizationId;
     const cacheKey = cacheService.getDocumentAnalyticsKey(organizationId);
 
     const analytics = await cacheService.getOrSet(
@@ -136,7 +142,7 @@ export async function getActivityTimeline(
   reply: FastifyReply
 ): Promise<void> {
   try {
-    const organizationId = request.user.organizationId;
+    const organizationId = getUser(request).organizationId;
     const days = request.query.days ? parseInt(request.query.days) : 90;
 
     const timeline = await analyticsService.getActivityTimeline(organizationId, days);
@@ -162,7 +168,7 @@ export async function getDWSPTrends(
   reply: FastifyReply
 ): Promise<void> {
   try {
-    const organizationId = request.user.organizationId;
+    const organizationId = getUser(request).organizationId;
 
     const trends = await analyticsService.getDWSPTrends(organizationId);
 
@@ -187,7 +193,7 @@ export async function getUserActivitySummary(
   reply: FastifyReply
 ): Promise<void> {
   try {
-    const organizationId = request.user.organizationId;
+    const organizationId = getUser(request).organizationId;
 
     const summary = await analyticsService.getUserActivitySummary(organizationId);
 
@@ -213,7 +219,7 @@ export async function getSystemAnalytics(
 ): Promise<void> {
   try {
     // Check if user is System Admin
-    if (request.user.role !== 'SYSTEM_ADMIN') {
+    if (getUser(request).role !== 'SYSTEM_ADMIN') {
       reply.status(403).send({
         success: false,
         error: 'Only System Admins can access system-wide analytics',

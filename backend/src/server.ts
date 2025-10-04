@@ -23,19 +23,33 @@ import monitoringRoutes from './routes/monitoring.routes.js';
 import { analyticsRoutes } from './routes/analytics.routes.js';
 import { exportRoutes } from './routes/export.routes.js';
 import { startWorkers, stopWorkers } from './workers/index.js';
+import { PrismaClient } from '@prisma/client';
+import Redis from 'ioredis';
+
+const prisma = new PrismaClient();
+const redis = new Redis({
+  host: config.redis?.host || 'localhost',
+  port: config.redis?.port || 6379,
+  password: config.redis?.password,
+  maxRetriesPerRequest: 3,
+  retryStrategy: (times) => {
+    if (times > 3) return null;
+    return Math.min(times * 50, 2000);
+  },
+});
+
+// Type for authenticated user (used with type assertion)
+export interface AuthenticatedUser {
+  id: string;
+  email: string;
+  organizationId: string;
+  role: string;
+}
 
 // Type augmentation for Fastify
 declare module 'fastify' {
   interface FastifyInstance {
     authenticate: (request: FastifyRequest, reply: FastifyReply) => Promise<void>;
-  }
-  interface FastifyRequest {
-    user?: {
-      id: string;
-      email: string;
-      organizationId: string;
-      role: string;
-    };
   }
 }
 
@@ -101,23 +115,71 @@ async function buildApp(): Promise<FastifyInstance> {
   });
 
   // Detailed Health Checks
-  app.get('/health/db', async () => {
+  app.get('/health/db', async (_request, reply) => {
     try {
-      // TODO: Add Prisma database health check
-      // await prisma.$queryRaw`SELECT 1`;
-      return { status: 'ok', service: 'database' };
-    } catch (error) {
-      return { status: 'error', service: 'database', error: String(error) };
+      // Test database connection with a simple query
+      await prisma.$queryRaw`SELECT 1 as health`;
+
+      // Get database connection info
+      const result = await prisma.$queryRaw<Array<{ count: bigint }>>`
+        SELECT COUNT(*) as count FROM "Organization"
+      `;
+
+      return {
+        status: 'ok',
+        service: 'database',
+        timestamp: new Date().toISOString(),
+        details: {
+          connected: true,
+          organizations: Number(result[0].count),
+        },
+      };
+    } catch (error: any) {
+      logger.error('Database health check failed', error);
+      reply.code(503);
+      return {
+        status: 'error',
+        service: 'database',
+        timestamp: new Date().toISOString(),
+        error: error.message || String(error),
+      };
     }
   });
 
-  app.get('/health/redis', async () => {
+  app.get('/health/redis', async (_request, reply) => {
     try {
-      // TODO: Add Redis health check
-      // await redis.ping();
-      return { status: 'ok', service: 'redis' };
-    } catch (error) {
-      return { status: 'error', service: 'redis', error: String(error) };
+      // Test Redis connection with PING command
+      const pong = await redis.ping();
+
+      // Get Redis info
+      const info = await redis.info('server');
+      const versionMatch = info.match(/redis_version:([^\r\n]+)/);
+      const version = versionMatch ? versionMatch[1] : 'unknown';
+
+      // Get memory info
+      const memInfo = await redis.info('memory');
+      const memMatch = memInfo.match(/used_memory_human:([^\r\n]+)/);
+      const memoryUsed = memMatch ? memMatch[1] : 'unknown';
+
+      return {
+        status: 'ok',
+        service: 'redis',
+        timestamp: new Date().toISOString(),
+        details: {
+          connected: pong === 'PONG',
+          version,
+          memoryUsed,
+        },
+      };
+    } catch (error: any) {
+      logger.error('Redis health check failed', error);
+      reply.code(503);
+      return {
+        status: 'error',
+        service: 'redis',
+        timestamp: new Date().toISOString(),
+        error: error.message || String(error),
+      };
     }
   });
 
@@ -212,8 +274,22 @@ async function start() {
     signals.forEach((signal) => {
       process.on(signal, async () => {
         app.log.info(`Received ${signal}, shutting down gracefully...`);
+
+        // Stop background workers
         await stopWorkers();
+
+        // Close database connections
+        await prisma.$disconnect();
+        app.log.info('Database connection closed');
+
+        // Close Redis connection
+        await redis.quit();
+        app.log.info('Redis connection closed');
+
+        // Close Fastify server
         await app.close();
+        app.log.info('Server closed successfully');
+
         process.exit(0);
       });
     });

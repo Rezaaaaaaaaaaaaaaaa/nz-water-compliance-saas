@@ -7,6 +7,12 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import * as exportService from '../services/export.service.js';
 import { logger } from '../config/logger.js';
+import type { AuthenticatedUser } from '../server.js';
+
+// Helper to get authenticated user from request
+function getUser(request: FastifyRequest): AuthenticatedUser {
+  return request.user as AuthenticatedUser;
+}
 
 /**
  * Export assets
@@ -18,7 +24,7 @@ export async function exportAssets(
   reply: FastifyReply
 ): Promise<void> {
   try {
-    const organizationId = request.user.organizationId;
+    const organizationId = getUser(request).organizationId;
     const format = exportService.getExportFormat(request.query.format);
 
     if (format !== 'csv') {
@@ -55,7 +61,7 @@ export async function exportDocuments(
   reply: FastifyReply
 ): Promise<void> {
   try {
-    const organizationId = request.user.organizationId;
+    const organizationId = getUser(request).organizationId;
     const format = exportService.getExportFormat(request.query.format);
 
     if (format !== 'csv') {
@@ -92,7 +98,7 @@ export async function exportCompliancePlans(
   reply: FastifyReply
 ): Promise<void> {
   try {
-    const organizationId = request.user.organizationId;
+    const organizationId = getUser(request).organizationId;
     const format = exportService.getExportFormat(request.query.format);
 
     if (format !== 'csv') {
@@ -133,7 +139,7 @@ export async function exportAuditLogs(
   reply: FastifyReply
 ): Promise<void> {
   try {
-    const organizationId = request.user.organizationId;
+    const organizationId = getUser(request).organizationId;
     const format = exportService.getExportFormat(request.query.format);
 
     if (format !== 'csv') {
@@ -173,7 +179,7 @@ export async function exportComplianceOverview(
   reply: FastifyReply
 ): Promise<void> {
   try {
-    const organizationId = request.user.organizationId;
+    const organizationId = getUser(request).organizationId;
     const format = exportService.getExportFormat(request.query.format);
 
     if (format !== 'text') {

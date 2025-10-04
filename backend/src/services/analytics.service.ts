@@ -4,8 +4,7 @@
  * Provides data aggregation and analytics for dashboards
  */
 
-import { PrismaClient, AssetCondition, RiskLevel, UserRole } from '@prisma/client';
-import { logger } from '../config/logger.js';
+import { PrismaClient, AssetCondition, RiskLevel } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -40,7 +39,7 @@ export async function getComplianceOverview(organizationId: string) {
       where: {
         organizationId,
         deletedAt: null,
-        type: 'DWSP',
+        planType: 'DWSP',
         status: {
           in: ['APPROVED', 'IN_REVIEW'],
         },
@@ -52,7 +51,7 @@ export async function getComplianceOverview(organizationId: string) {
       where: {
         organizationId,
         deletedAt: null,
-        type: 'REPORT',
+        planType: 'DWSP',
         status: 'DRAFT',
       },
     }),
@@ -76,7 +75,7 @@ export async function getComplianceOverview(organizationId: string) {
       where: {
         organizationId,
         deletedAt: null,
-        type: 'INCIDENT',
+        planType: 'DWSP',
         createdAt: {
           gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
         },
@@ -209,7 +208,7 @@ export async function getDocumentAnalytics(organizationId: string) {
 
     // Documents by type
     prisma.document.groupBy({
-      by: ['type'],
+      by: ['documentType'],
       where: { organizationId, deletedAt: null },
       _count: true,
     }),
@@ -237,7 +236,7 @@ export async function getDocumentAnalytics(organizationId: string) {
   return {
     totalDocuments,
     byType: documentsByType.map((d) => ({
-      type: d.type,
+      type: d.documentType,
       count: d._count,
     })),
     recentUploads,
@@ -326,7 +325,7 @@ export async function getDWSPTrends(organizationId: string) {
   const submissions = await prisma.compliancePlan.findMany({
     where: {
       organizationId,
-      type: 'DWSP',
+      planType: 'DWSP',
       submittedAt: {
         gte: startDate,
       },
@@ -405,7 +404,7 @@ export async function getUserActivitySummary(organizationId: string) {
         take: 5,
       })
       .then(async (results) => {
-        const userIds = results.map((r) => r.userId);
+        const userIds = results.map((r) => r.userId).filter((id): id is string => id !== null);
         const users = await prisma.user.findMany({
           where: { id: { in: userIds } },
           select: { id: true, firstName: true, lastName: true, email: true },
@@ -471,7 +470,7 @@ export async function getSystemAnalytics() {
     prisma.document.count({ where: { deletedAt: null } }),
     prisma.compliancePlan.count({
       where: {
-        type: 'DWSP',
+        planType: 'DWSP',
         status: { in: ['APPROVED', 'IN_REVIEW'] },
         deletedAt: null,
       },
@@ -485,14 +484,12 @@ export async function getSystemAnalytics() {
   // Organizations by DWSP status
   const orgs = await prisma.organization.findMany({
     where: { deletedAt: null },
-    select: {
-      id: true,
-      name: true,
+    include: {
       _count: {
         select: {
           compliancePlans: {
             where: {
-              type: 'DWSP',
+              planType: 'DWSP',
               status: 'APPROVED',
               deletedAt: null,
             },

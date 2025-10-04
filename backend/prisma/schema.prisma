@@ -71,16 +71,24 @@ model User {
   isActive       Boolean  @default(true)
   lastLoginAt    DateTime?
 
+  // Preferences
+  notificationPreferences Json?
+
   // Metadata
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   deletedAt      DateTime? // Soft delete
 
   // Relations
-  organization   Organization @relation(fields: [organizationId], references: [id])
-  createdDocuments Document[] @relation("DocumentCreator")
-  auditLogs      AuditLog[]
-  notifications  Notification[]
+  organization           Organization     @relation(fields: [organizationId], references: [id])
+  createdDocuments       Document[]       @relation("DocumentCreator")
+  uploadedDocuments      Document[]       @relation("DocumentUploader")
+  createdCompliancePlans CompliancePlan[] @relation("CompliancePlanCreator")
+  assignedCompliancePlans CompliancePlan[] @relation("CompliancePlanAssignee")
+  auditLogs              AuditLog[]
+  notifications          Notification[]
+  createdReports         Report[]         @relation("ReportCreatedBy")
+  submittedReports       Report[]         @relation("ReportSubmittedBy")
 
   @@index([organizationId])
   @@index([email])
@@ -131,6 +139,7 @@ model Asset {
   latitude            Float?
   longitude           Float?
   address             String?
+  location            String?         // General location description
 
   // Asset Management (regulatory requirements)
   installationDate    DateTime?
@@ -139,6 +148,14 @@ model Asset {
   condition           AssetCondition  @default(UNKNOWN)
   lastInspectionDate  DateTime?
   nextInspectionDate  DateTime?
+  maintenanceSchedule String?         // e.g., "Monthly", "Quarterly"
+
+  // Technical specifications
+  capacity            String?         // e.g., "500 L/min", "1000 m3"
+  material            String?         // e.g., "PVC", "Steel", "Concrete"
+  manufacturer        String?
+  modelNumber         String?
+  serialNumber        String?
 
   // Criticality Assessment
   isCritical          Boolean         @default(false)
@@ -204,7 +221,7 @@ model Document {
   // File Storage (S3)
   fileKey           String       // S3 object key
   fileSize          Int          // Bytes
-  fileType          String       // MIME type
+  fileType          String       // MIME type (alias: mimeType)
   fileName          String       // Original filename
 
   // Version Control (regulatory requirement)
@@ -216,12 +233,17 @@ model Document {
 
   // Access Control
   createdById       String
+  uploadedById      String?      // Alias for createdById (for export compatibility)
   isPublic          Boolean      @default(false)
 
   // Regulatory Compliance
   effectiveDate     DateTime?
   expiryDate        DateTime?
   reviewDate        DateTime?
+  retentionUntil    DateTime?    // Document retention period
+
+  // Timestamps
+  uploadedAt        DateTime?    // Explicit upload timestamp
 
   // Metadata
   createdAt         DateTime     @default(now())
@@ -231,6 +253,7 @@ model Document {
   // Relations
   organization      Organization @relation(fields: [organizationId], references: [id])
   createdBy         User         @relation("DocumentCreator", fields: [createdById], references: [id])
+  uploadedBy        User?        @relation("DocumentUploader", fields: [uploadedById], references: [id])
   parentDocument    Document?    @relation("DocumentVersions", fields: [parentDocumentId], references: [id])
   childVersions     Document[]   @relation("DocumentVersions")
   assets            AssetDocument[]
@@ -239,6 +262,7 @@ model Document {
   @@index([organizationId])
   @@index([documentType])
   @@index([createdById])
+  @@index([uploadedById])
   @@index([deletedAt])
 }
 
@@ -290,11 +314,20 @@ model CompliancePlan {
   status                CompliancePlanStatus  @default(DRAFT)
   version               String                @default("1.0")
 
+  // Ownership and assignment
+  createdById           String?               // User who created the plan
+  assignedToId          String?               // User assigned to manage the plan
+
   // Taumata Arowai Requirements
   waterSupplyName       String?
   supplyPopulation      Int?
   sourceTypes           String[]              // e.g., ["BORE", "SURFACE_WATER"]
   treatmentProcesses    String[]
+
+  // Planning dates
+  reportingPeriod       String?               // e.g., "2024 Q1", "2024 Annual"
+  targetDate            DateTime?             // Target completion date
+  reviewDate            DateTime?             // Scheduled review date (alias for nextReviewDate)
 
   // Risk Assessment (DWSP Section 2)
   hazards               Json?                 // Array of hazardous events
@@ -334,12 +367,16 @@ model CompliancePlan {
 
   // Relations
   organization          Organization          @relation(fields: [organizationId], references: [id])
+  createdBy             User?                 @relation("CompliancePlanCreator", fields: [createdById], references: [id])
+  assignedTo            User?                 @relation("CompliancePlanAssignee", fields: [assignedToId], references: [id])
   documents             CompliancePlanDocument[]
   assets                AssetCompliancePlan[]
 
   @@index([organizationId])
   @@index([status])
   @@index([planType])
+  @@index([createdById])
+  @@index([assignedToId])
   @@index([deletedAt])
 }
 
@@ -385,10 +422,17 @@ enum AuditAction {
   SUBMIT
   APPROVE
   REJECT
+  REGULATION_REVIEW_TRIGGERED
   EXPORT
   LOGIN
   LOGOUT
   PERMISSION_DENIED
+  DWSP_CREATED
+  DWSP_SUBMITTED
+  REPORT_GENERATED
+  ASSET_CREATED
+  DOCUMENT_UPLOADED
+  COMPLIANCE_VIOLATION
 }
 
 model AuditLog {
@@ -438,15 +482,19 @@ enum ReportType {
 }
 
 enum ReportStatus {
+  DRAFT
   PENDING
   GENERATING
   COMPLETED
   FAILED
+  SUBMITTED
 }
 
 model Report {
   id             String       @id @default(cuid())
   organizationId String
+  createdById    String?      // User who created the report
+  submittedById  String?      // User who submitted the report
 
   // Report Details
   reportType     ReportType
@@ -461,6 +509,7 @@ model Report {
   fileKey        String?      // S3 key for generated report
   fileSize       Int?
   fileType       String?      // pdf, xlsx, etc.
+  data           Json?        // Report data/content
 
   // Job Tracking
   jobId          String?      // BullMQ job ID
@@ -468,16 +517,26 @@ model Report {
   completedAt    DateTime?
   errorMessage   String?
 
+  // Submission tracking
+  submittedAt    DateTime?
+
+  // Soft delete
+  deletedAt      DateTime?
+
   // Metadata
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
 
   // Relations
   organization   Organization @relation(fields: [organizationId], references: [id])
+  createdBy      User?        @relation("ReportCreatedBy", fields: [createdById], references: [id])
+  submittedBy    User?        @relation("ReportSubmittedBy", fields: [submittedById], references: [id])
 
   @@index([organizationId])
   @@index([reportType])
   @@index([status])
+  @@index([createdById])
+  @@index([deletedAt])
 }
 
 // ============================================================================
@@ -504,6 +563,7 @@ model Notification {
   title          String
   message        String
   link           String?          // Link to relevant resource
+  metadata       Json?            // Additional notification data
 
   // Delivery
   isRead         Boolean          @default(false)

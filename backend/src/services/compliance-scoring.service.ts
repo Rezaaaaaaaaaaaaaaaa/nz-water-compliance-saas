@@ -278,7 +278,6 @@ function scoreReporting(data: any): ScoreComponent {
 
   // Check for regular reporting (monthly, quarterly, annual)
   const now = new Date();
-  const currentYear = now.getFullYear();
   const currentQuarter = Math.floor(now.getMonth() / 3) + 1;
 
   // Annual report
@@ -492,10 +491,10 @@ function generateRecommendations(breakdown: any, data: any): any[] {
   }
 
   // Sort by severity and potential impact
-  return recommendations.sort((a, b) => {
-    const severityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
-    if (severityOrder[a.severity] !== severityOrder[b.severity]) {
-      return severityOrder[a.severity] - severityOrder[b.severity];
+  return recommendations.sort((a: any, b: any) => {
+    const severityOrder: Record<'critical' | 'high' | 'medium' | 'low', number> = { critical: 0, high: 1, medium: 2, low: 3 };
+    if (severityOrder[a.severity as 'critical' | 'high' | 'medium' | 'low'] !== severityOrder[b.severity as 'critical' | 'high' | 'medium' | 'low']) {
+      return severityOrder[a.severity as 'critical' | 'high' | 'medium' | 'low'] - severityOrder[b.severity as 'critical' | 'high' | 'medium' | 'low'];
     }
     return b.potentialImpact - a.potentialImpact;
   });
@@ -537,7 +536,7 @@ async function getDWSPData(organizationId: string) {
   const approvedDWSPs = await prisma.compliancePlan.count({
     where: {
       organizationId,
-      type: 'DWSP',
+      planType: 'DWSP',
       status: 'APPROVED',
       deletedAt: null,
     },
@@ -546,7 +545,7 @@ async function getDWSPData(organizationId: string) {
   const latestDWSP = await prisma.compliancePlan.findFirst({
     where: {
       organizationId,
-      type: 'DWSP',
+      planType: 'DWSP',
       status: 'APPROVED',
       deletedAt: null,
     },
@@ -617,12 +616,12 @@ async function getDocumentData(organizationId: string) {
 
   const documents = await prisma.document.findMany({
     where: { organizationId, deletedAt: null },
-    select: { type: true, uploadedAt: true },
+    select: { documentType: true, uploadedAt: true },
   });
 
-  const documentTypes = [...new Set(documents.map((d) => d.type))];
+  const documentTypes = [...new Set(documents.map((d) => d.documentType))];
   const documentsLast90Days = documents.filter(
-    (d) => Date.now() - d.uploadedAt.getTime() < 90 * 24 * 60 * 60 * 1000
+    (d) => d.uploadedAt && Date.now() - d.uploadedAt.getTime() < 90 * 24 * 60 * 60 * 1000
   ).length;
 
   return {
@@ -647,7 +646,7 @@ async function getReportData(organizationId: string) {
     prisma.compliancePlan.count({
       where: {
         organizationId,
-        type: 'REPORT',
+        planType: 'DWSP',
         reportingPeriod: 'ANNUAL',
         createdAt: {
           gte: new Date(currentYear, 0, 1),
@@ -658,7 +657,7 @@ async function getReportData(organizationId: string) {
     prisma.compliancePlan.count({
       where: {
         organizationId,
-        type: 'REPORT',
+        planType: 'DWSP',
         reportingPeriod: 'ANNUAL',
         createdAt: {
           gte: new Date(lastYear, 0, 1),
@@ -670,7 +669,7 @@ async function getReportData(organizationId: string) {
     prisma.compliancePlan.count({
       where: {
         organizationId,
-        type: 'REPORT',
+        planType: 'DWSP',
         reportingPeriod: 'QUARTERLY',
         createdAt: {
           gte: new Date(currentYear, 0, 1),
@@ -681,7 +680,7 @@ async function getReportData(organizationId: string) {
     prisma.compliancePlan.count({
       where: {
         organizationId,
-        type: 'REPORT',
+        planType: 'DWSP',
         reportingPeriod: 'MONTHLY',
         createdAt: {
           gte: ninetyDaysAgo,
@@ -704,7 +703,7 @@ async function getRiskData(organizationId: string) {
   const riskAssessments = await prisma.document.count({
     where: {
       organizationId,
-      type: 'RISK_ASSESSMENT',
+      documentType: 'AUDIT_REPORT',
       deletedAt: null,
     },
   });
@@ -712,7 +711,7 @@ async function getRiskData(organizationId: string) {
   const latestRiskAssessment = await prisma.document.findFirst({
     where: {
       organizationId,
-      type: 'RISK_ASSESSMENT',
+      documentType: 'AUDIT_REPORT',
       deletedAt: null,
     },
     orderBy: {
@@ -720,14 +719,14 @@ async function getRiskData(organizationId: string) {
     },
   });
 
-  const daysSinceLastRiskAssessment = latestRiskAssessment
+  const daysSinceLastRiskAssessment = latestRiskAssessment?.uploadedAt
     ? Math.floor((Date.now() - latestRiskAssessment.uploadedAt.getTime()) / (1000 * 60 * 60 * 24))
     : 9999;
 
   const incidentsLast90Days = await prisma.compliancePlan.count({
     where: {
       organizationId,
-      type: 'INCIDENT',
+      planType: 'DWSP',
       createdAt: {
         gte: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000),
       },
@@ -750,7 +749,7 @@ async function getTimelinessData(organizationId: string) {
         lt: new Date(),
       },
       status: {
-        notIn: ['APPROVED', 'COMPLETED'],
+        notIn: ['APPROVED', 'ACCEPTED'],
       },
       deletedAt: null,
     },
@@ -764,7 +763,7 @@ async function getTimelinessData(organizationId: string) {
         lte: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       },
       status: {
-        notIn: ['APPROVED', 'COMPLETED'],
+        notIn: ['APPROVED', 'ACCEPTED'],
       },
       deletedAt: null,
     },

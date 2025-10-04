@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { reportsApi } from '@/lib/api';
 import Link from 'next/link';
+import { useToast } from '@/components/ui';
 
 interface Report {
   id: string;
@@ -27,6 +28,7 @@ interface Report {
 }
 
 export default function ReportsPage() {
+  const toast = useToast();
   const [reports, setReports] = useState<Report[]>([]);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
@@ -96,11 +98,12 @@ export default function ReportsPage() {
         includeTestResults: true,
       });
 
+      toast.success('Report generated successfully');
       setShowGenerateModal(false);
       loadReports();
     } catch (error) {
       console.error('Failed to generate report:', error);
-      alert('Failed to generate report');
+      toast.error('Failed to generate report');
     } finally {
       setGenerating(false);
     }

@@ -32,6 +32,7 @@ interface AuthContextType {
     firstName: string;
     lastName: string;
     organizationName?: string;
+    organizationType?: string;
   }) => Promise<void>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
@@ -79,6 +80,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     firstName: string;
     lastName: string;
     organizationName?: string;
+    organizationType?: string;
   }) => {
     try {
       const response = await authApi.register(data);

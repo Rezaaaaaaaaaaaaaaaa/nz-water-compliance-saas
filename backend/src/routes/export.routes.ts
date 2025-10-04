@@ -5,7 +5,6 @@
  */
 
 import { FastifyInstance } from 'fastify';
-import rateLimit from '@fastify/rate-limit';
 import * as exportController from '../controllers/export.controller.js';
 import { authenticate } from '../middleware/auth.middleware.js';
 import { validateQuery, CommonSchemas } from '../middleware/validation.middleware.js';

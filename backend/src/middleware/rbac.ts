@@ -7,7 +7,7 @@
 
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { UserRole } from '@prisma/client';
-import { AuthenticatedUser, ResourceType, Action, Permission } from '../types/auth.js';
+import { AuthenticatedUser, ResourceType, Action } from '../types/auth.js';
 import { requireUser } from './auth.js';
 import { logSecurity } from '../config/logger.js';
 
@@ -98,12 +98,12 @@ export function hasPermission(
   const roleConfig = ROLE_PERMISSIONS[user.role];
 
   // System Admin can do everything
-  if (roleConfig.canPerformAllActions) {
+  if ('canPerformAllActions' in roleConfig && roleConfig.canPerformAllActions) {
     return true;
   }
 
   // Check if action is allowed for this role and resource
-  const allowedActions = roleConfig.allowedActions?.[resource] || [];
+  const allowedActions = ('allowedActions' in roleConfig && roleConfig.allowedActions?.[resource]) || [];
   if (!allowedActions.includes(action)) {
     return false;
   }

@@ -146,7 +146,6 @@ export function logSecurity(event: {
 }) {
   logger.warn(
     {
-      type: 'SECURITY',
       ...event,
       timestamp: new Date().toISOString(),
     },

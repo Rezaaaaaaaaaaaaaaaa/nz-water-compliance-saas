@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { assetsApi } from '@/lib/api';
 import Link from 'next/link';
+import { TablePagination } from '@/components/ui';
 
 interface Asset {
   id: string;
@@ -26,6 +27,9 @@ interface Asset {
 export default function AssetsPage() {
   const [assets, setAssets] = useState<Asset[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalItems, setTotalItems] = useState(0);
   const [filters, setFilters] = useState({
     type: '',
     condition: '',
@@ -35,7 +39,7 @@ export default function AssetsPage() {
 
   useEffect(() => {
     loadAssets();
-  }, [filters]);
+  }, [filters, currentPage, pageSize]);
 
   const loadAssets = async () => {
     try {
@@ -45,13 +49,25 @@ export default function AssetsPage() {
         condition: filters.condition || undefined,
         isCritical: filters.isCritical || undefined,
         search: filters.search || undefined,
+        page: currentPage,
+        limit: pageSize,
       });
       setAssets(response.assets || []);
+      setTotalItems(response.total || response.assets?.length || 0);
     } catch (error) {
       console.error('Failed to load assets:', error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handlePageSizeChange = (size: number) => {
+    setPageSize(size);
+    setCurrentPage(1); // Reset to first page when changing page size
   };
 
   const getConditionColor = (condition: string) => {
@@ -292,6 +308,18 @@ export default function AssetsPage() {
                 ))}
               </tbody>
             </table>
+
+            {/* Pagination */}
+            {totalItems > 0 && (
+              <TablePagination
+                currentPage={currentPage}
+                totalPages={Math.ceil(totalItems / pageSize)}
+                pageSize={pageSize}
+                totalItems={totalItems}
+                onPageChange={handlePageChange}
+                onPageSizeChange={handlePageSizeChange}
+              />
+            )}
           </div>
         )}
 

@@ -5,7 +5,7 @@
  * Used for scheduled compliance reminders, reports, notifications, etc.
  */
 
-import { Queue, QueueEvents, Worker, Job } from 'bullmq';
+import { Queue, QueueEvents } from 'bullmq';
 import { config } from '../config/index.js';
 import { logger } from '../config/logger.js';
 
@@ -153,7 +153,7 @@ export async function addDataExportJob(data: DataExportJob) {
   const queue = getQueue(QueueName.DATA_EXPORT);
 
   return await queue.add('export-data', data, {
-    timeout: 300000, // 5 minute timeout for large exports
+    // timeout: 300000, // 5 minute timeout for large exports - timeout is not a valid JobsOptions property
   });
 }
 

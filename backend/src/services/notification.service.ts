@@ -6,7 +6,6 @@
 
 import { PrismaClient } from '@prisma/client';
 import { logger } from '../config/logger.js';
-import { config } from '../config/index.js';
 import * as emailService from './email.service.js';
 
 const prisma = new PrismaClient();
@@ -143,9 +142,22 @@ async function createInAppNotification(params: {
 }) {
   const { userId, title, message, metadata } = params;
 
+  // Get organizationId from user
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { organizationId: true },
+  });
+
+  if (!user) {
+    logger.warn({ userId }, 'User not found for notification creation');
+    return;
+  }
+
   await prisma.notification.create({
     data: {
+      organizationId: user.organizationId,
       userId,
+      type: 'SYSTEM_ALERT', // Default type, can be overridden in metadata
       title,
       message,
       metadata: metadata || {},

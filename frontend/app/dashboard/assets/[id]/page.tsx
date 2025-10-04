@@ -11,6 +11,7 @@ import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { assetsApi } from '@/lib/api';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useToast, ConfirmModal } from '@/components/ui';
 
 interface Asset {
   id: string;
@@ -35,9 +36,11 @@ interface Asset {
 export default function AssetDetailPage() {
   const params = useParams();
   const router = useRouter();
+  const toast = useToast();
   const [asset, setAsset] = useState<Asset | null>(null);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     loadAsset();
@@ -55,19 +58,16 @@ export default function AssetDetailPage() {
   };
 
   const handleDelete = async () => {
-    if (!confirm('Are you sure you want to delete this asset?')) {
-      return;
-    }
-
     try {
       setDeleting(true);
       await assetsApi.delete(params.id as string);
+      toast.success('Asset deleted successfully');
       router.push('/dashboard/assets');
     } catch (error) {
       console.error('Failed to delete asset:', error);
-      alert('Failed to delete asset');
-    } finally {
+      toast.error('Failed to delete asset');
       setDeleting(false);
+      setShowDeleteModal(false);
     }
   };
 
@@ -158,11 +158,10 @@ export default function AssetDetailPage() {
               Edit
             </Link>
             <button
-              onClick={handleDelete}
-              disabled={deleting}
-              className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors disabled:opacity-50"
+              onClick={() => setShowDeleteModal(true)}
+              className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
             >
-              {deleting ? 'Deleting...' : 'Delete'}
+              Delete
             </button>
           </div>
         </div>
@@ -341,6 +340,17 @@ export default function AssetDetailPage() {
           </p>
         </div>
       </div>
+
+      <ConfirmModal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={handleDelete}
+        title="Delete Asset"
+        message={`Are you sure you want to delete "${asset?.name}"? This action cannot be undone.`}
+        confirmText="Delete"
+        variant="danger"
+        isLoading={deleting}
+      />
     </DashboardLayout>
   );
 }

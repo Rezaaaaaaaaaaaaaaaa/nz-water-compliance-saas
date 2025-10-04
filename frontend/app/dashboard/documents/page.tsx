@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { documentsApi } from '@/lib/api';
 import Link from 'next/link';
+import { useToast, TablePagination } from '@/components/ui';
 
 interface Document {
   id: string;
@@ -29,8 +30,12 @@ interface Document {
 }
 
 export default function DocumentsPage() {
+  const toast = useToast();
   const [documents, setDocuments] = useState<Document[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalItems, setTotalItems] = useState(0);
   const [filters, setFilters] = useState({
     documentType: '',
     search: '',
@@ -38,7 +43,7 @@ export default function DocumentsPage() {
 
   useEffect(() => {
     loadDocuments();
-  }, [filters]);
+  }, [filters, currentPage, pageSize]);
 
   const loadDocuments = async () => {
     try {
@@ -46,8 +51,11 @@ export default function DocumentsPage() {
       const response = await documentsApi.list({
         documentType: filters.documentType || undefined,
         search: filters.search || undefined,
+        page: currentPage,
+        limit: pageSize,
       });
       setDocuments(response.documents || []);
+      setTotalItems(response.total || response.documents?.length || 0);
     } catch (error) {
       console.error('Failed to load documents:', error);
     } finally {
@@ -55,14 +63,24 @@ export default function DocumentsPage() {
     }
   };
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handlePageSizeChange = (size: number) => {
+    setPageSize(size);
+    setCurrentPage(1); // Reset to first page when changing page size
+  };
+
   const handleDownload = async (documentId: string, fileName: string) => {
     try {
       const response = await documentsApi.getDownloadUrl(documentId);
       // Open download URL in new tab
       window.open(response.downloadUrl, '_blank');
+      toast.success('Document download started');
     } catch (error) {
       console.error('Failed to get download URL:', error);
-      alert('Failed to download document');
+      toast.error('Failed to download document');
     }
   };
 
@@ -256,6 +274,18 @@ export default function DocumentsPage() {
                 ))}
               </tbody>
             </table>
+
+            {/* Pagination */}
+            {totalItems > 0 && (
+              <TablePagination
+                currentPage={currentPage}
+                totalPages={Math.ceil(totalItems / pageSize)}
+                pageSize={pageSize}
+                totalItems={totalItems}
+                onPageChange={handlePageChange}
+                onPageSizeChange={handlePageSizeChange}
+              />
+            )}
           </div>
         )}
 
