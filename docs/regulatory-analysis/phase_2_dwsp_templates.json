@@ -1,0 +1,66 @@
+{
+  "phase": 2,
+  "title": "DWSP Structure & 12 Mandatory Elements Validation",
+  "critical_files": [
+    "DWSP_Template_Small_26-100.pdf",
+    "DWSP_Template_Medium_101-500.pdf"
+  ],
+  "objectives": [
+    "Extract exact DWSP structure from official templates",
+    "Map all 12 mandatory elements to database schema",
+    "Identify sub-elements and required fields per element",
+    "Design DWSP builder UI/UX matching templates",
+    "Create validation rules for each element"
+  ],
+  "twelve_mandatory_elements": [
+    "1. Drinking water supply description",
+    "2. Hazard identification and risk assessment",
+    "3. Preventive measures (multi-barrier approach)",
+    "4. Operational monitoring",
+    "5. Verification monitoring",
+    "6. Corrective action procedures",
+    "7. Incident and emergency response",
+    "8. DWSP review and amendment procedures",
+    "9. Documentation and record keeping",
+    "10. Competency, training and awareness",
+    "11. Communication and consultation",
+    "12. Supporting programs"
+  ],
+  "database_impact": {
+    "tables_affected": [
+      "dwsp",
+      "dwsp_elements",
+      "hazards",
+      "risk_assessments",
+      "control_measures"
+    ],
+    "schema_validation": [
+      "Verify dwsp.elements JSON structure matches template",
+      "Check if all 12 elements have dedicated fields",
+      "Validate hazard and risk assessment tables",
+      "Ensure multi-barrier approach is captured"
+    ]
+  },
+  "services_to_update": [
+    "backend/src/services/dwsp.service.ts - Enhance validation",
+    "backend/src/controllers/dwsp.controller.ts - Add element endpoints",
+    "frontend/app/dashboard/compliance/create/page.tsx - DWSP builder UI",
+    "frontend/components/dwsp/DWSPElementForm.tsx - Element-specific forms"
+  ],
+  "frontend_components": [
+    "DWSP Builder Wizard (12-step process)",
+    "Element-specific validation forms",
+    "Progress tracker showing completion",
+    "Template selector (Small/Medium/Large)",
+    "PDF export matching official format"
+  ],
+  "validation_rules": [
+    "All 12 elements must be completed",
+    "Hazard identification must have at least 3 hazards",
+    "Risk assessment requires likelihood + consequence",
+    "Multi-barrier approach needs minimum 2 barriers",
+    "Monitoring frequencies must meet minimum standards"
+  ],
+  "estimated_effort": "5-7 days",
+  "priority": "CRITICAL"
+}

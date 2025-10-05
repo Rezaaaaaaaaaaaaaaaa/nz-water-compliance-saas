@@ -1,0 +1,3412 @@
+{
+  "metadata": {
+    "source": "DWQAR_Reporting_Template.xlsx",
+    "sheet": "RuleIDs",
+    "extractionDate": "2025-10-05",
+    "totalRules": 378
+  },
+  "rules": [
+    {
+      "ruleId": "G1",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule G1",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "G2",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule G2",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "G3",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule G3",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "G4",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule G4",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "G5",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule G5",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "G6",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule G6",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "G7",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule G7",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "G8",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule G8",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "G9",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule G9",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "G10",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule G10",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "G11",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule G11",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "G12",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule G12",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "G13",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule G13",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "G14",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule G14",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "G15",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule G15",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "G16",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule G16",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "G17",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule G17",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "VSC.1",
+      "category": "VERIFICATION",
+      "parameter": null,
+      "description": "Compliance rule VSC.1",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "VSC.1-ecol",
+      "category": "VERIFICATION",
+      "parameter": "ecol",
+      "description": "Compliance rule VSC.1-ecol",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "VSC.1-coli",
+      "category": "VERIFICATION",
+      "parameter": "coli",
+      "description": "Compliance rule VSC.1-coli",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S1.1",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule S1.1",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S1.1-ecol",
+      "category": "WATER_QUALITY",
+      "parameter": "ecol",
+      "description": "Compliance rule S1.1-ecol",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S1.1-coli",
+      "category": "WATER_QUALITY",
+      "parameter": "coli",
+      "description": "Compliance rule S1.1-coli",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S1.1-arse",
+      "category": "WATER_QUALITY",
+      "parameter": "arse",
+      "description": "Compliance rule S1.1-arse",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S1.1-boro",
+      "category": "WATER_QUALITY",
+      "parameter": "boro",
+      "description": "Compliance rule S1.1-boro",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S1.1-nitr",
+      "category": "WATER_QUALITY",
+      "parameter": "nitr",
+      "description": "Compliance rule S1.1-nitr",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S1.1-iron",
+      "category": "WATER_QUALITY",
+      "parameter": "iron",
+      "description": "Compliance rule S1.1-iron",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S1.1-mang",
+      "category": "WATER_QUALITY",
+      "parameter": "mang",
+      "description": "Compliance rule S1.1-mang",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S1.2",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule S1.2",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S1.2-ecol",
+      "category": "WATER_QUALITY",
+      "parameter": "ecol",
+      "description": "Compliance rule S1.2-ecol",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S1.2-coli",
+      "category": "WATER_QUALITY",
+      "parameter": "coli",
+      "description": "Compliance rule S1.2-coli",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S1.2-cadm",
+      "category": "WATER_QUALITY",
+      "parameter": "cadm",
+      "description": "Compliance rule S1.2-cadm",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S1.2-copp",
+      "category": "WATER_QUALITY",
+      "parameter": "copp",
+      "description": "Compliance rule S1.2-copp",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S1.2-zinc",
+      "category": "WATER_QUALITY",
+      "parameter": "zinc",
+      "description": "Compliance rule S1.2-zinc",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S1.2-lead",
+      "category": "WATER_QUALITY",
+      "parameter": "lead",
+      "description": "Compliance rule S1.2-lead",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S1.2-benz",
+      "category": "WATER_QUALITY",
+      "parameter": "benz",
+      "description": "Compliance rule S1.2-benz",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.1",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule S2.1",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.1-ecol",
+      "category": "WATER_QUALITY",
+      "parameter": "ecol",
+      "description": "Compliance rule S2.1-ecol",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.1-coli",
+      "category": "WATER_QUALITY",
+      "parameter": "coli",
+      "description": "Compliance rule S2.1-coli",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.1-ph",
+      "category": "WATER_QUALITY",
+      "parameter": "ph",
+      "description": "Compliance rule S2.1-ph",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.1-turb",
+      "category": "WATER_QUALITY",
+      "parameter": "turb",
+      "description": "Compliance rule S2.1-turb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.1-iron",
+      "category": "WATER_QUALITY",
+      "parameter": "iron",
+      "description": "Compliance rule S2.1-iron",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.1-mang",
+      "category": "WATER_QUALITY",
+      "parameter": "mang",
+      "description": "Compliance rule S2.1-mang",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.1-nitr",
+      "category": "WATER_QUALITY",
+      "parameter": "nitr",
+      "description": "Compliance rule S2.1-nitr",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.1-arse",
+      "category": "WATER_QUALITY",
+      "parameter": "arse",
+      "description": "Compliance rule S2.1-arse",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.1-boro",
+      "category": "WATER_QUALITY",
+      "parameter": "boro",
+      "description": "Compliance rule S2.1-boro",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.2",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule S2.2",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.2-ecol",
+      "category": "WATER_QUALITY",
+      "parameter": "ecol",
+      "description": "Compliance rule S2.2-ecol",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.2-coli",
+      "category": "WATER_QUALITY",
+      "parameter": "coli",
+      "description": "Compliance rule S2.2-coli",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.2-cadm",
+      "category": "WATER_QUALITY",
+      "parameter": "cadm",
+      "description": "Compliance rule S2.2-cadm",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.2-copp",
+      "category": "WATER_QUALITY",
+      "parameter": "copp",
+      "description": "Compliance rule S2.2-copp",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.2-zinc",
+      "category": "WATER_QUALITY",
+      "parameter": "zinc",
+      "description": "Compliance rule S2.2-zinc",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.2-lead",
+      "category": "WATER_QUALITY",
+      "parameter": "lead",
+      "description": "Compliance rule S2.2-lead",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.2-benz",
+      "category": "WATER_QUALITY",
+      "parameter": "benz",
+      "description": "Compliance rule S2.2-benz",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.3",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule S2.3",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.4",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule S2.4",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.5",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule S2.5",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.6",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule S2.6",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S2.7",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule S2.7",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.1",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule S3.1",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.2",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule S3.2",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule S3.3",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-ecol",
+      "category": "WATER_QUALITY",
+      "parameter": "ecol",
+      "description": "Compliance rule S3.3-ecol",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-coli",
+      "category": "WATER_QUALITY",
+      "parameter": "coli",
+      "description": "Compliance rule S3.3-coli",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-iron",
+      "category": "WATER_QUALITY",
+      "parameter": "iron",
+      "description": "Compliance rule S3.3-iron",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-mang",
+      "category": "WATER_QUALITY",
+      "parameter": "mang",
+      "description": "Compliance rule S3.3-mang",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-colo",
+      "category": "WATER_QUALITY",
+      "parameter": "colo",
+      "description": "Compliance rule S3.3-colo",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-nitr",
+      "category": "WATER_QUALITY",
+      "parameter": "nitr",
+      "description": "Compliance rule S3.3-nitr",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-alka",
+      "category": "WATER_QUALITY",
+      "parameter": "alka",
+      "description": "Compliance rule S3.3-alka",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-anti",
+      "category": "WATER_QUALITY",
+      "parameter": "anti",
+      "description": "Compliance rule S3.3-anti",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-arse",
+      "category": "WATER_QUALITY",
+      "parameter": "arse",
+      "description": "Compliance rule S3.3-arse",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-bari",
+      "category": "WATER_QUALITY",
+      "parameter": "bari",
+      "description": "Compliance rule S3.3-bari",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-cadm",
+      "category": "WATER_QUALITY",
+      "parameter": "cadm",
+      "description": "Compliance rule S3.3-cadm",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-calc",
+      "category": "WATER_QUALITY",
+      "parameter": "calc",
+      "description": "Compliance rule S3.3-calc",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-chlo",
+      "category": "WATER_QUALITY",
+      "parameter": "chlo",
+      "description": "Compliance rule S3.3-chlo",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-chro",
+      "category": "WATER_QUALITY",
+      "parameter": "chro",
+      "description": "Compliance rule S3.3-chro",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-copp",
+      "category": "WATER_QUALITY",
+      "parameter": "copp",
+      "description": "Compliance rule S3.3-copp",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-lead",
+      "category": "WATER_QUALITY",
+      "parameter": "lead",
+      "description": "Compliance rule S3.3-lead",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-magn",
+      "category": "WATER_QUALITY",
+      "parameter": "magn",
+      "description": "Compliance rule S3.3-magn",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-merc",
+      "category": "WATER_QUALITY",
+      "parameter": "merc",
+      "description": "Compliance rule S3.3-merc",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-nick",
+      "category": "WATER_QUALITY",
+      "parameter": "nick",
+      "description": "Compliance rule S3.3-nick",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-sodi",
+      "category": "WATER_QUALITY",
+      "parameter": "sodi",
+      "description": "Compliance rule S3.3-sodi",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-sulp",
+      "category": "WATER_QUALITY",
+      "parameter": "sulp",
+      "description": "Compliance rule S3.3-sulp",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-c1co",
+      "category": "WATER_QUALITY",
+      "parameter": "c1co",
+      "description": "Compliance rule S3.3-c1co",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-c1ph",
+      "category": "WATER_QUALITY",
+      "parameter": "c1ph",
+      "description": "Compliance rule S3.3-c1ph",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-c1tu",
+      "category": "WATER_QUALITY",
+      "parameter": "c1tu",
+      "description": "Compliance rule S3.3-c1tu",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-cond",
+      "category": "WATER_QUALITY",
+      "parameter": "cond",
+      "description": "Compliance rule S3.3-cond",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-ph",
+      "category": "WATER_QUALITY",
+      "parameter": "ph",
+      "description": "Compliance rule S3.3-ph",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.3-turb",
+      "category": "WATER_QUALITY",
+      "parameter": "turb",
+      "description": "Compliance rule S3.3-turb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.4",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule S3.4",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.4-alph",
+      "category": "WATER_QUALITY",
+      "parameter": "alph",
+      "description": "Compliance rule S3.4-alph",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.4-beta",
+      "category": "WATER_QUALITY",
+      "parameter": "beta",
+      "description": "Compliance rule S3.4-beta",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.4-pota",
+      "category": "WATER_QUALITY",
+      "parameter": "pota",
+      "description": "Compliance rule S3.4-pota",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.5",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule S3.5",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.6",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule S3.6",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.7",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule S3.7",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.8",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule S3.8",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "S3.9",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule S3.9",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T1.8",
+      "category": "BACTERIOLOGICAL",
+      "parameter": null,
+      "description": "Compliance rule T1.8",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T1.8-ecol",
+      "category": "BACTERIOLOGICAL",
+      "parameter": "ecol",
+      "description": "Compliance rule T1.8-ecol",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T1.8-coli",
+      "category": "BACTERIOLOGICAL",
+      "parameter": "coli",
+      "description": "Compliance rule T1.8-coli",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T1.8-turb",
+      "category": "BACTERIOLOGICAL",
+      "parameter": "turb",
+      "description": "Compliance rule T1.8-turb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.1",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.1",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.1-turb",
+      "category": "CHEMICAL",
+      "parameter": "turb",
+      "description": "Compliance rule T2.1-turb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.1-uviu",
+      "category": "CHEMICAL",
+      "parameter": "uviu",
+      "description": "Compliance rule T2.1-uviu",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.1-flow",
+      "category": "CHEMICAL",
+      "parameter": "flow",
+      "description": "Compliance rule T2.1-flow",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.1-fac",
+      "category": "CHEMICAL",
+      "parameter": "fac",
+      "description": "Compliance rule T2.1-fac",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.1-ph",
+      "category": "CHEMICAL",
+      "parameter": "ph",
+      "description": "Compliance rule T2.1-ph",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.1-ecol",
+      "category": "CHEMICAL",
+      "parameter": "ecol",
+      "description": "Compliance rule T2.1-ecol",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.1-coli",
+      "category": "CHEMICAL",
+      "parameter": "coli",
+      "description": "Compliance rule T2.1-coli",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.1-trea",
+      "category": "CHEMICAL",
+      "parameter": "trea",
+      "description": "Compliance rule T2.1-trea",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.1-fluo",
+      "category": "CHEMICAL",
+      "parameter": "fluo",
+      "description": "Compliance rule T2.1-fluo",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.1-uvt",
+      "category": "CHEMICAL",
+      "parameter": "uvt",
+      "description": "Compliance rule T2.1-uvt",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.1-chrt",
+      "category": "CHEMICAL",
+      "parameter": "chrt",
+      "description": "Compliance rule T2.1-chrt",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.2",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.2",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.2-ecol",
+      "category": "CHEMICAL",
+      "parameter": "ecol",
+      "description": "Compliance rule T2.2-ecol",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.2-coli",
+      "category": "CHEMICAL",
+      "parameter": "coli",
+      "description": "Compliance rule T2.2-coli",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.3",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.3",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.4",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.4",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.5",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.5",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.6",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.6",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.7",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.7",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.8",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.8",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.9",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.9",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.10",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.10",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.11",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.11",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.12",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.12",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.13",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.13",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.14",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.14",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.15",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.15",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.16",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.16",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.17",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.17",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.18",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.18",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.19",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.19",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.20",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.20",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.21",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.21",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.22",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.22",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.23",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.23",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.24",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.24",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T2.25",
+      "category": "CHEMICAL",
+      "parameter": null,
+      "description": "Compliance rule T2.25",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.1",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.1",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.1-fac",
+      "category": "PROTOZOA",
+      "parameter": "fac",
+      "description": "Compliance rule T3.1-fac",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.1-ph",
+      "category": "PROTOZOA",
+      "parameter": "ph",
+      "description": "Compliance rule T3.1-ph",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.1-turb",
+      "category": "PROTOZOA",
+      "parameter": "turb",
+      "description": "Compliance rule T3.1-turb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.1-flow",
+      "category": "PROTOZOA",
+      "parameter": "flow",
+      "description": "Compliance rule T3.1-flow",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.1-leve",
+      "category": "PROTOZOA",
+      "parameter": "leve",
+      "description": "Compliance rule T3.1-leve",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.1-face",
+      "category": "PROTOZOA",
+      "parameter": "face",
+      "description": "Compliance rule T3.1-face",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.1-t10",
+      "category": "PROTOZOA",
+      "parameter": "t10",
+      "description": "Compliance rule T3.1-t10",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.1-c.t",
+      "category": "PROTOZOA",
+      "parameter": "c.t",
+      "description": "Compliance rule T3.1-c.t",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.2",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.2",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.3",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.3",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.4",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.4",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.5",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.5",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.6",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.6",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.7",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.7",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.7-fac",
+      "category": "PROTOZOA",
+      "parameter": "fac",
+      "description": "Compliance rule T3.7-fac",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.7-ph",
+      "category": "PROTOZOA",
+      "parameter": "ph",
+      "description": "Compliance rule T3.7-ph",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.7-turb",
+      "category": "PROTOZOA",
+      "parameter": "turb",
+      "description": "Compliance rule T3.7-turb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.7-flow",
+      "category": "PROTOZOA",
+      "parameter": "flow",
+      "description": "Compliance rule T3.7-flow",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.7-leve",
+      "category": "PROTOZOA",
+      "parameter": "leve",
+      "description": "Compliance rule T3.7-leve",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.7-face",
+      "category": "PROTOZOA",
+      "parameter": "face",
+      "description": "Compliance rule T3.7-face",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.7-t10",
+      "category": "PROTOZOA",
+      "parameter": "t10",
+      "description": "Compliance rule T3.7-t10",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.7-c.t",
+      "category": "PROTOZOA",
+      "parameter": "c.t",
+      "description": "Compliance rule T3.7-c.t",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.8",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.8",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.9",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.9",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.10",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.10",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.11",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.11",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.12",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.12",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.12-ozon",
+      "category": "PROTOZOA",
+      "parameter": "ozon",
+      "description": "Compliance rule T3.12-ozon",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.12-turb",
+      "category": "PROTOZOA",
+      "parameter": "turb",
+      "description": "Compliance rule T3.12-turb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.12-flow",
+      "category": "PROTOZOA",
+      "parameter": "flow",
+      "description": "Compliance rule T3.12-flow",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.12-leve",
+      "category": "PROTOZOA",
+      "parameter": "leve",
+      "description": "Compliance rule T3.12-leve",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.12-t10",
+      "category": "PROTOZOA",
+      "parameter": "t10",
+      "description": "Compliance rule T3.12-t10",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.12-c.t",
+      "category": "PROTOZOA",
+      "parameter": "c.t",
+      "description": "Compliance rule T3.12-c.t",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.13",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.13",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.14",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.14",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.15",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.15",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.15-uvt",
+      "category": "PROTOZOA",
+      "parameter": "uvt",
+      "description": "Compliance rule T3.15-uvt",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.15-turb",
+      "category": "PROTOZOA",
+      "parameter": "turb",
+      "description": "Compliance rule T3.15-turb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.15-uvi",
+      "category": "PROTOZOA",
+      "parameter": "uvi",
+      "description": "Compliance rule T3.15-uvi",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.15-flow",
+      "category": "PROTOZOA",
+      "parameter": "flow",
+      "description": "Compliance rule T3.15-flow",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.15-sens",
+      "category": "PROTOZOA",
+      "parameter": "sens",
+      "description": "Compliance rule T3.15-sens",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.15-red",
+      "category": "PROTOZOA",
+      "parameter": "red",
+      "description": "Compliance rule T3.15-red",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.16",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.16",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.17",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.17",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.18",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.18",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.19",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.19",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.20",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.20",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.21",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.21",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.22",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.22",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.23",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.23",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.24",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.24",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.25",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.25",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.25-turb",
+      "category": "PROTOZOA",
+      "parameter": "turb",
+      "description": "Compliance rule T3.25-turb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.26",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.26",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.27",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.27",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.28",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.28",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.29",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.29",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.29-turb",
+      "category": "PROTOZOA",
+      "parameter": "turb",
+      "description": "Compliance rule T3.29-turb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.29-sers",
+      "category": "PROTOZOA",
+      "parameter": "sers",
+      "description": "Compliance rule T3.29-sers",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.30",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.30",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.31",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.31",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.32",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.32",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.33",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.33",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.33-turb",
+      "category": "PROTOZOA",
+      "parameter": "turb",
+      "description": "Compliance rule T3.33-turb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.33-sers",
+      "category": "PROTOZOA",
+      "parameter": "sers",
+      "description": "Compliance rule T3.33-sers",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.34",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.34",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.35",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.35",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.36",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.36",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.37",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.37",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.37-turb",
+      "category": "PROTOZOA",
+      "parameter": "turb",
+      "description": "Compliance rule T3.37-turb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.37-sers",
+      "category": "PROTOZOA",
+      "parameter": "sers",
+      "description": "Compliance rule T3.37-sers",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.38",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.38",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.39",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.39",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.40",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.40",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.41",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.41",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.41-turb",
+      "category": "PROTOZOA",
+      "parameter": "turb",
+      "description": "Compliance rule T3.41-turb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.41-sers",
+      "category": "PROTOZOA",
+      "parameter": "sers",
+      "description": "Compliance rule T3.41-sers",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.42",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.42",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.43",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.43",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.44",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.44",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.45",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.45",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.45-turb",
+      "category": "PROTOZOA",
+      "parameter": "turb",
+      "description": "Compliance rule T3.45-turb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.45-sers",
+      "category": "PROTOZOA",
+      "parameter": "sers",
+      "description": "Compliance rule T3.45-sers",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.46",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.46",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.49-turb",
+      "category": "PROTOZOA",
+      "parameter": "turb",
+      "description": "Compliance rule T3.49-turb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.49-sers",
+      "category": "PROTOZOA",
+      "parameter": "sers",
+      "description": "Compliance rule T3.49-sers",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.50",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.50",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.51",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.51",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.52",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.52",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.53",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.53",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.53-turb",
+      "category": "PROTOZOA",
+      "parameter": "turb",
+      "description": "Compliance rule T3.53-turb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.53-sers",
+      "category": "PROTOZOA",
+      "parameter": "sers",
+      "description": "Compliance rule T3.53-sers",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.54",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.54",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.55",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.55",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.56",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.56",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.57",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.57",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.58",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.58",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.59",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.59",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.60",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.60",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.61",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.61",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.62",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.62",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.62-temp",
+      "category": "PROTOZOA",
+      "parameter": "temp",
+      "description": "Compliance rule T3.62-temp",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.62-turb",
+      "category": "PROTOZOA",
+      "parameter": "turb",
+      "description": "Compliance rule T3.62-turb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.62-flow",
+      "category": "PROTOZOA",
+      "parameter": "flow",
+      "description": "Compliance rule T3.62-flow",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.62-surf",
+      "category": "PROTOZOA",
+      "parameter": "surf",
+      "description": "Compliance rule T3.62-surf",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.63",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.63",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.64",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.64",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.65",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.65",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.66",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.66",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.67",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.67",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.68",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.68",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.69",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.69",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.70",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.70",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.71",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.71",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.72",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.72",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.72-turb",
+      "category": "PROTOZOA",
+      "parameter": "turb",
+      "description": "Compliance rule T3.72-turb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.72-pres",
+      "category": "PROTOZOA",
+      "parameter": "pres",
+      "description": "Compliance rule T3.72-pres",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.72-flow",
+      "category": "PROTOZOA",
+      "parameter": "flow",
+      "description": "Compliance rule T3.72-flow",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.72-sers",
+      "category": "PROTOZOA",
+      "parameter": "sers",
+      "description": "Compliance rule T3.72-sers",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.72-cert",
+      "category": "PROTOZOA",
+      "parameter": "cert",
+      "description": "Compliance rule T3.72-cert",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.73",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.73",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.74",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.74",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.75",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.75",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.76",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.76",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.77",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.77",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.78",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.78",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.79",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.79",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.79-turb",
+      "category": "PROTOZOA",
+      "parameter": "turb",
+      "description": "Compliance rule T3.79-turb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.79-sers",
+      "category": "PROTOZOA",
+      "parameter": "sers",
+      "description": "Compliance rule T3.79-sers",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.79-memb",
+      "category": "PROTOZOA",
+      "parameter": "memb",
+      "description": "Compliance rule T3.79-memb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.80",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.80",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.81",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.81",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.82",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.82",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.83",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.83",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.84",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.84",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.84-ozon",
+      "category": "PROTOZOA",
+      "parameter": "ozon",
+      "description": "Compliance rule T3.84-ozon",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.84-temp",
+      "category": "PROTOZOA",
+      "parameter": "temp",
+      "description": "Compliance rule T3.84-temp",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.84-turb",
+      "category": "PROTOZOA",
+      "parameter": "turb",
+      "description": "Compliance rule T3.84-turb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.84-flow",
+      "category": "PROTOZOA",
+      "parameter": "flow",
+      "description": "Compliance rule T3.84-flow",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.84-leve",
+      "category": "PROTOZOA",
+      "parameter": "leve",
+      "description": "Compliance rule T3.84-leve",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.84-t10",
+      "category": "PROTOZOA",
+      "parameter": "t10",
+      "description": "Compliance rule T3.84-t10",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.84-c.t",
+      "category": "PROTOZOA",
+      "parameter": "c.t",
+      "description": "Compliance rule T3.84-c.t",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.85",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.85",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.86",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.86",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.87",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.87",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.88",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.88",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.89",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.89",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.90",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.90",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.91",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.91",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.91-uvt",
+      "category": "PROTOZOA",
+      "parameter": "uvt",
+      "description": "Compliance rule T3.91-uvt",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.91-turb",
+      "category": "PROTOZOA",
+      "parameter": "turb",
+      "description": "Compliance rule T3.91-turb",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.91-uvi",
+      "category": "PROTOZOA",
+      "parameter": "uvi",
+      "description": "Compliance rule T3.91-uvi",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.91-flow",
+      "category": "PROTOZOA",
+      "parameter": "flow",
+      "description": "Compliance rule T3.91-flow",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.91-uvis",
+      "category": "PROTOZOA",
+      "parameter": "uvis",
+      "description": "Compliance rule T3.91-uvis",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.91-uvc",
+      "category": "PROTOZOA",
+      "parameter": "uvc",
+      "description": "Compliance rule T3.91-uvc",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.92",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.92",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.93",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.93",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.93-stan",
+      "category": "PROTOZOA",
+      "parameter": "stan",
+      "description": "Compliance rule T3.93-stan",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.93-elev",
+      "category": "PROTOZOA",
+      "parameter": "elev",
+      "description": "Compliance rule T3.93-elev",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.93-chlo",
+      "category": "PROTOZOA",
+      "parameter": "chlo",
+      "description": "Compliance rule T3.93-chlo",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.93-fac",
+      "category": "PROTOZOA",
+      "parameter": "fac",
+      "description": "Compliance rule T3.93-fac",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.93-fluo",
+      "category": "PROTOZOA",
+      "parameter": "fluo",
+      "description": "Compliance rule T3.93-fluo",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.94",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.94",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.95",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.95",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.96",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.96",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "T3.97",
+      "category": "PROTOZOA",
+      "parameter": null,
+      "description": "Compliance rule T3.97",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D1.1",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D1.1",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D1.1-ecol",
+      "category": "WATER_QUALITY",
+      "parameter": "ecol",
+      "description": "Compliance rule D1.1-ecol",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D1.1-coli",
+      "category": "WATER_QUALITY",
+      "parameter": "coli",
+      "description": "Compliance rule D1.1-coli",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D2.1",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D2.1",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D2.1-ecol",
+      "category": "WATER_QUALITY",
+      "parameter": "ecol",
+      "description": "Compliance rule D2.1-ecol",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D2.1-coli",
+      "category": "WATER_QUALITY",
+      "parameter": "coli",
+      "description": "Compliance rule D2.1-coli",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D2.1-fac",
+      "category": "WATER_QUALITY",
+      "parameter": "fac",
+      "description": "Compliance rule D2.1-fac",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D2.1-anti",
+      "category": "WATER_QUALITY",
+      "parameter": "anti",
+      "description": "Compliance rule D2.1-anti",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D2.1-cadm",
+      "category": "WATER_QUALITY",
+      "parameter": "cadm",
+      "description": "Compliance rule D2.1-cadm",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D2.1-chro",
+      "category": "WATER_QUALITY",
+      "parameter": "chro",
+      "description": "Compliance rule D2.1-chro",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D2.1-copp",
+      "category": "WATER_QUALITY",
+      "parameter": "copp",
+      "description": "Compliance rule D2.1-copp",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D2.1-lead",
+      "category": "WATER_QUALITY",
+      "parameter": "lead",
+      "description": "Compliance rule D2.1-lead",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D2.1-merc",
+      "category": "WATER_QUALITY",
+      "parameter": "merc",
+      "description": "Compliance rule D2.1-merc",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D2.1-nick",
+      "category": "WATER_QUALITY",
+      "parameter": "nick",
+      "description": "Compliance rule D2.1-nick",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D2.1-zinc",
+      "category": "WATER_QUALITY",
+      "parameter": "zinc",
+      "description": "Compliance rule D2.1-zinc",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D2.2",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D2.2",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D2.3",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D2.3",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D2.4",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D2.4",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D2.5",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D2.5",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D2.6",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D2.6",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D2.7",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D2.7",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.1",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.1",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.2",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.2",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.3",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.3",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.4",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.4",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.5",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.5",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.6",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.6",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.7",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.7",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.8",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.8",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.9",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.9",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.10",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.10",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.11",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.11",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.12",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.12",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.13",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.13",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.14",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.14",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.15",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.15",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.16",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.16",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.17",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.17",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.18",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.18",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.19",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.19",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.20",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.20",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.21",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.21",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.22",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.22",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.23",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.23",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.24",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.24",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.24-anti",
+      "category": "WATER_QUALITY",
+      "parameter": "anti",
+      "description": "Compliance rule D3.24-anti",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.24-cadm",
+      "category": "WATER_QUALITY",
+      "parameter": "cadm",
+      "description": "Compliance rule D3.24-cadm",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.24-chro",
+      "category": "WATER_QUALITY",
+      "parameter": "chro",
+      "description": "Compliance rule D3.24-chro",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.24-copp",
+      "category": "WATER_QUALITY",
+      "parameter": "copp",
+      "description": "Compliance rule D3.24-copp",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.24-lead",
+      "category": "WATER_QUALITY",
+      "parameter": "lead",
+      "description": "Compliance rule D3.24-lead",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.24-merc",
+      "category": "WATER_QUALITY",
+      "parameter": "merc",
+      "description": "Compliance rule D3.24-merc",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.24-nick",
+      "category": "WATER_QUALITY",
+      "parameter": "nick",
+      "description": "Compliance rule D3.24-nick",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.24-zinc",
+      "category": "WATER_QUALITY",
+      "parameter": "zinc",
+      "description": "Compliance rule D3.24-zinc",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.25",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.25",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.26",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.26",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.27",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.27",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.28",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.28",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.29",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.29",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.30",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.30",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "D3.31",
+      "category": "WATER_QUALITY",
+      "parameter": null,
+      "description": "Compliance rule D3.31",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "VP.1",
+      "category": "VERIFICATION",
+      "parameter": null,
+      "description": "Compliance rule VP.1",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "VP.2",
+      "category": "VERIFICATION",
+      "parameter": null,
+      "description": "Compliance rule VP.2",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "VP.3",
+      "category": "VERIFICATION",
+      "parameter": null,
+      "description": "Compliance rule VP.3",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "VP.3-ttur",
+      "category": "VERIFICATION",
+      "parameter": "ttur",
+      "description": "Compliance rule VP.3-ttur",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "VP.3-tfac",
+      "category": "VERIFICATION",
+      "parameter": "tfac",
+      "description": "Compliance rule VP.3-tfac",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "VP.3-tph",
+      "category": "VERIFICATION",
+      "parameter": "tph",
+      "description": "Compliance rule VP.3-tph",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "VP.3-teco",
+      "category": "VERIFICATION",
+      "parameter": "teco",
+      "description": "Compliance rule VP.3-teco",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "VP.3-tcol",
+      "category": "VERIFICATION",
+      "parameter": "tcol",
+      "description": "Compliance rule VP.3-tcol",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "VP.3-dfac",
+      "category": "VERIFICATION",
+      "parameter": "dfac",
+      "description": "Compliance rule VP.3-dfac",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "VP.3-deco",
+      "category": "VERIFICATION",
+      "parameter": "deco",
+      "description": "Compliance rule VP.3-deco",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "ruleId": "VP.3-dcol",
+      "category": "VERIFICATION",
+      "parameter": "dcol",
+      "description": "Compliance rule VP.3-dcol",
+      "isActive": true,
+      "applicability": "All supply sizes",
+      "effectiveDate": "2024-01-01T00:00:00.000Z"
+    }
+  ]
+}

@@ -15,6 +15,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { loginSchema, type LoginFormData } from '@/lib/validations';
 import { Input } from '@/components/ui';
 import { useToast } from '@/components/ui';
+import { FlowComplyLogo } from '@/components/branding/FlowComplyLogo';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -44,14 +45,11 @@ export default function LoginPage() {
       <div className="max-w-md w-full">
         {/* Logo & Title */}
         <div className="text-center mb-8">
-          <div className="inline-block bg-blue-600 text-white p-4 rounded-full mb-4">
-            <span className="text-4xl">💧</span>
+          <div className="flex justify-center mb-4">
+            <FlowComplyLogo size="lg" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            NZ Water Compliance SaaS
-          </h1>
           <p className="text-gray-600">
-            Regulatory Compliance Management System
+            Water Compliance Management for NZ Utilities
           </p>
         </div>
 

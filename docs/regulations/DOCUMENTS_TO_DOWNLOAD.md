@@ -175,25 +175,25 @@ Request:
 
 Track download progress:
 
-- [ ] Compliance Strategy 2025-2028
-- [ ] Compliance Strategy 2022-2025
-- [ ] DWSP Template - Small
-- [ ] DWSP Template - Medium
-- [ ] DWSP Template - Temporary
-- [ ] Water Quality Guidelines
-- [ ] DWSP Upload Guide
-- [ ] DWQAR Reporting Guidelines
-- [ ] Drinking Water Standards
-- [ ] Water Services Act 2021
-- [ ] Drinking Water Standards Regulations 2022
-- [ ] Local Water Done Well Guidance
-- [ ] Rural Agricultural AS
-- [ ] Roof Water AS
-- [ ] Mixed-Use Rural AS 2025
-- [ ] Annual Compliance Report Template
-- [ ] Information Disclosure Template
-- [ ] Notification Form
-- [ ] NZ Standards (if purchased)
+- [x] Compliance Strategy 2025-2028 ✅ (3.0 MB)
+- [x] Compliance Strategy 2022-2025 ✅ (962 KB)
+- [x] DWSP Template - Small ✅ (365 KB)
+- [x] DWSP Template - Medium ✅ (776 KB)
+- [ ] DWSP Template - Temporary ❌ (404 error - URL changed)
+- [ ] Water Quality Guidelines ⏳ (Need to find)
+- [x] DWSP Upload Guide ✅ (288 KB)
+- [x] DWQAR Reporting Guidelines ✅ (732 KB)
+- [x] Drinking Water Standards ✅ (258 KB)
+- [ ] Water Services Act 2021 ⏳ (PDF not available - HTML only)
+- [ ] Drinking Water Standards Regulations 2022 ⏳ (PDF not available - HTML only)
+- [ ] Local Water Done Well Guidance ⏳ (Need to find)
+- [x] Rural Agricultural AS ✅ (753 KB)
+- [x] Roof Water AS ✅ (500 KB)
+- [x] Mixed-Use Rural AS 2025 ✅ (231 KB)
+- [ ] Annual Compliance Report Template ⏳ (Need to find)
+- [ ] Information Disclosure Template ⏳ (Need to find)
+- [ ] Notification Form ⏳ (Need to find)
+- [ ] NZ Standards (if purchased) ⏳ (Optional)
 
 ## Next Steps After Download
 
@@ -224,6 +224,7 @@ Track download progress:
 
 ---
 
-**Updated:** 2025-10-03
-**Documents Downloaded:** 0/19
-**Priority 1 Complete:** 0/12
+**Updated:** 2025-10-05
+**Documents Downloaded:** 10/19 (53%) ✅
+**Priority 1 Complete:** 7/12 (58%) ✅
+**Total Size:** 7.8 MB

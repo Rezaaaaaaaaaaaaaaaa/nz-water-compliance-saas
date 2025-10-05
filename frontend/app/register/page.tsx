@@ -8,6 +8,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { registerSchema, type RegisterFormData } from '@/lib/validations';
 import { Input } from '@/components/ui';
 import { useToast } from '@/components/ui';
+import { FlowComplyLogo } from '@/components/branding/FlowComplyLogo';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -47,11 +48,14 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          <div className="flex justify-center mb-6">
+            <FlowComplyLogo size="lg" />
+          </div>
+          <h2 className="text-center text-3xl font-extrabold text-gray-900">
             Create your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            NZ Water Compliance Management System
+            Start your 14-day free trial
           </p>
         </div>
 

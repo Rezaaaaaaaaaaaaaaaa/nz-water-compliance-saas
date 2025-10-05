@@ -1,0 +1,54 @@
+{
+  "phase": 3,
+  "title": "Compliance Scoring & Enforcement Priority Alignment",
+  "critical_files": [
+    "Compliance_Strategy_2025-2028.pdf",
+    "Compliance_Strategy_2022-2025.pdf"
+  ],
+  "objectives": [
+    "Extract 2025-2028 enforcement priorities",
+    "Align compliance scoring with regulator focus areas",
+    "Implement weighted scoring for high-risk components",
+    "Design proactive alerts for priority compliance areas",
+    "Map supplier categories to system roles"
+  ],
+  "enforcement_priorities_2025_2028": [
+    "Protozoa compliance (Cryptosporidium, Giardia) - HIGHEST",
+    "E. coli detection and response - HIGHEST",
+    "Source protection - HIGH",
+    "Treatment barrier effectiveness - HIGH",
+    "Small community supplier support - MEDIUM",
+    "DWSP quality and completeness - MEDIUM"
+  ],
+  "compliance_scoring_updates": {
+    "current_weights": {
+      "dwsp_status": 0.3,
+      "asset_condition": 0.2,
+      "monitoring_compliance": 0.25,
+      "incident_response": 0.15,
+      "documentation": 0.1
+    },
+    "proposed_weights_2025": {
+      "protozoa_compliance": 0.25,
+      "ecoli_monitoring": 0.2,
+      "dwsp_completeness": 0.15,
+      "source_protection": 0.15,
+      "treatment_barriers": 0.15,
+      "documentation": 0.1
+    }
+  },
+  "services_to_update": [
+    "backend/src/services/compliance-scoring.service.ts - Update algorithm",
+    "backend/src/workers/compliance-check.worker.ts - New checks",
+    "backend/src/services/notification.service.ts - Priority alerts"
+  ],
+  "new_alerts": [
+    "Protozoa test results exceeding limits - IMMEDIATE",
+    "E. coli detection - IMMEDIATE (24hr notification)",
+    "Treatment barrier failure - URGENT",
+    "Source water contamination risk - HIGH",
+    "DWSP missing critical elements - MEDIUM"
+  ],
+  "estimated_effort": "2-3 days",
+  "priority": "HIGH"
+}

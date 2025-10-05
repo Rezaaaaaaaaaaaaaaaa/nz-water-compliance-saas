@@ -1,0 +1,64 @@
+{
+  "phase": 6,
+  "title": "Acceptable Solutions & Alternative Compliance Pathways",
+  "critical_files": [
+    "Acceptable_Solution_Rural_Agricultural.pdf",
+    "Acceptable_Solution_Roof_Water.pdf",
+    "Acceptable_Solution_Mixed-Use_Rural_2025.pdf"
+  ],
+  "objectives": [
+    "Implement support for Acceptable Solutions",
+    "Add compliance pathway selector",
+    "Create AS-specific validation rules",
+    "Design simplified workflows for AS users",
+    "Track AS vs DWSP compliance separately"
+  ],
+  "acceptable_solutions": {
+    "rural_agricultural": {
+      "file": "Acceptable_Solution_Rural_Agricultural.pdf",
+      "applicability": "Dual-use agricultural/domestic supplies",
+      "key_requirements": [
+        "Source protection measures",
+        "Treatment requirements",
+        "Monitoring simplified vs DWSP",
+        "Record keeping"
+      ],
+      "advantage": "Less complex than full DWSP"
+    },
+    "roof_water": {
+      "file": "Acceptable_Solution_Roof_Water.pdf",
+      "applicability": "Rainwater collection systems",
+      "key_requirements": [
+        "Tank specifications",
+        "First-flush diverters",
+        "Treatment (if required)",
+        "Maintenance schedules"
+      ],
+      "advantage": "Prescriptive requirements, simple to follow"
+    },
+    "mixed_use_rural_2025": {
+      "file": "Acceptable_Solution_Mixed-Use_Rural_2025.pdf",
+      "applicability": "Mixed agricultural/domestic (NEW 2025)",
+      "effective_date": "September 5, 2025",
+      "key_requirements": [
+        "Supply classification",
+        "Water quality management",
+        "Monitoring protocols",
+        "Risk management"
+      ],
+      "advantage": "Designed for common rural scenarios"
+    }
+  },
+  "services_to_update": [
+    "backend/src/services/compliance.service.ts - AS support",
+    "backend/src/services/dwsp.service.ts - Pathway selector",
+    "frontend/app/dashboard/compliance/create/page.tsx - AS wizard"
+  ],
+  "database_updates": [
+    "Add compliance_pathway enum (DWSP, AS_RURAL, AS_ROOF, AS_MIXED)",
+    "Add acceptable_solution_details JSON field",
+    "Update validation logic per pathway"
+  ],
+  "estimated_effort": "2-3 days",
+  "priority": "MEDIUM"
+}

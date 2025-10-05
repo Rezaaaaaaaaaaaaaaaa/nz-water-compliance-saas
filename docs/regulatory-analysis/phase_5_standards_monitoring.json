@@ -1,0 +1,78 @@
+{
+  "phase": 5,
+  "title": "Water Quality Standards & Monitoring Requirements",
+  "critical_files": [
+    "Drinking_Water_Standards_Draft_2021.pdf",
+    "Monitoring_Water_Quality_Supply_Summary_Table.pdf"
+  ],
+  "objectives": [
+    "Extract water quality parameters and limits",
+    "Define monitoring frequencies by supply size",
+    "Implement automated compliance checking",
+    "Create exceedance alert system",
+    "Build monitoring schedule generator"
+  ],
+  "water_quality_parameters": {
+    "bacterial": [
+      "E. coli (0 per 100mL)",
+      "Total coliforms",
+      "Enterococci"
+    ],
+    "protozoa": [
+      "Cryptosporidium (varies by source)",
+      "Giardia (varies by source)"
+    ],
+    "chemical": [
+      "pH (7.0-8.5)",
+      "Chlorine residual (min 0.2 mg/L)",
+      "Nitrate-N (max 11.3 mg/L)",
+      "Fluoride",
+      "Lead, Copper, etc."
+    ],
+    "physical": [
+      "Turbidity (max 2.5 NTU)",
+      "Temperature",
+      "Color"
+    ]
+  },
+  "monitoring_frequencies": {
+    "large_supplies_5000plus": {
+      "ecoli": "Daily minimum",
+      "protozoa": "Weekly if at-risk source",
+      "chemical": "Monthly",
+      "operational": "Continuous (turbidity, chlorine)"
+    },
+    "medium_supplies_501_5000": {
+      "ecoli": "3x per week minimum",
+      "protozoa": "Fortnightly if at-risk",
+      "chemical": "Monthly",
+      "operational": "Daily"
+    },
+    "small_supplies_101_500": {
+      "ecoli": "Weekly minimum",
+      "protozoa": "Monthly if at-risk",
+      "chemical": "Quarterly",
+      "operational": "Daily manual checks"
+    },
+    "very_small_26_100": {
+      "ecoli": "Fortnightly",
+      "protozoa": "As per risk assessment",
+      "chemical": "Six-monthly",
+      "operational": "Weekly"
+    }
+  },
+  "services_to_update": [
+    "backend/src/services/monitoring.service.ts - NEW SERVICE",
+    "backend/src/services/water-quality.service.ts - NEW SERVICE",
+    "backend/src/workers/monitoring-scheduler.worker.ts - Auto-scheduling",
+    "backend/src/services/notification.service.ts - Exceedance alerts"
+  ],
+  "database_updates": [
+    "Create water_quality_tests table",
+    "Create monitoring_schedules table",
+    "Add test_parameters enum",
+    "Add compliance_limits reference table"
+  ],
+  "estimated_effort": "4-5 days",
+  "priority": "MEDIUM-HIGH"
+}

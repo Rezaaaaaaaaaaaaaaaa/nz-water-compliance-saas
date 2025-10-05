@@ -1,0 +1,66 @@
+{
+  "phase": 4,
+  "title": "DWQAR Reporting Format Implementation",
+  "critical_files": [
+    "DWQAR_Reporting_Guidelines.pdf",
+    "DWQAR_Reporting_Guidelines_Draft.pdf",
+    "DWQAR_Guidance_for_Small_Supplies.pdf"
+  ],
+  "objectives": [
+    "Implement exact DWQAR reporting format",
+    "Create automated annual report generation",
+    "Design quarterly compliance summaries",
+    "Build Hinek\u014drako-compatible exports",
+    "Add small supplier simplified reporting"
+  ],
+  "reporting_requirements": {
+    "annual_compliance_report": {
+      "frequency": "Annual",
+      "deadline": "By March 31 following reporting year",
+      "format": "Excel (DWQAR template)",
+      "mandatory_sections": [
+        "Supply information",
+        "Population served",
+        "Source details",
+        "Treatment processes",
+        "Monitoring results (all tests)",
+        "Compliance status",
+        "Incidents and corrective actions",
+        "DWSP status"
+      ]
+    },
+    "quarterly_summaries": {
+      "frequency": "Quarterly",
+      "format": "Online webform (Hinek\u014drako)",
+      "key_metrics": [
+        "E. coli test results",
+        "Protozoa compliance",
+        "Treatment performance",
+        "Incidents"
+      ]
+    },
+    "incident_reports": {
+      "frequency": "Within 24 hours",
+      "trigger_events": [
+        "E. coli detection",
+        "Treatment failure",
+        "Supply interruption",
+        "Boil water notice issued"
+      ]
+    }
+  },
+  "services_to_update": [
+    "backend/src/services/report.service.ts - Annual report generation",
+    "backend/src/services/export.service.ts - DWQAR Excel export",
+    "backend/src/controllers/report.controller.ts - New endpoints",
+    "backend/src/workers/report-scheduler.worker.ts - Auto-generation"
+  ],
+  "api_endpoints": [
+    "POST /api/reports/generate-annual - Generate annual DWQAR report",
+    "GET /api/reports/quarterly-summary/:year/:quarter - Quarterly data",
+    "POST /api/reports/incident - Submit incident report",
+    "GET /api/reports/compliance-status - Current compliance snapshot"
+  ],
+  "estimated_effort": "3-4 days",
+  "priority": "HIGH"
+}

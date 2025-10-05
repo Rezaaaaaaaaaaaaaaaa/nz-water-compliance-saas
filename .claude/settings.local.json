@@ -22,7 +22,14 @@
       "Bash(grep:*)",
       "Bash(npm run build:*)",
       "Bash(npx prisma generate:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(npm run dev:*)",
+      "Bash(docker-compose up:*)",
+      "Bash(docker compose:*)",
+      "Bash(python -m pip install:*)",
+      "Bash(python:*)",
+      "Bash(npx prisma:*)",
+      "Bash(dir:*)"
     ],
     "deny": [],
     "ask": []

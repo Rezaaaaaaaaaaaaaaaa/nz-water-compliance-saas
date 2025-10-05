@@ -1,0 +1,67 @@
+{
+  "analysis_date": "2025-10-05",
+  "documents_analyzed": 2,
+  "results": [
+    {
+      "document_name": "Compliance_Strategy_2025-2028.pdf",
+      "file_size_kb": 3010.4052734375,
+      "page_count": 24,
+      "text_length": 51065,
+      "priorities": {
+        "high_risk_areas": [
+          "activities (e.g. our review of DWSPs and incident responses). As a critical input into this approach, we expect suppliers to",
+          "with suppliers on critical safety issues and incidents on",
+          "as a regulatory priority within this strategy. This is due to",
+          "This strategy provides those who do the critical work of",
+          "Key changes proposed in the Bill in its current form at the time of writing that are critical to the regulatory approach",
+          "cause outbreaks, serious illness or even death.Our first priority is",
+          "approach, to selected priority groups.Expectations for other groups that provide"
+        ],
+        "enforcement_focus": [],
+        "supply_categories": [
+          "activities (e.g. our review of DWSPs and incident responses). As a critical input into this approach, we expect suppliers to",
+          "Each point in the pipeline reflects a key step a supplier",
+          "For community suppliers: We\u2019ll focus on building suppliers\u2019",
+          "expect all suppliers, regardless of size, to grow their capability",
+          "\u2022 support and guide new or small suppliers who are trying",
+          "We understand different suppliers are at different starting",
+          "consider supplier context (e.g. population served, existing",
+          "Central government and commercial suppliers use",
+          "We expect community suppliers to achieve this by 2028.",
+          "There is a significant diversity in drinking water suppliers,"
+        ],
+        "key_metrics": [],
+        "risk_factors": []
+      }
+    },
+    {
+      "document_name": "Compliance_Strategy_2022-2025.pdf",
+      "file_size_kb": 961.9140625,
+      "page_count": 29,
+      "text_length": 67431,
+      "priorities": {
+        "high_risk_areas": [
+          "any action based on the priority assigned to the notification . Taumata Arowai has been",
+          "to understand their needs with respect to water.  Those relationships and connectivity are critical to",
+          "priority, followed secondly by providing for  the human health needs  of people (such as drinking",
+          "\u2022 Determine priority order for"
+        ],
+        "enforcement_focus": [],
+        "supply_categories": [
+          "capability and capacity building.  We will be respectful in how we engage with these suppliers, our",
+          "for small supplier community . \u2022 Publish regulations and",
+          "\u2022 Be transparent  and accountable, so that drinking water suppliers know what to expect from the",
+          "Suppliers should endeavour to mitigate risks beyond the Standards and Rules and take responsibility",
+          "supplier fails to notif y or does  not act sufficiently  to identify and remedy the cause of the",
+          "\u2022 Where a drinking water supplier is operating under an exemption, compliance with",
+          "Drinking water suppliers can embed Te Mana o te Wai into their protocols. This can be done through",
+          "suppliers to operate under",
+          "Unregistered drinking water suppliers may not understand their obligations to water and people and",
+          "the success of embedding Te Mana o te Wai as we expect them  to shape the way suppliers engage"
+        ],
+        "key_metrics": [],
+        "risk_factors": []
+      }
+    }
+  ]
+}

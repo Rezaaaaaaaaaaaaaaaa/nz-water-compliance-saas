@@ -1,0 +1,49 @@
+{
+  "phase": 1,
+  "title": "Excel Templates & Export Format Requirements",
+  "critical_files": [
+    "DWQAR_Reporting_Template.xlsx",
+    "DWQAR_Assurance_Rules_Template.xlsx"
+  ],
+  "objectives": [
+    "Extract exact field structure from DWQAR_Reporting_Template.xlsx",
+    "Map database fields to Excel columns",
+    "Identify required vs optional fields",
+    "Design export service matching template format",
+    "Validate data types and formats"
+  ],
+  "database_impact": {
+    "tables_affected": [
+      "compliance_plans",
+      "dwsp",
+      "assets",
+      "monitoring_records",
+      "water_quality_tests"
+    ],
+    "new_fields_needed": [
+      "Investigate Excel template for specific field names",
+      "Check for additional metadata requirements",
+      "Verify date format requirements",
+      "Confirm enumeration values"
+    ]
+  },
+  "services_to_update": [
+    "backend/src/services/export.service.ts - Add DWQAR Excel export",
+    "backend/src/services/report.service.ts - Enhance reporting",
+    "backend/src/controllers/export.controller.ts - New endpoints"
+  ],
+  "api_endpoints": [
+    "GET /api/export/dwqar-excel - Generate DWQAR Excel report",
+    "GET /api/export/dwqar-assurance - Generate assurance template",
+    "POST /api/export/validate-dwqar - Validate before export"
+  ],
+  "acceptance_criteria": [
+    "Excel export matches official DWQAR template exactly",
+    "All required fields populated from database",
+    "Date formats match Taumata Arowai requirements",
+    "File can be uploaded to Hinek\u014drako without errors",
+    "Validation catches missing mandatory fields"
+  ],
+  "estimated_effort": "3-5 days",
+  "priority": "CRITICAL"
+}

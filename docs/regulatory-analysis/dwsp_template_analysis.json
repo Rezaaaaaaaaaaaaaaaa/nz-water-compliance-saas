@@ -1,0 +1,563 @@
+{
+  "analysis_date": "2025-10-05",
+  "templates_analyzed": 2,
+  "results": [
+    {
+      "template_name": "DWSP_Template_Small_26-100.pdf",
+      "file_size_kb": 364.6806640625,
+      "page_count": 12,
+      "text_length": 7917,
+      "elements": {
+        "element_1": {
+          "title": "Description of the drinking water supply",
+          "keywords": [
+            "description",
+            "supply details",
+            "water supply"
+          ],
+          "found": true,
+          "sections": [
+            "Question 1:  What makes up your drinking water supply?",
+            "What are the components of your drinking water supply?",
+            "Description",
+            "From other drinking water supply",
+            "What are the risks to your water supply and how will you control them?",
+            "Bore head on hard standing apron with concrete surroundLoss or reduction of source of water supply",
+            "Ways of checking your water supply is safe and sufficient",
+            "Making regular visual inspections of my water supply",
+            "Monitoring my water supply\u2019s treatment process",
+            "Other (please specify)Sampling and having my water supply tested every three months (mandatory)Low Medium High",
+            "What would be an urgent situation for your drinking water supply?",
+            "Approval by drinking water supply owner or representative",
+            "(and any others involved in managing or operating the drinking water supply)."
+          ]
+        },
+        "element_2": {
+          "title": "Hazardous events and hazards",
+          "keywords": [
+            "hazard",
+            "hazardous event",
+            "risk"
+          ],
+          "found": true,
+          "sections": [
+            "What are the risks to your water supply and how will you control them?",
+            "Below are some common risks which can cause rapid outbreaks of illness for consumers.",
+            "Bore head fenced at least 5m awayPotential hazards",
+            "Likelihood of occurrence:How will you control the risk?",
+            "How will you control the risk?Medium",
+            "ChlorinationAutomatic \tshut-off\tif\tUV\tdose\tnot\tmetC. Hazards potentially present in untreated water",
+            "How will you control the risk?",
+            "How will you control the risk?How will you control the risk?Medium High Low",
+            "F. Chemicals which ma y be a hazard to your supply",
+            "How will you control the risk?Medium High Low",
+            "H. Other p otential hazards (please specify):",
+            "What are the risks arising from these hazards?",
+            "How will you control the risks?Likelihood of occurrence:",
+            "How can the supply be improved to control the risk/s?",
+            "Notify us of the incidentNatural\thazard\tevent\t(e.g.\tflooding,\tearthquake)"
+          ]
+        },
+        "element_3": {
+          "title": "Preventive measures for hazards",
+          "keywords": [
+            "preventive",
+            "control measure",
+            "barrier"
+          ],
+          "found": false,
+          "sections": []
+        },
+        "element_4": {
+          "title": "Operational monitoring",
+          "keywords": [
+            "operational monitor",
+            "daily check",
+            "routine"
+          ],
+          "found": true,
+          "sections": [
+            "Routine\treview\tof\tsafety\tplan\teffectiveness \tand\tupdate\tas\trequired"
+          ]
+        },
+        "element_5": {
+          "title": "Verification monitoring",
+          "keywords": [
+            "verification",
+            "compliance check",
+            "testing"
+          ],
+          "found": false,
+          "sections": []
+        },
+        "element_6": {
+          "title": "Corrective action",
+          "keywords": [
+            "corrective action",
+            "response",
+            "non-compliance"
+          ],
+          "found": true,
+          "sections": [
+            "Responses proposed in your plan \u2013 tick relevant boxes (more than one may apply)Damage to or problems with your supply",
+            "Acceptable Value (MAV) non-compliance ?"
+          ]
+        },
+        "element_7": {
+          "title": "Incident and emergency response",
+          "keywords": [
+            "incident",
+            "emergency",
+            "contingency"
+          ],
+          "found": true,
+          "sections": [
+            "Supply location:Unique supply identifier:Emergency contact name:",
+            "Supply type:Emergency contact phone number:",
+            "Question 4:  How will you respond when an incident occurs?",
+            "How will you respond to an incident?",
+            "For example, where you think your drinking water is or may be unsafe or does not comply with Drinking Water Standards.Incident type \u2013 tick relevant boxes (more than one may apply)",
+            "Investigate the source or cause of the incident and address it as soon as possibleInability of you or a back-up person to address any problems (through prolonged absence)",
+            "Notify us of the incidentNatural\thazard\tevent\t(e.g.\tflooding,\tearthquake)",
+            "Notify consumers of the incidentOutbreak of illness in the community (which could be an indicator of potential waterborne contamination)",
+            "Other (please specify):Water has been unsafe or there was an incident or event, including a test analysis indicating a Maximum"
+          ]
+        },
+        "element_8": {
+          "title": "Management of the drinking water supply",
+          "keywords": [
+            "management",
+            "responsibility",
+            "roles"
+          ],
+          "found": false,
+          "sections": []
+        },
+        "element_9": {
+          "title": "Documentation and communication",
+          "keywords": [
+            "documentation",
+            "communication",
+            "record"
+          ],
+          "found": true,
+          "sections": [
+            "Recording regular maintenance and cleaning of machinery, etc"
+          ]
+        },
+        "element_10": {
+          "title": "Improvement planning",
+          "keywords": [
+            "improvement",
+            "upgrade",
+            "future"
+          ],
+          "found": true,
+          "sections": [
+            "Can you make any improvements and what is the timeframe for those?",
+            "Timeframes for improvements to the supply"
+          ]
+        },
+        "element_11": {
+          "title": "Supply details",
+          "keywords": [
+            "population",
+            "source",
+            "treatment process"
+          ],
+          "found": true,
+          "sections": [
+            "Population:Your detailsDrinking Water Safety Planning Template",
+            "A. W ater sources  \u2013 tick all that apply",
+            "2. What is the anticipated daily minimum and maximum (peak) volume of drinking water provided to that population?",
+            "3.\t Does\tthis\tpopulation \tincrease\tsignificantly \tat\tdifferent\ttimes\tof\tthe\tyear?",
+            "Bore head on hard standing apron with concrete surroundLoss or reduction of source of water supply",
+            "Incorrect dosage levelsAbility to switch to alternate source",
+            "G.\t Contamination \tof\tor\tchanges\tto\tyour\tcatchment \taffecting\tyour\tsource\twater",
+            "This could include developing good relationships with upstream users, the power company, the owner of the source water, wh\u0101nau, hap\u016b",
+            "Monitoring my water supply\u2019s treatment process",
+            "Investigate the source or cause of the incident and address it as soon as possibleInability of you or a back-up person to address any problems (through prolonged absence)",
+            "There has been a change to your water source:",
+            "There has been a change in who looks after your water source and/or supply:"
+          ]
+        },
+        "element_12": {
+          "title": "Review and approval",
+          "keywords": [
+            "review",
+            "approval",
+            "sign-off"
+          ],
+          "found": true,
+          "sections": [
+            "Reviewer:",
+            "Reviewer:Timeframe:",
+            "Timeframe:Question 5:  When will you review your plan?",
+            "Triggers for review",
+            "Routine\treview\tof\tsafety\tplan\teffectiveness \tand\tupdate\tas\trequired",
+            "Approval by drinking water supply owner or representative"
+          ]
+        }
+      },
+      "elements_found": 9
+    },
+    {
+      "template_name": "DWSP_Template_Medium_101-500.pdf",
+      "file_size_kb": 775.892578125,
+      "page_count": 26,
+      "text_length": 50242,
+      "elements": {
+        "element_1": {
+          "title": "Description of the drinking water supply",
+          "keywords": [
+            "description",
+            "supply details",
+            "water supply"
+          ],
+          "found": true,
+          "sections": [
+            "Question 2: Who is responsible for your water supply? 6",
+            "Question 3: What makes up your drinking water supply? 7",
+            "Question 5: How does your water supply work? 8",
+            "Question 7: How do you manage your water supply? 11",
+            "Appendix 3: Example of some potential hazards and sources of hazards to a water supply 17",
+            "A Drinking Water Safety Plan (DWSP) must be developed for each drinking water supply you operate.",
+            "In this context, drinking water supply owners must develop and implement a DWSP for each water supply to",
+            "5. The person in effective control of the water supply signs-off the DWSP to confirm that the water supply",
+            "the drinking water supply).",
+            "Fill in basic details of your water supply on the title page:",
+            "\u2022 Supply name: brief description of the water supply e.g. Cooper\u2019s Farm Otago, Medium High School, Small",
+            "\u2022 Supply location: please be precise in your description. GPS coordinates are useful",
+            "\u2022 Unique supply identifier: advised when you first registered the water supply",
+            "\u2022 Emergency contact name: who water supply users or Taumata Arowai should contact if an issue is",
+            "identified with the water supply",
+            "\u2022 Population:  state the number of people served by the water supply. If the number of users is variable,",
+            "\u2022 The type of water supply system you manage, especially the water source and its end users",
+            "\u2022 What could go wrong with the water supply system and how you would manage or eliminate these issues,",
+            "\u2022 How you monitor the drinking water supply",
+            "your drinking water supply.",
+            "Q 2.1 Who owns this plan and approves budget for the water supply?",
+            "Your water supply is more than the pipe into a house, your water supply includes everything from the",
+            "Please identify the components of your water supply by source, treatment, distribution, and population",
+            "Provide an accurate flow diagram of your drinking water supply, showing its components and sequence of how",
+            "The drinking water supply system is defined as everything from the abstraction of the water at its source to",
+            "\u2022 include all elements of the water supply, including sources, treatment plants, storage tanks and other",
+            "Provide clear descriptions for each.",
+            "qualifications, and experience to operate the drinking water supply and manage any issues which may arise.",
+            "Question 5: How does your water supply work?",
+            "Gather as much information as possible on your drinking water supply e.g. consider what is known about:",
+            "\u2022 The key parts of the drinking water supply, including source, treatment, storage, and distribution.",
+            "\u2022 Any known issues or challenges with any parts of the drinking water supply.",
+            "drinking water supplied from the drinking water supply.",
+            "\u2022 Does your drinking water supply have any redundancy (e.g. two sources, duty-standby pumps, two or more",
+            "Most of the time, your drinking water supply will provide clean and ample drinking water. But sometimes",
+            "the water supply will be compromised, and people can get sick from unsafe water. Sometimes there may not",
+            "Q 6.1 What are the risks to your water supply system?",
+            "\u2022 the current water supply system as described in Question 2 above, and",
+            "\u2022 how you manage your water supply.",
+            "It is important to have a plan to proactively manage your drinking water supply, and not just react when",
+            "Regular inspection and maintenance are essential to maintaining a well-functioning and safe water supply.",
+            "Q 7.2 How will you know your water supply system is operating as expected?",
+            "Manual sampling throughout the water supply system can provide valuable information on water quality and",
+            "operation of a safe drinking water supply. They help make sure team members consistently complete activities",
+            "\u2022 incident affecting a registered drinking water supply you intend to use",
+            "\u2022 If there is an imminent risk of serious illness or death arising from your drinking water supply, or you need",
+            "If the owner of a drinking water supply replaces or makes a material change to a drinking water system,",
+            "water supply or prevent sufficient supply of drinking water.",
+            "Source water \u2022 The water body from which water is abstracted for use in a drinking water supply",
+            "sources of hazards to a water supply",
+            "While modern roof paints are generally labelled for their suitability for painting a roof for water supply, you",
+            "Chlorine can be used as both a primary disinfectant in the treatment of a water supply, and as a residual",
+            "It can also be used as a one-time shock disinfection to the water supply in response to a contamination event",
+            "the chlorine compound before adding it to the water supply and follow product manufacturers instructions.",
+            "Free available chlorine is the standard method of monitoring chlorine in a water supply. This measure indicates"
+          ]
+        },
+        "element_2": {
+          "title": "Hazardous events and hazards",
+          "keywords": [
+            "hazard",
+            "hazardous event",
+            "risk"
+          ],
+          "found": true,
+          "sections": [
+            "Appendix 3: Example of some potential hazards and sources of hazards to a water supply 17",
+            "owners of drinking water supplies must have a proper appreciation of drinking water-related risks and options",
+            "water risk management plans, and in policies, processes and procedures. Actions or activities that support Te",
+            "When assessing the hazards and hazardous events which could impact the safety, compliance, or sufficiency of",
+            "\u2022 If the source is surface water (dams, ponds, lakes, streams), have you assessed the risk from cyanobacteria?",
+            "\u2022 If you have more than one source, you must assess the risks from each source. Even if a source is rarely",
+            "\u2022 Does your intake have any controls which will prevent or reduce a hazard (or hazards) to an acceptable",
+            "and what things (hazardous events) could impact on the sufficiency of your supply. As a minimum, you should",
+            "Q 6.1 What are the risks to your water supply system?",
+            "Rank the risks according to their health impact. For example, issues that affect the taste of the water, but",
+            "are unlikely to cause illness, are a lower risk. However, having bacteria such as Campylobacter  in water from",
+            "livestock, are a much higher risk.",
+            "This is the current risk i.e., based on:",
+            "Q 6.2 How are the risks controlled and monitored?",
+            "Consider whether you have ways to manage each risk, either to eliminate it, or to minimise the impact of the",
+            "risk. These management measures are called controls. Examples of controls include fencing to keep livestock",
+            "further protect from the risks you have identified.",
+            "effective response will be needed to address any public health risks. You are required to notify Taumata",
+            "a notifiable risk or hazard exists. You must have identified key personnel and their responsibilities and the",
+            "notifiable risk or hazard exists. In order to know how to act it is important to have procedures or flow charts for",
+            "\u2022 If there is an imminent risk of serious illness or death arising from your drinking water supply, or you need",
+            "your understanding of the risk associated with your supply.",
+            "Hazard \u2022 An object, substance (including biological, chemical, physical, or radiological",
+            "Hazardous event \u2022 An incident or situation that can lead to the presence of a hazard in the drinking",
+            "\u2022 The point at which control of the hazard is lost.",
+            "Risk \u2022 The likelihood that the hazards will cause harm combined with the severity of the",
+            "consequences if the hazard does occur.",
+            "Appendix 3: Example of some potential hazards and",
+            "sources of hazards to a water supply",
+            "supply system  Hazard  Potential sources of hazard/hazardous eventSOURCE  Lake, river",
+            "Chlorine is a common disinfectant used to reduce the risk of harmful micro-organisms in drinking water. Nearly",
+            "under the Hazardous Substances and New Organisms Act, due to the risks of storing and handling it."
+          ]
+        },
+        "element_3": {
+          "title": "Preventive measures for hazards",
+          "keywords": [
+            "preventive",
+            "control measure",
+            "barrier"
+          ],
+          "found": true,
+          "sections": [
+            "\u2022 Also known as \u2018preventative measures\u2019, \u2018mitigation measures\u2019 and \u2018barriers to"
+          ]
+        },
+        "element_4": {
+          "title": "Operational monitoring",
+          "keywords": [
+            "operational monitor",
+            "daily check",
+            "routine"
+          ],
+          "found": true,
+          "sections": [
+            "\u2022 Follow manufacturer\u2019s instructions on routine maintenance of all equipment.",
+            "This is called operational monitoring. This monitoring can be undertaken by online monitors or manual",
+            "\u2022 What sampling is required in addition to the operational monitoring to understand your water quality or",
+            "the results of operational monitoring and observations with some retrospective monitoring. This will generally",
+            "\u2022 How do you know you can rely on your operational monitoring results?"
+          ]
+        },
+        "element_5": {
+          "title": "Verification monitoring",
+          "keywords": [
+            "verification",
+            "compliance check",
+            "testing"
+          ],
+          "found": true,
+          "sections": [
+            "Source water testing is essential for effective drinking water safety planning. This means you will have to",
+            "The minimum analysis requirements for source water testing are provided in the Drinking Water Quality",
+            "NZS 4020: Testing of Products for Use in Contact with Drinking Water."
+          ]
+        },
+        "element_6": {
+          "title": "Corrective action",
+          "keywords": [
+            "corrective action",
+            "response",
+            "non-compliance"
+          ],
+          "found": true,
+          "sections": [
+            "effective response will be needed to address any public health risks. You are required to notify Taumata",
+            "How have you planned for factors which could impact on your supply and require an immediate response?",
+            "Q 8.3 Incident response procedures",
+            "\u2022 sample results which indicate a change in the source water or non-compliance",
+            "Corrective actions \u2022 Remedial action taken to correct a problem (e.g. the breach of a critical limit) and",
+            "It can also be used as a one-time shock disinfection to the water supply in response to a contamination event"
+          ]
+        },
+        "element_7": {
+          "title": "Incident and emergency response",
+          "keywords": [
+            "incident",
+            "emergency",
+            "contingency"
+          ],
+          "found": true,
+          "sections": [
+            "Question 8: How will you respond when an incident occurs? 13",
+            "\u2022 Emergency contact name: who water supply users or Taumata Arowai should contact if an issue is",
+            "\u2022 Emergency mobile phone number",
+            "\u2022 Updates as incidents occur or changes happen, including how you will let people know the plan and any",
+            "\u2022 Will suitably qualified staff be available to deal with any issues or incidents which may arise?",
+            "\u2022 Previous incidents or adverse events which had the potential to affect the quantity, safety, or compliance of",
+            "not prevent an incident occurring but may identify that a problem that was not detected by operational",
+            "incident occurs?",
+            "Q 8.1 What would be an emergency for your water system?",
+            "\u2022 incident affecting a registered drinking water supply you intend to use",
+            "Q 8.2 How will you respond to an incident?",
+            "Q 8.3 Incident response procedures",
+            "actions to be followed for some of the more common incidents like boil water notices for a positive E. coli  result.",
+            "This plan should be reviewed on a regular basis and as a result of any changes or incidents which may affect",
+            "\u2022 an incident or event",
+            "Hazardous event \u2022 An incident or situation that can lead to the presence of a hazard in the drinking"
+          ]
+        },
+        "element_8": {
+          "title": "Management of the drinking water supply",
+          "keywords": [
+            "management",
+            "responsibility",
+            "roles"
+          ],
+          "found": true,
+          "sections": [
+            "water suppliers will be unfamiliar with applying Te Mana o te Wai to the management of their supplies. The",
+            "2. Ensure you have a copy of the National Policy Statement for Freshwater Management 2020 | Ministry for",
+            "\u2022 Name of Owner: the organisation or name(s) of individual(s) who has/have responsibility for the water",
+            "water risk management plans, and in policies, processes and procedures. Actions or activities that support Te",
+            "Provide details of the key roles and responsibilities of people involved in the operation, and management of",
+            "responsibility to prepare, and implement the DWSP, and to ensure the supply is operated in accordance with",
+            "becoming sick is to consider what can go wrong and adopt management practices that will prevent it going",
+            "risk. These management measures are called controls. Examples of controls include fencing to keep livestock",
+            "Think about what you can do to improve the drinking water system or your management of the system to"
+          ]
+        },
+        "element_9": {
+          "title": "Documentation and communication",
+          "keywords": [
+            "documentation",
+            "communication",
+            "record"
+          ],
+          "found": true,
+          "sections": [
+            "Use the table in the template to record the current team capability, identification of training and resourcing",
+            "a treatment process failing. Even if these events have not been recorded as causing issues in the past, it is",
+            "that had not been recorded as happening before. Some are events that may have occurred in the past, and",
+            "out, regular inspection and maintenance, or water treatment. Record what is currently being done - planned",
+            "record who is responsible for checking the controls, when they will do it and how they will keep records of their",
+            "findings - this is done in Question 7. Record what is currently being done - planned improvements are in Step E.",
+            "something goes wrong. You also must record when you do the activities, so you can show the system has been",
+            "Q 7.1 What inspection and maintenance do you complete and record?",
+            "Keeping records of the inspections and maintenance is important to help you detect if equipment is",
+            "Q 7.4 What written procedures and manuals are in place to guide and record",
+            "\u2022 Who does the checking, how frequently and how do they record the result?",
+            "\u2022 Where is this recorded, who has access to the information and who is responsible for signing off on the"
+          ]
+        },
+        "element_10": {
+          "title": "Improvement planning",
+          "keywords": [
+            "improvement",
+            "upgrade",
+            "future"
+          ],
+          "found": true,
+          "sections": [
+            "future, and the needs of our ecosystems as we manage access, storage, and use of our water supplies.",
+            "details included in the plan are correct and commit to undertaking any identified improvements to the",
+            "making sure the improvements identified in the DWSP are completed.",
+            "improvements are in Step E.",
+            "findings - this is done in Question 7. Record what is currently being done - planned improvements are in Step E.",
+            "Start with documenting any shortcomings and then identify improvements that could be made. For example,",
+            "the equipment, an improvement may be starting a weekly check of the equipment or to get the manufacturer",
+            "Prioritise your improvements and give them a time frame you will be able to achieve."
+          ]
+        },
+        "element_11": {
+          "title": "Supply details",
+          "keywords": [
+            "population",
+            "source",
+            "treatment process"
+          ],
+          "found": true,
+          "sections": [
+            "Appendix 3: Example of some potential hazards and sources of hazards to a water supply 17",
+            "This guidance is aimed at helping owners of supplies with populations of 101 - 500 people .",
+            "Taumata Arowai has developed some guidance on Te Mana o te Wai here . Other helpful resources include the",
+            "comply with s30 and s31  of the Act. You must also comply with s43  in relation to your source water.",
+            "\u2022 Population:  state the number of people served by the water supply. If the number of users is variable,",
+            "\u2022 The type of water supply system you manage, especially the water source and its end users",
+            "of water, the wider environment and the community in the development of your water safety plans and source",
+            "Taumata Arowai has developed some guidance on te Mana o te Wai here . Other helpful resources include the",
+            "activities around the source and catchment, how the pump and treatment work, and the piping and storage",
+            "abstraction of the water at its source all the way to the point of supply to a consumer. That means it can",
+            "Please identify the components of your water supply by source, treatment, distribution, and population",
+            "The drinking water supply system is defined as everything from the abstraction of the water at its source to",
+            "\u2022 include all elements of the water supply, including sources, treatment plants, storage tanks and other",
+            "Attach photographs of the site(s), including source (where appropriate), treatment plant, storage tanks and",
+            "\u2022 The quality of the source water, including variability e.g. seasonal or following heavy rainfall.",
+            "\u2022 The vulnerabilities of the source water e.g. due to drought or algal blooms.",
+            "\u2022 The key parts of the drinking water supply, including source, treatment, storage, and distribution.",
+            "Q 5.1 Do you understand your source water?",
+            "Source water testing is essential for effective drinking water safety planning. This means you will have to",
+            "arrange for the source water to be tested or, where applicable, obtain sample results from a third party.",
+            "The minimum analysis requirements for source water testing are provided in the Drinking Water Quality",
+            "Assurance Rules . Please attach a copy of your source water test results to your DWSP.",
+            "\u2022 The type of source water \u2013 e.g. surface (river, lake), ground (spring, aquifer), roof water, mixed.",
+            "\u2022 If you are using a ground water source, what is the depth of the bore (to the top of screen/s)?",
+            "\u2022 What activities are happening in the catchment that could contaminate the source water? e.g. livestock",
+            "\u2022 Is the source water quality stable or liable to change - e.g. due to heavy rainfall?",
+            "\u2022 If the source is surface water (dams, ponds, lakes, streams), have you assessed the risk from cyanobacteria?",
+            "\u2022 Are there other seasonal variations to source water quality or quantity?",
+            "\u2022 Do samples taken of source water indicate any potential concerns in relation to bacteria or chemicals?",
+            "\u2022 If you have more than one source, you must assess the risks from each source. Even if a source is rarely",
+            "used you should understand the impact a change of source is likely to have on your treatment processes",
+            "\u2022 What is the population served by your supply?",
+            "\u2022 Do you require resource consent(s) or need to comply with local authority bylaws?",
+            "\u2022 Will your resource consent allow you take enough water to meet demand throughout the year?",
+            "\u2022 Do you have more than one source associated with the supply?",
+            "contamination of the source water or r\u0101hui?",
+            "\u2022 How long will you be able to provide a sufficient supply of water if the source (or treatment plant) cannot be",
+            "\u2022 Have you undertaken any long-term planning for your supply, e.g. increased demand due to population",
+            "\u2022 Does your drinking water supply have any redundancy (e.g. two sources, duty-standby pumps, two or more",
+            "Q5.3 Are the treatment processes effective?",
+            "The following guidance on treatment outcomes will help you to work out whether treatment processes are",
+            "and very small particles can interfere with other treatment processes. Very fine filters can even remove",
+            "water, including the quality of the source water, pipes breaking, power cuts, extreme weather events, r\u0101hui,",
+            "a treatment process failing. Even if these events have not been recorded as causing issues in the past, it is",
+            "the treatment process, or taking samples of the drinking water regularly to test the quality. It is important to",
+            "\u2022 changes to the source",
+            "\u2022 significant changes in the population supplied",
+            "\u2022 sample results which indicate a change in the source water or non-compliance",
+            "R\u0101hui \u2022 Form of restriction place on resources or specific areas to prohibit use of that",
+            "resource or area for a particular period of time.",
+            "Source water \u2022 The water body from which water is abstracted for use in a drinking water supply",
+            "Please note: This is just an example of how you could draw your own water source.",
+            "sources of hazards to a water supply",
+            "supply system  Hazard  Potential sources of hazard/hazardous eventSOURCE  Lake, river",
+            "Viruses  \u2022 Animal or human waste entering the source water from farm run-off, wastewater",
+            "from natural sources (e.g. deposition of volcanic ash).",
+            "If the source water becomes dirty after rain, consider introducing a system that shuts off the intake until the",
+            "should not be used as a source of drinking water. Lead and chromium are more likely to be found in primers",
+            "Sources:",
+            "source and the buildings being supplied may be desirable.",
+            "Pipes should be buried (at least 400 mm deep) from the source to storage tanks."
+          ]
+        },
+        "element_12": {
+          "title": "Review and approval",
+          "keywords": [
+            "review",
+            "approval",
+            "sign-off"
+          ],
+          "found": true,
+          "sections": [
+            "Question 9: When will you review your plan? 14",
+            "Please note: Taumata Arowai will not sign off your DWSP but may review it to check it complies with the",
+            "The DWSP is a living document that you should review from time to time for it to remain accurate and current.",
+            "the DWSP. They may be supported by a team or multiple teams (e.g. planning, operations, and review) who",
+            "operates, and have a schedule to review the DWSP and system.",
+            "Question 9: When will you review your plan?",
+            "This plan should be reviewed on a regular basis and as a result of any changes or incidents which may affect",
+            "\u2022 the minimum frequency of review \u2013 we suggest annually",
+            "\u2022 any triggers which will lead to a review of your DWSP"
+          ]
+        }
+      },
+      "elements_found": 12
+    }
+  ]
+}

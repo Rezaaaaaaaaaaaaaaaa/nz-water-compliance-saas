@@ -10,6 +10,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import { FlowComplyIcon } from '@/components/branding/FlowComplyLogo';
 
 interface NavigationItem {
   name: string;
@@ -59,8 +60,13 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       >
         {/* Logo */}
         <div className="flex h-16 items-center justify-between px-4 border-b border-blue-800">
-          {sidebarOpen && (
-            <h1 className="text-xl font-bold">NZ Water Compliance</h1>
+          {sidebarOpen ? (
+            <div className="flex items-center space-x-2">
+              <FlowComplyIcon size={32} variant="white" />
+              <h1 className="text-xl font-bold">FlowComply</h1>
+            </div>
+          ) : (
+            <FlowComplyIcon size={24} variant="white" />
           )}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
