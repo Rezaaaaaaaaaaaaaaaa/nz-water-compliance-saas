@@ -23,6 +23,7 @@ import monitoringRoutes from './routes/monitoring.routes.js';
 import { analyticsRoutes } from './routes/analytics.routes.js';
 import { exportRoutes } from './routes/export.routes.js';
 import { dwqarRoutes } from './routes/dwqar.routes.js';
+import { aiRoutes } from './routes/ai.routes.js';
 import { startWorkers, stopWorkers } from './workers/index.js';
 import { PrismaClient } from '@prisma/client';
 import Redis from 'ioredis';
@@ -203,6 +204,7 @@ async function buildApp(): Promise<FastifyInstance> {
   await app.register(analyticsRoutes, { prefix: '/api/v1/analytics' });
   await app.register(exportRoutes, { prefix: '/api/v1/export' });
   await app.register(dwqarRoutes, { prefix: '/api/v1/dwqar' });
+  await app.register(aiRoutes); // AI routes (includes /api/ai prefix in route definitions)
 
   // Global Error Handler
   app.setErrorHandler((error, request, reply) => {

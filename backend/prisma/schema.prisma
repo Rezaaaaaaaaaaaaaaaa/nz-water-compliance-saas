@@ -49,6 +49,9 @@ model Organization {
   waterSupplyComponents WaterSupplyComponent[]
   waterQualityTests     WaterQualityTest[]
   ruleCompliances       RuleCompliance[]
+  aiUsageLogs           AIUsageLog[]
+  aiUsageQuotas         AIUsageQuota[]
+  aiConversations       AIConversation[]
 
   @@index([type])
   @@index([deletedAt])
@@ -92,6 +95,8 @@ model User {
   notifications           Notification[]
   createdReports          Report[]         @relation("ReportCreatedBy")
   submittedReports        Report[]         @relation("ReportSubmittedBy")
+  aiUsageLogs             AIUsageLog[]
+  aiConversations         AIConversation[]
 
   @@index([organizationId])
   @@index([email])
@@ -870,4 +875,134 @@ model RuleCompliance {
   @@index([organizationId])
   @@index([reportingPeriod])
   @@index([complies])
+}
+
+// ============================================================================
+// AI & MACHINE LEARNING
+// ============================================================================
+
+// AI Usage Tracking for Cost Control and Rate Limiting
+model AIUsageLog {
+  id             String @id @default(cuid())
+  organizationId String
+  userId         String
+
+  // Request Details
+  feature     AIFeature // What AI feature was used
+  operation   String // "analyze_dwsp", "ask_question", etc.
+  model       String // "claude-3-5-sonnet-20241022"
+
+  // Token Usage (for billing)
+  inputTokens  Int
+  outputTokens Int
+  totalTokens  Int
+
+  // Cost Calculation (in USD cents)
+  estimatedCost Int // Calculated cost in cents
+
+  // Request/Response Metadata
+  requestSize  Int? // Bytes of request
+  responseSize Int? // Bytes of response
+  latencyMs    Int? // Response time in milliseconds
+
+  // Status
+  success      Boolean
+  errorMessage String?
+
+  // Metadata
+  createdAt DateTime @default(now())
+  ipAddress String?
+  userAgent String?
+
+  // Relations
+  organization Organization @relation(fields: [organizationId], references: [id])
+  user         User         @relation(fields: [userId], references: [id])
+
+  @@index([organizationId, createdAt])
+  @@index([userId, createdAt])
+  @@index([feature])
+  @@index([createdAt])
+}
+
+// Monthly AI Usage Quotas and Limits
+model AIUsageQuota {
+  id             String @id @default(cuid())
+  organizationId String
+
+  // Quota Period
+  year  Int // 2025
+  month Int // 1-12
+
+  // Quotas (per month)
+  maxRequests     Int @default(100) // Max API calls per month
+  maxTokens       Int @default(100000) // Max tokens per month
+  maxCostCents    Int @default(1000) // Max cost in cents ($10)
+
+  // Current Usage
+  requestCount    Int @default(0)
+  tokenCount      Int @default(0)
+  costCents       Int @default(0)
+
+  // Per-feature limits
+  maxChatRequests           Int @default(50)
+  maxDocumentAnalyses       Int @default(20)
+  maxWaterQualityAnalyses   Int @default(20)
+  maxReportGenerations      Int @default(10)
+
+  // Current per-feature usage
+  chatRequestCount          Int @default(0)
+  documentAnalysisCount     Int @default(0)
+  waterQualityAnalysisCount Int @default(0)
+  reportGenerationCount     Int @default(0)
+
+  // Quota Tier
+  tier String @default("FREE") // FREE, BASIC, PREMIUM
+
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@unique([organizationId, year, month])
+  @@index([organizationId])
+  @@index([year, month])
+}
+
+// AI Chat Conversation History (for context and audit)
+model AIConversation {
+  id             String @id @default(cuid())
+  organizationId String
+  userId         String
+
+  // Conversation Details
+  sessionId String // Group related messages
+  role      String // "user" or "assistant"
+  message   String @db.Text
+
+  // Context
+  feature AIFeature
+  metadata Json? // Additional context data
+
+  // Metadata
+  createdAt DateTime @default(now())
+
+  // Relations
+  organization Organization @relation(fields: [organizationId], references: [id])
+  user         User         @relation(fields: [userId], references: [id])
+
+  @@index([organizationId, sessionId, createdAt])
+  @@index([userId, createdAt])
+  @@index([sessionId])
+}
+
+// AI Features Enum
+enum AIFeature {
+  COMPLIANCE_ASSISTANT // Chatbot Q&A
+  DWSP_ANALYSIS // Document analysis
+  WATER_QUALITY_ANALYSIS // Anomaly detection
+  REPORT_GENERATION // Report summaries
+  REGULATORY_ANALYSIS // Regulation interpretation
+  RISK_ASSESSMENT // AI-assisted risk analysis
 }
