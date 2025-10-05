@@ -9,15 +9,16 @@ import Anthropic from '@anthropic-ai/sdk';
 import { PrismaClient, AIFeature } from '@prisma/client';
 import { checkAIQuota, logAIUsage } from './ai-usage.service';
 import { logger } from '../config/logger';
+import { config } from '../config/index.js';
 
 const prisma = new PrismaClient();
 
 const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY || '',
+  apiKey: config.ai.anthropicApiKey || '',
 });
 
-const MODEL = process.env.CLAUDE_MODEL || 'claude-3-5-sonnet-20241022';
-const MAX_TOKENS = parseInt(process.env.CLAUDE_MAX_TOKENS || '2048');
+const MODEL = config.ai.model;
+const MAX_TOKENS = 2048;
 
 interface ComplianceContext {
   organizationName: string;

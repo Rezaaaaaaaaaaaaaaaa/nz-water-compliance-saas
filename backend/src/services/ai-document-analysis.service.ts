@@ -9,12 +9,13 @@ import Anthropic from '@anthropic-ai/sdk';
 import { AIFeature } from '@prisma/client';
 import { checkAIQuota, logAIUsage } from './ai-usage.service';
 import { logger } from '../config/logger';
+import { config } from '../config/index.js';
 
 const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY || '',
+  apiKey: config.ai.anthropicApiKey || '',
 });
 
-const MODEL = process.env.CLAUDE_MODEL || 'claude-3-5-sonnet-20241022';
+const MODEL = config.ai.model;
 const MAX_TOKENS = 4096; // Higher for document analysis
 
 interface DWSPAnalysisResult {

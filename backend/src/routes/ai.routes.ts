@@ -15,8 +15,12 @@ import {
   deleteConversationHandler,
   updateTier,
 } from '../controllers/ai.controller';
+import { authenticate } from '../middleware/auth.middleware.js';
 
 export async function aiRoutes(fastify: FastifyInstance) {
+  // All AI routes require authentication
+  fastify.addHook('onRequest', authenticate);
+
   // Compliance Assistant (Chat)
   fastify.post('/api/ai/ask', {
     schema: {

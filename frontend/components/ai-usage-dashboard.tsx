@@ -52,7 +52,7 @@ export function AIUsageDashboard() {
     try {
       const response = await fetch('/api/ai/usage', {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem('auth_token')}`,
         },
       });
 

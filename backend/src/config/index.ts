@@ -85,6 +85,12 @@ const configSchema = z.object({
     emailNotifications: z.boolean().default(true),
     auditLogging: z.boolean().default(true),
   }),
+
+  // AI Configuration
+  ai: z.object({
+    anthropicApiKey: z.string().optional(),
+    model: z.string().default('claude-3-5-sonnet-20241022'),
+  }),
 });
 
 // Parse and validate configuration
@@ -169,6 +175,12 @@ function loadConfig() {
         backgroundJobs: process.env.ENABLE_BACKGROUND_JOBS !== 'false',
         emailNotifications: process.env.ENABLE_EMAIL_NOTIFICATIONS !== 'false',
         auditLogging: process.env.ENABLE_AUDIT_LOGGING !== 'false',
+      },
+
+      // AI Configuration
+      ai: {
+        anthropicApiKey: process.env.ANTHROPIC_API_KEY,
+        model: process.env.AI_MODEL || 'claude-3-5-sonnet-20241022',
       },
     };
 
