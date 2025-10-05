@@ -16,7 +16,11 @@ import {
   TrendingUp,
   Clock,
   Database,
-  Award
+  Award,
+  Bot,
+  Brain,
+  Sparkles,
+  MessageSquare
 } from 'lucide-react';
 import { FlowComplyLogo } from '@/components/branding/FlowComplyLogo';
 
@@ -30,6 +34,9 @@ export default function Home() {
             <FlowComplyLogo size="md" />
             <div className="hidden md:flex items-center space-x-8">
               <a href="#features" className="text-gray-600 hover:text-gray-900">Features</a>
+              <a href="#ai-features" className="text-gray-600 hover:text-gray-900 flex items-center gap-1">
+                AI Features <Sparkles className="h-3 w-3 text-purple-600" />
+              </a>
               <a href="#pricing" className="text-gray-600 hover:text-gray-900">Pricing</a>
               <a href="#demo" className="text-gray-600 hover:text-gray-900">Demo</a>
               <Link href="/login" className="text-gray-600 hover:text-gray-900">Login</Link>
@@ -49,16 +56,19 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="inline-flex items-center space-x-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
-                <Award className="h-4 w-4" />
-                <span>Taumata Arowai Compliant</span>
+              <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
+                <Sparkles className="h-4 w-4" />
+                <span>AI-Powered • Taumata Arowai Compliant</span>
               </div>
               <h1 className="text-5xl font-bold text-gray-900 mb-6 leading-tight">
                 Water Compliance Made <span className="text-blue-600">Simple</span>
+                <span className="block mt-2 text-3xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  with AI Intelligence
+                </span>
               </h1>
               <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                Complete regulatory compliance management for New Zealand water utilities.
-                Streamline DWSP creation, asset management, and regulatory reporting.
+                Complete regulatory compliance management for New Zealand water utilities with
+                AI-powered document analysis, intelligent Q&A, and automated compliance insights.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
@@ -145,6 +155,27 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
+                icon: Bot,
+                title: 'AI Compliance Assistant',
+                description: 'Ask questions about Taumata Arowai regulations and get instant, context-aware answers powered by Claude AI.',
+                color: 'purple',
+                badge: 'NEW'
+              },
+              {
+                icon: Brain,
+                title: 'DWSP AI Analyzer',
+                description: 'Automated analysis of DWSP documents with completeness scoring, missing element detection, and recommendations.',
+                color: 'indigo',
+                badge: 'NEW'
+              },
+              {
+                icon: Sparkles,
+                title: 'Water Quality AI',
+                description: 'Intelligent anomaly detection for E. coli, pH, and chlorine levels with trend analysis and alerts.',
+                color: 'violet',
+                badge: 'NEW'
+              },
+              {
                 icon: Shield,
                 title: 'DWSP Management',
                 description: 'Complete 12-element DWSP builder with validation against all Taumata Arowai requirements. Draft saving and submission workflow.',
@@ -199,7 +230,14 @@ export default function Home() {
                 color: 'yellow'
               }
             ].map((feature, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+              <div key={index} className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow border border-gray-100 relative">
+                {feature.badge && (
+                  <div className="absolute top-4 right-4">
+                    <span className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                      {feature.badge}
+                    </span>
+                  </div>
+                )}
                 <div className={`inline-flex items-center justify-center w-12 h-12 rounded-lg bg-${feature.color}-100 text-${feature.color}-600 mb-4`}>
                   <feature.icon className="h-6 w-6" />
                 </div>
@@ -212,20 +250,24 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-600 to-blue-800 text-white">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 text-white">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-8 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 text-center">
+            <div>
+              <div className="text-5xl font-bold mb-2">4</div>
+              <div className="text-blue-200">AI Features</div>
+            </div>
+            <div>
+              <div className="text-5xl font-bold mb-2">24/7</div>
+              <div className="text-blue-200">AI Assistant</div>
+            </div>
             <div>
               <div className="text-5xl font-bold mb-2">12</div>
-              <div className="text-blue-200">Mandatory DWSP Elements</div>
+              <div className="text-blue-200">DWSP Elements Checked</div>
             </div>
             <div>
               <div className="text-5xl font-bold mb-2">60+</div>
               <div className="text-blue-200">API Endpoints</div>
-            </div>
-            <div>
-              <div className="text-5xl font-bold mb-2">7</div>
-              <div className="text-blue-200">Year Data Retention</div>
             </div>
             <div>
               <div className="text-5xl font-bold mb-2">99.9%</div>
@@ -293,6 +335,136 @@ export default function Home() {
         </div>
       </section>
 
+      {/* AI Features Showcase */}
+      <section id="ai-features" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-full text-sm font-bold mb-6">
+              <Sparkles className="h-4 w-4" />
+              <span>NEW: AI-Powered Intelligence</span>
+            </div>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Compliance Intelligence with <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Claude AI</span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Harness the power of advanced AI to streamline compliance work, catch issues early,
+              and get instant expert guidance 24/7.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            <div className="bg-white rounded-xl p-8 shadow-lg border-2 border-purple-200 hover:border-purple-400 transition-all">
+              <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl flex items-center justify-center mb-4">
+                <MessageSquare className="h-7 w-7 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">AI Compliance Assistant</h3>
+              <p className="text-gray-600 mb-4">
+                Ask any compliance question and get instant, accurate answers from our AI trained on
+                all Taumata Arowai regulations.
+              </p>
+              <ul className="space-y-2 text-sm text-gray-700">
+                <li className="flex items-start">
+                  <CheckCircle2 className="h-4 w-4 text-purple-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>24/7 instant answers</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="h-4 w-4 text-purple-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Context-aware responses</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="h-4 w-4 text-purple-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Regulation citations included</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="h-4 w-4 text-purple-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Organization-specific guidance</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-white rounded-xl p-8 shadow-lg border-2 border-blue-200 hover:border-blue-400 transition-all">
+              <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center mb-4">
+                <Brain className="h-7 w-7 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">DWSP AI Analyzer</h3>
+              <p className="text-gray-600 mb-4">
+                Upload your DWSP and get instant AI-powered analysis with completeness scoring
+                and improvement recommendations.
+              </p>
+              <ul className="space-y-2 text-sm text-gray-700">
+                <li className="flex items-start">
+                  <CheckCircle2 className="h-4 w-4 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Checks all 12 mandatory elements</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="h-4 w-4 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Completeness score (0-100)</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="h-4 w-4 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Severity-ranked recommendations</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="h-4 w-4 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Compliance risk assessment</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-white rounded-xl p-8 shadow-lg border-2 border-indigo-200 hover:border-indigo-400 transition-all">
+              <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-indigo-700 rounded-xl flex items-center justify-center mb-4">
+                <Sparkles className="h-7 w-7 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Water Quality AI</h3>
+              <p className="text-gray-600 mb-4">
+                Intelligent anomaly detection for water quality tests with trend analysis
+                and early warning alerts.
+              </p>
+              <ul className="space-y-2 text-sm text-gray-700">
+                <li className="flex items-start">
+                  <CheckCircle2 className="h-4 w-4 text-indigo-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>E. coli detection alerts</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="h-4 w-4 text-indigo-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>pH & chlorine monitoring</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="h-4 w-4 text-indigo-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Trend identification</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="h-4 w-4 text-indigo-600 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Regulatory exceedance warnings</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-10 text-white text-center">
+            <h3 className="text-3xl font-bold mb-4">Save 10+ Hours Per Week</h3>
+            <p className="text-xl text-purple-100 mb-6 max-w-3xl mx-auto">
+              Our AI features reduce compliance work from hours to minutes. Get instant DWSP analysis,
+              24/7 expert guidance, and proactive water quality monitoring — all powered by Claude AI.
+            </p>
+            <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
+                <div className="text-4xl font-bold mb-2">$10/mo</div>
+                <div className="text-purple-100">AI Starter Tier</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
+                <div className="text-4xl font-bold mb-2">100</div>
+                <div className="text-purple-100">Monthly AI Requests</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
+                <div className="text-4xl font-bold mb-2">$2,000</div>
+                <div className="text-purple-100">Estimated Value</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing Section */}
       <section id="pricing" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
@@ -318,7 +490,8 @@ export default function Home() {
                   '5 team members',
                   'Basic analytics',
                   'Email support',
-                  '1GB document storage'
+                  '1GB document storage',
+                  '🤖 AI Starter (100 requests/mo)'
                 ],
                 cta: 'Start Free Trial',
                 highlighted: false
@@ -336,7 +509,8 @@ export default function Home() {
                   'Priority support',
                   '10GB document storage',
                   'Compliance scoring',
-                  'Custom reports'
+                  'Custom reports',
+                  '🤖 AI Basic (500 requests/mo)'
                 ],
                 cta: 'Start Free Trial',
                 highlighted: true
@@ -355,7 +529,8 @@ export default function Home() {
                   'Unlimited storage',
                   'API access',
                   'Custom integrations',
-                  'Dedicated account manager'
+                  'Dedicated account manager',
+                  '🤖 AI Premium (2,000 requests/mo)'
                 ],
                 cta: 'Contact Sales',
                 highlighted: false
@@ -472,6 +647,7 @@ export default function Home() {
               <h4 className="font-semibold text-white mb-4">Product</h4>
               <ul className="space-y-2 text-sm">
                 <li><a href="#features" className="hover:text-white">Features</a></li>
+                <li><a href="#ai-features" className="hover:text-white">AI Features</a></li>
                 <li><a href="#pricing" className="hover:text-white">Pricing</a></li>
                 <li><a href="#demo" className="hover:text-white">Demo</a></li>
                 <li><Link href="/login" className="hover:text-white">Login</Link></li>
