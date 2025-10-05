@@ -301,9 +301,16 @@ async function start() {
   }
 }
 
-// Start server if run directly
-if (import.meta.url === `file://${process.argv[1]}`) {
-  void start();
+// Start server if run directly (skip in test environment)
+if (process.env.NODE_ENV !== 'test') {
+  // Check if module is being run directly
+  try {
+    if (import.meta.url === `file://${process.argv[1]}`) {
+      void start();
+    }
+  } catch (error) {
+    // In CommonJS/test environment, skip auto-start
+  }
 }
 
 export { buildApp, start };
