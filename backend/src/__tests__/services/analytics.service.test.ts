@@ -3,38 +3,38 @@
  */
 
 import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { PrismaClient } from '@prisma/client';
 
 // Mock Prisma
 const mockPrisma = {
   asset: {
-    count: jest.fn(),
-    groupBy: jest.fn(),
-    findMany: jest.fn(),
+    count: jest.fn() as any,
+    groupBy: jest.fn() as any,
+    findMany: jest.fn() as any,
   },
   compliancePlan: {
-    count: jest.fn(),
-    findMany: jest.fn(),
+    count: jest.fn() as any,
+    findMany: jest.fn() as any,
   },
   document: {
-    count: jest.fn(),
-    groupBy: jest.fn(),
-    findMany: jest.fn(),
-    aggregate: jest.fn(),
+    count: jest.fn() as any,
+    groupBy: jest.fn() as any,
+    findMany: jest.fn() as any,
+    aggregate: jest.fn() as any,
   },
   auditLog: {
-    findMany: jest.fn(),
-    groupBy: jest.fn(),
+    findMany: jest.fn() as any,
+    groupBy: jest.fn() as any,
   },
   user: {
-    findMany: jest.fn(),
+    findMany: jest.fn() as any,
+    count: jest.fn() as any,
   },
   organization: {
-    count: jest.fn(),
-    findMany: jest.fn(),
+    count: jest.fn() as any,
+    findMany: jest.fn() as any,
   },
   complianceScore: {
-    findMany: jest.fn(),
+    findMany: jest.fn() as any,
   },
 };
 

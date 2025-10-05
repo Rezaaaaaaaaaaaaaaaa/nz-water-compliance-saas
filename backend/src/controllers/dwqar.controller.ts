@@ -31,7 +31,6 @@ export async function getCurrentStatus(
 ): Promise<void> {
   try {
     const organizationId = getUser(request).organizationId;
-    const period = request.query.period || `${new Date().getFullYear()}-Annual`;
 
     const status = await dwqarAggregationService.getCurrentStatus(
       organizationId
@@ -191,7 +190,7 @@ export async function recordSubmission(
 ): Promise<void> {
   try {
     const organizationId = getUser(request).organizationId;
-    const { period, hinekōrakoId, confirmationPdf } = request.body;
+    const { period, hinekōrakoId } = request.body;
 
     logger.info(
       { organizationId, period, hinekōrakoId },
@@ -210,9 +209,7 @@ export async function recordSubmission(
       update: {
         status: 'SUBMITTED',
         submittedAt: new Date(),
-        hinekōrakoSubmissionId: hinekōrakoId,
-        submissionConfirmation: confirmationPdf || null,
-        regulatorAcknowledged: false,
+        hinekorakoSubmissionId: hinekōrakoId,
       },
       create: {
         organizationId,
@@ -220,9 +217,7 @@ export async function recordSubmission(
         reportingPeriod: period,
         status: 'SUBMITTED',
         submittedAt: new Date(),
-        hinekōrakoSubmissionId: hinekōrakoId,
-        submissionConfirmation: confirmationPdf || null,
-        regulatorAcknowledged: false,
+        hinekorakoSubmissionId: hinekōrakoId,
         title: `DWQAR Annual Report - ${period}`,
         description: `Drinking Water Quality Assurance Rules submission for ${period}`,
       },
@@ -233,7 +228,7 @@ export async function recordSubmission(
       data: {
         reportId: report.id,
         submittedAt: report.submittedAt,
-        hinekōrakoId: report.hinekōrakoSubmissionId,
+        hinekōrakoId: report.hinekorakoSubmissionId,
       },
     });
   } catch (error) {
@@ -269,9 +264,7 @@ export async function getSubmissionHistory(
         reportingPeriod: true,
         status: true,
         submittedAt: true,
-        hinekōrakoSubmissionId: true,
-        regulatorAcknowledged: true,
-        acknowledgedAt: true,
+        hinekorakoSubmissionId: true,
         createdAt: true,
       },
     });

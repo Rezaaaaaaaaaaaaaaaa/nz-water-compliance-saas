@@ -4,7 +4,7 @@
  * Sends custom application metrics to CloudWatch
  */
 
-import { CloudWatchClient, PutMetricDataCommand } from '@aws-sdk/client-cloudwatch';
+import { CloudWatchClient, PutMetricDataCommand, StandardUnit } from '@aws-sdk/client-cloudwatch';
 import { config } from '../config/index.js';
 import { logger } from '../config/logger.js';
 
@@ -24,7 +24,7 @@ const NAMESPACE = 'ComplianceSaaS';
 async function sendMetric(
   metricName: string,
   value: number,
-  unit: string = 'Count',
+  unit: StandardUnit = StandardUnit.Count,
   dimensions: Record<string, string> = {}
 ) {
   try {
@@ -54,7 +54,7 @@ async function sendMetric(
  * Track failed background job
  */
 export async function trackFailedJob(jobName: string, error: Error) {
-  await sendMetric('FailedJobs', 1, 'Count', {
+  await sendMetric('FailedJobs', 1, StandardUnit.Count, {
     JobName: jobName,
     ErrorType: error.name,
   });
@@ -67,7 +67,7 @@ export async function trackComplianceViolation(
   organizationId: string,
   violationType: string
 ) {
-  await sendMetric('ComplianceViolations', 1, 'Count', {
+  await sendMetric('ComplianceViolations', 1, StandardUnit.Count, {
     OrganizationId: organizationId,
     ViolationType: violationType,
   });
@@ -77,7 +77,7 @@ export async function trackComplianceViolation(
  * Track DWSP submission
  */
 export async function trackDWSPSubmission(organizationId: string, status: string) {
-  await sendMetric('DWSPSubmissions', 1, 'Count', {
+  await sendMetric('DWSPSubmissions', 1, StandardUnit.Count, {
     OrganizationId: organizationId,
     Status: status,
   });
@@ -87,7 +87,7 @@ export async function trackDWSPSubmission(organizationId: string, status: string
  * Track API response time
  */
 export async function trackApiResponseTime(endpoint: string, duration: number) {
-  await sendMetric('ApiResponseTime', duration, 'Milliseconds', {
+  await sendMetric('ApiResponseTime', duration, StandardUnit.Milliseconds, {
     Endpoint: endpoint,
   });
 }
@@ -100,12 +100,12 @@ export async function trackDocumentUpload(
   documentType: string,
   sizeInBytes: number
 ) {
-  await sendMetric('DocumentUploads', 1, 'Count', {
+  await sendMetric('DocumentUploads', 1, StandardUnit.Count, {
     OrganizationId: organizationId,
     DocumentType: documentType,
   });
 
-  await sendMetric('DocumentUploadSize', sizeInBytes, 'Bytes', {
+  await sendMetric('DocumentUploadSize', sizeInBytes, StandardUnit.Bytes, {
     OrganizationId: organizationId,
     DocumentType: documentType,
   });
@@ -115,7 +115,7 @@ export async function trackDocumentUpload(
  * Track user login
  */
 export async function trackUserLogin(role: string) {
-  await sendMetric('UserLogins', 1, 'Count', {
+  await sendMetric('UserLogins', 1, StandardUnit.Count, {
     Role: role,
   });
 }
@@ -124,7 +124,7 @@ export async function trackUserLogin(role: string) {
  * Track active users
  */
 export async function trackActiveUsers(count: number) {
-  await sendMetric('ActiveUsers', count, 'Count');
+  await sendMetric('ActiveUsers', count, StandardUnit.Count);
 }
 
 /**
@@ -135,7 +135,7 @@ export async function trackAssetRiskLevel(
   riskLevel: string,
   count: number
 ) {
-  await sendMetric('AssetsByRisk', count, 'Count', {
+  await sendMetric('AssetsByRisk', count, StandardUnit.Count, {
     OrganizationId: organizationId,
     RiskLevel: riskLevel,
   });
@@ -149,12 +149,12 @@ export async function trackReportGeneration(
   reportType: string,
   duration: number
 ) {
-  await sendMetric('ReportGenerations', 1, 'Count', {
+  await sendMetric('ReportGenerations', 1, StandardUnit.Count, {
     OrganizationId: organizationId,
     ReportType: reportType,
   });
 
-  await sendMetric('ReportGenerationTime', duration, 'Milliseconds', {
+  await sendMetric('ReportGenerationTime', duration, StandardUnit.Milliseconds, {
     ReportType: reportType,
   });
 }
@@ -163,7 +163,7 @@ export async function trackReportGeneration(
  * Track audit log creation
  */
 export async function trackAuditLog(action: string, resourceType: string) {
-  await sendMetric('AuditLogs', 1, 'Count', {
+  await sendMetric('AuditLogs', 1, StandardUnit.Count, {
     Action: action,
     ResourceType: resourceType,
   });
@@ -178,15 +178,15 @@ export async function trackQueueHealth(
   active: number,
   failed: number
 ) {
-  await sendMetric('QueueWaiting', waiting, 'Count', {
+  await sendMetric('QueueWaiting', waiting, StandardUnit.Count, {
     QueueName: queueName,
   });
 
-  await sendMetric('QueueActive', active, 'Count', {
+  await sendMetric('QueueActive', active, StandardUnit.Count, {
     QueueName: queueName,
   });
 
-  await sendMetric('QueueFailed', failed, 'Count', {
+  await sendMetric('QueueFailed', failed, StandardUnit.Count, {
     QueueName: queueName,
   });
 }
@@ -195,7 +195,7 @@ export async function trackQueueHealth(
  * Track database query performance
  */
 export async function trackDatabaseQuery(queryType: string, duration: number) {
-  await sendMetric('DatabaseQueryTime', duration, 'Milliseconds', {
+  await sendMetric('DatabaseQueryTime', duration, StandardUnit.Milliseconds, {
     QueryType: queryType,
   });
 }

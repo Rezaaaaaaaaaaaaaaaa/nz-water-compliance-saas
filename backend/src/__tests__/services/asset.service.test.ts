@@ -2,7 +2,7 @@
  * Asset Service Unit Tests
  */
 
-import { describe, it, expect, jest, beforeEach } from '@jest/globals';
+import { describe, it, expect } from '@jest/globals';
 import { AssetCondition, RiskLevel } from '@prisma/client';
 import * as assetService from '../../services/asset.service.js';
 

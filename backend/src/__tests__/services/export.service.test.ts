@@ -7,20 +7,20 @@ import { describe, it, expect, beforeEach, jest } from '@jest/globals';
 // Mock Prisma
 const mockPrisma = {
   asset: {
-    findMany: jest.fn(),
+    findMany: jest.fn() as any,
   },
   document: {
-    findMany: jest.fn(),
-    count: jest.fn(),
+    findMany: jest.fn() as any,
+    count: jest.fn() as any,
   },
   compliancePlan: {
-    findMany: jest.fn(),
+    findMany: jest.fn() as any,
   },
   auditLog: {
-    findMany: jest.fn(),
+    findMany: jest.fn() as any,
   },
   organization: {
-    findUnique: jest.fn(),
+    findUnique: jest.fn() as any,
   },
 };
 
@@ -268,7 +268,7 @@ describe('Export Service', () => {
 
       await exportAuditLogsToCSV(organizationId);
 
-      const findManyCall = (mockPrisma.auditLog.findMany as jest.Mock).mock.calls[0][0];
+      const findManyCall = (mockPrisma.auditLog.findMany as any).mock.calls[0][0];
       expect(findManyCall.take).toBe(10000);
     });
   });

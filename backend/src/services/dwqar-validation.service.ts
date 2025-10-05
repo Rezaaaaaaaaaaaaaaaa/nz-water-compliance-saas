@@ -224,7 +224,7 @@ export class DWQARValidationService {
    * Find components not registered with Hinekōrako
    */
   private async findUnregisteredComponents(
-    organizationId: string,
+    _organizationId: string,
     componentIds: string[]
   ): Promise<string[]> {
     const uniqueComponentIds = [...new Set(componentIds)];
@@ -256,11 +256,6 @@ export class DWQARValidationService {
       where: { organizationId, isActive: true },
     });
 
-    // Get active rules
-    const rules = await prisma.complianceRule.count({
-      where: { isActive: true },
-    });
-
     // Estimate: Each component tested monthly for applicable rules
     // Simplified: assume 50 core rules per component, 12 times per year
     return components * 50 * 12;
@@ -281,8 +276,8 @@ export class DWQARValidationService {
    * Quick validation check (for UI indicators)
    */
   async quickValidate(
-    organizationId: string,
-    period: string
+    _organizationId: string,
+    _period: string
   ): Promise<{ valid: boolean; errorCount: number; warningCount: number }> {
     // This would call aggregation service to get report
     // For now, return placeholder

@@ -31,7 +31,7 @@ export async function exportRoutes(app: FastifyInstance) {
     startDate: z.string().datetime().optional(),
     endDate: z.string().datetime().optional(),
     limit: z.string().regex(/^\d+$/).transform(Number).pipe(z.number().min(1).max(50000)).optional(),
-  }).merge(CommonSchemas.dateRange);
+  });
 
   // Export assets
   app.get('/assets', {

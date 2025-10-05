@@ -7,7 +7,7 @@
 import { FastifyInstance } from 'fastify';
 import * as analyticsController from '../controllers/analytics.controller.js';
 import { authenticate } from '../middleware/auth.middleware.js';
-import { validateQuery, CommonSchemas } from '../middleware/validation.middleware.js';
+import { validateQuery } from '../middleware/validation.middleware.js';
 import { z } from 'zod';
 
 export async function analyticsRoutes(app: FastifyInstance) {
@@ -18,9 +18,9 @@ export async function analyticsRoutes(app: FastifyInstance) {
   const dateRangeQuerySchema = z.object({
     startDate: z.string().datetime().optional(),
     endDate: z.string().datetime().optional(),
-  }).merge(CommonSchemas.dateRange);
-
-  const paginatedQuerySchema = CommonSchemas.pagination.merge(dateRangeQuerySchema);
+    page: z.string().regex(/^\d+$/).transform(Number).pipe(z.number().min(1)).optional(),
+    limit: z.string().regex(/^\d+$/).transform(Number).pipe(z.number().min(1).max(100)).optional(),
+  });
 
   // Get comprehensive dashboard data
   app.get('/dashboard', analyticsController.getDashboard);
@@ -36,7 +36,7 @@ export async function analyticsRoutes(app: FastifyInstance) {
 
   // Get activity timeline (with date range validation)
   app.get('/activity', {
-    preHandler: [validateQuery(paginatedQuerySchema)],
+    preHandler: [validateQuery(dateRangeQuerySchema)],
     handler: analyticsController.getActivityTimeline,
   });
 
@@ -47,10 +47,7 @@ export async function analyticsRoutes(app: FastifyInstance) {
   });
 
   // Get user activity summary
-  app.get('/users', {
-    preHandler: [validateQuery(dateRangeQuerySchema)],
-    handler: analyticsController.getUserActivitySummary,
-  });
+  app.get('/users', analyticsController.getUserActivitySummary);
 
   // Get system-wide analytics (System Admin only)
   app.get('/system', analyticsController.getSystemAnalytics);

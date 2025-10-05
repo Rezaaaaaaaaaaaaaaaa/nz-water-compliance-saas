@@ -7,20 +7,20 @@ import { describe, it, expect, beforeEach, jest } from '@jest/globals';
 // Mock Prisma
 const mockPrisma = {
   compliancePlan: {
-    count: jest.fn(),
-    findFirst: jest.fn(),
+    count: jest.fn() as any,
+    findFirst: jest.fn() as any,
   },
   asset: {
-    count: jest.fn(),
+    count: jest.fn() as any,
   },
   document: {
-    count: jest.fn(),
-    findMany: jest.fn(),
-    findFirst: jest.fn(),
+    count: jest.fn() as any,
+    findMany: jest.fn() as any,
+    findFirst: jest.fn() as any,
   },
   complianceScore: {
-    create: jest.fn(),
-    findMany: jest.fn(),
+    create: jest.fn() as any,
+    findMany: jest.fn() as any,
   },
 };
 
@@ -80,7 +80,6 @@ describe('Compliance Scoring Service', () => {
       ]);
 
       // Recent reports
-      const currentYear = new Date().getFullYear();
       mockPrisma.compliancePlan.count
         .mockResolvedValueOnce(1) // Annual this year
         .mockResolvedValueOnce(1) // Annual last year
@@ -348,7 +347,7 @@ describe('Compliance Scoring Service', () => {
       await calculateComplianceScore(organizationId);
 
       expect(mockPrisma.complianceScore.create).toHaveBeenCalled();
-      const createCall = (mockPrisma.complianceScore.create as jest.Mock).mock.calls[0][0];
+      const createCall = (mockPrisma.complianceScore.create as any).mock.calls[0][0];
       expect(createCall.data.organizationId).toBe(organizationId);
       expect(createCall.data.overallScore).toBeGreaterThanOrEqual(0);
       expect(createCall.data.overallScore).toBeLessThanOrEqual(100);

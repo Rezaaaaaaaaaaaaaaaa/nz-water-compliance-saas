@@ -452,6 +452,9 @@ enum AuditAction {
   ASSET_CREATED
   DOCUMENT_UPLOADED
   COMPLIANCE_VIOLATION
+  CALCULATE_COMPLIANCE_SCORE
+  VIEW_ANALYTICS
+  SEND_EMAIL
 }
 
 model AuditLog {
@@ -498,6 +501,7 @@ enum ReportType {
   WATER_QUALITY
   FINANCIAL_PERFORMANCE
   CUSTOM
+  DWQAR // Drinking Water Quality Assurance Rules
 }
 
 enum ReportStatus {
@@ -516,10 +520,14 @@ model Report {
   submittedById  String? // User who submitted the report
 
   // Report Details
-  reportType  ReportType
-  title       String
-  description String?
-  status      ReportStatus @default(PENDING)
+  reportType       ReportType
+  title            String
+  description      String?
+  status           ReportStatus @default(PENDING)
+  reportingPeriod  String? // e.g., "2024 Q1", "2024 Annual"
+
+  // DWQAR specific fields
+  hinekorakoSubmissionId String? // Hinekōrako platform submission ID
 
   // Parameters
   parameters Json? // Date range, filters, etc.
@@ -556,6 +564,8 @@ model Report {
   @@index([status])
   @@index([createdById])
   @@index([deletedAt])
+  @@index([reportingPeriod])
+  @@unique([organizationId, reportType, reportingPeriod])
 }
 
 // ============================================================================
@@ -690,9 +700,10 @@ model ComplianceRule {
   parameter   String? // "ecol", "pH", "turbidity"
 
   // Limits & Thresholds
-  maxValue Decimal? @db.Decimal(12, 4)
-  minValue Decimal? @db.Decimal(12, 4)
-  unit     String?
+  maxValue  Decimal? @db.Decimal(12, 4)
+  minValue  Decimal? @db.Decimal(12, 4)
+  unit      String?
+  frequency String? // Sampling frequency (e.g., "Daily", "Weekly", "Monthly")
 
   // Applicability
   applicability  String? // Which supply sizes/types
@@ -844,9 +855,10 @@ model RuleCompliance {
   correctiveActions String? // Actions taken for non-compliance
 
   // Metadata
-  calculatedAt DateTime @default(now())
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  calculatedAt    DateTime @default(now())
+  lastCalculated  DateTime @default(now()) // Last time compliance was calculated
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   // Relations
   organization Organization         @relation(fields: [organizationId], references: [id])
@@ -854,6 +866,7 @@ model RuleCompliance {
   component    WaterSupplyComponent @relation(fields: [componentId], references: [id])
 
   @@unique([ruleId, componentId, reportingPeriod])
+  @@unique([organizationId, ruleId, componentId, reportingPeriod])
   @@index([organizationId])
   @@index([reportingPeriod])
   @@index([complies])

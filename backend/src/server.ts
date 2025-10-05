@@ -59,7 +59,7 @@ declare module 'fastify' {
  */
 async function buildApp(): Promise<FastifyInstance> {
   const app = Fastify({
-    logger: logger,
+    logger: logger as any, // Type assertion for Pino logger compatibility
     trustProxy: true,
     requestIdLogLabel: 'requestId',
     disableRequestLogging: false,

@@ -53,7 +53,7 @@ export class DWQARExcelExportService {
       `[DWQAR Excel] Generated ${buffer.byteLength} bytes for ${report.samplesData.length} samples, ${report.reportsData.length} rules`
     );
 
-    return buffer as Buffer;
+    return Buffer.from(buffer);
   }
 
   /**
@@ -333,7 +333,7 @@ export class DWQARExcelExportService {
 
     try {
       const workbook = new ExcelJS.Workbook();
-      await workbook.xlsx.load(buffer);
+      await workbook.xlsx.load(buffer as any);
 
       // Check required sheets exist
       const requiredSheets = ['Reports', 'Samples', 'RuleIDs'];

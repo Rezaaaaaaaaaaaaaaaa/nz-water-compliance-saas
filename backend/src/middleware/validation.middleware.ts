@@ -5,7 +5,7 @@
  */
 
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { z, ZodSchema } from 'zod';
+import { z, ZodTypeAny } from 'zod';
 import { logger } from '../config/logger.js';
 
 /**
@@ -54,7 +54,7 @@ export const CommonSchemas = {
 /**
  * Validate query parameters
  */
-export function validateQuery<T extends ZodSchema>(schema: T) {
+export function validateQuery<T extends ZodTypeAny>(schema: T) {
   return async (request: FastifyRequest, reply: FastifyReply) => {
     try {
       const result = schema.safeParse(request.query);
@@ -87,7 +87,7 @@ export function validateQuery<T extends ZodSchema>(schema: T) {
 /**
  * Validate request body
  */
-export function validateBody<T extends ZodSchema>(schema: T) {
+export function validateBody<T extends ZodTypeAny>(schema: T) {
   return async (request: FastifyRequest, reply: FastifyReply) => {
     try {
       const result = schema.safeParse(request.body);
@@ -120,7 +120,7 @@ export function validateBody<T extends ZodSchema>(schema: T) {
 /**
  * Validate route parameters
  */
-export function validateParams<T extends ZodSchema>(schema: T) {
+export function validateParams<T extends ZodTypeAny>(schema: T) {
   return async (request: FastifyRequest, reply: FastifyReply) => {
     try {
       const result = schema.safeParse(request.params);

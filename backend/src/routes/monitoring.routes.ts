@@ -179,7 +179,7 @@ export default async function monitoringRoutes(fastify: FastifyInstance) {
             // Export operations (last 30 days)
             prisma.auditLog.count({
               where: {
-                action: { contains: 'EXPORT' },
+                action: 'EXPORT',
                 timestamp: { gte: thirtyDaysAgo },
               },
             }),

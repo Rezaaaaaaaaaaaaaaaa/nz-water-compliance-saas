@@ -1,0 +1,12 @@
+
+> compliance-saas-backend@1.0.0 build
+> tsc
+
+src/controllers/dwqar.controller.ts(213,9): error TS2353: Object literal may only specify known properties, and 'submissionConfirmation' does not exist in type '(Without<ReportUpdateInput, ReportUncheckedUpdateInput> & ReportUncheckedUpdateInput) | (Without<...> & ReportUpdateInput)'.
+src/controllers/dwqar.controller.ts(223,9): error TS2353: Object literal may only specify known properties, and 'submissionConfirmation' does not exist in type 'Without<ReportCreateInput, ReportUncheckedCreateInput> & ReportUncheckedCreateInput'.
+src/controllers/dwqar.controller.ts(272,9): error TS2353: Object literal may only specify known properties, and 'regulatorAcknowledged' does not exist in type 'ReportSelect<DefaultArgs>'.
+src/services/dwqar-aggregation.service.ts(1,42): error TS6133: 'ComplianceRule' is declared but its value is never read.
+src/services/dwqar-aggregation.service.ts(2,1): error TS6133: 'Decimal' is declared but its value is never read.
+src/services/dwqar-excel-export.service.ts(336,32): error TS2345: Argument of type 'Buffer<ArrayBuffer>' is not assignable to parameter of type 'Buffer'.
+  The types of 'slice(...)[Symbol.toStringTag]' are incompatible between these types.
+    Type '"Uint8Array"' is not assignable to type '"ArrayBuffer"'.

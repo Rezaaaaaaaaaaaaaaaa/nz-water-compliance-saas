@@ -1,5 +1,4 @@
-import { PrismaClient, WaterQualityTest, ComplianceRule } from '@prisma/client';
-import { Decimal } from '@prisma/client/runtime/library';
+import { PrismaClient, WaterQualityTest } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -236,6 +235,8 @@ export class DWQARAggregationService {
           ruleId,
           componentId,
           reportingPeriod: period,
+          startDate: new Date(`${period.split('-')[0]}-01-01`),
+          endDate: new Date(`${period.split('-')[0]}-12-31`),
           complies,
           nonCompliantPeriods,
           totalSamples,
