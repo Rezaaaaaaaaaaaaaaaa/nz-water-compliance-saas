@@ -1,0 +1,519 @@
+{
+  "dashboardName": "FlowComply-Production",
+  "dashboardBody": {
+    "widgets": [
+      {
+        "type": "metric",
+        "x": 0,
+        "y": 0,
+        "width": 12,
+        "height": 6,
+        "properties": {
+          "title": "API Request Rate",
+          "metrics": [
+            [
+              "AWS/ApplicationELB",
+              "RequestCount",
+              {
+                "stat": "Sum",
+                "period": 60,
+                "label": "Requests/min"
+              }
+            ]
+          ],
+          "region": "ap-southeast-2",
+          "yAxis": {
+            "left": {
+              "label": "Count",
+              "showUnits": false
+            }
+          },
+          "view": "timeSeries",
+          "stacked": false
+        }
+      },
+      {
+        "type": "metric",
+        "x": 12,
+        "y": 0,
+        "width": 12,
+        "height": 6,
+        "properties": {
+          "title": "API Response Time (p95)",
+          "metrics": [
+            [
+              "AWS/ApplicationELB",
+              "TargetResponseTime",
+              {
+                "stat": "p95",
+                "label": "p95",
+                "color": "#FF9900"
+              }
+            ],
+            [
+              "...",
+              {
+                "stat": "p50",
+                "label": "p50",
+                "color": "#1f77b4"
+              }
+            ]
+          ],
+          "region": "ap-southeast-2",
+          "yAxis": {
+            "left": {
+              "label": "Seconds",
+              "min": 0,
+              "max": 2
+            }
+          },
+          "view": "timeSeries",
+          "stacked": false,
+          "annotations": {
+            "horizontal": [
+              {
+                "value": 0.5,
+                "label": "Target",
+                "color": "#2ca02c"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "metric",
+        "x": 0,
+        "y": 6,
+        "width": 8,
+        "height": 6,
+        "properties": {
+          "title": "HTTP Status Codes",
+          "metrics": [
+            [
+              "AWS/ApplicationELB",
+              "HTTPCode_Target_2XX_Count",
+              {
+                "stat": "Sum",
+                "label": "2xx Success",
+                "color": "#2ca02c"
+              }
+            ],
+            [
+              ".",
+              "HTTPCode_Target_4XX_Count",
+              {
+                "stat": "Sum",
+                "label": "4xx Client Error",
+                "color": "#ff7f0e"
+              }
+            ],
+            [
+              ".",
+              "HTTPCode_Target_5XX_Count",
+              {
+                "stat": "Sum",
+                "label": "5xx Server Error",
+                "color": "#d62728"
+              }
+            ]
+          ],
+          "region": "ap-southeast-2",
+          "yAxis": {
+            "left": {
+              "label": "Count"
+            }
+          },
+          "view": "timeSeries",
+          "stacked": true
+        }
+      },
+      {
+        "type": "metric",
+        "x": 8,
+        "y": 6,
+        "width": 8,
+        "height": 6,
+        "properties": {
+          "title": "Error Rate %",
+          "metrics": [
+            [
+              {
+                "expression": "(m2 / m1) * 100",
+                "label": "Error Rate",
+                "id": "e1",
+                "color": "#d62728"
+              }
+            ],
+            [
+              "AWS/ApplicationELB",
+              "RequestCount",
+              {
+                "stat": "Sum",
+                "id": "m1",
+                "visible": false
+              }
+            ],
+            [
+              ".",
+              "HTTPCode_Target_5XX_Count",
+              {
+                "stat": "Sum",
+                "id": "m2",
+                "visible": false
+              }
+            ]
+          ],
+          "region": "ap-southeast-2",
+          "yAxis": {
+            "left": {
+              "label": "Percent",
+              "min": 0,
+              "max": 10
+            }
+          },
+          "view": "timeSeries",
+          "stacked": false,
+          "annotations": {
+            "horizontal": [
+              {
+                "value": 5,
+                "label": "Alert Threshold",
+                "color": "#d62728"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "metric",
+        "x": 16,
+        "y": 6,
+        "width": 8,
+        "height": 6,
+        "properties": {
+          "title": "ALB Healthy Hosts",
+          "metrics": [
+            [
+              "AWS/ApplicationELB",
+              "HealthyHostCount",
+              {
+                "stat": "Average",
+                "label": "Healthy",
+                "color": "#2ca02c"
+              }
+            ],
+            [
+              ".",
+              "UnHealthyHostCount",
+              {
+                "stat": "Average",
+                "label": "Unhealthy",
+                "color": "#d62728"
+              }
+            ]
+          ],
+          "region": "ap-southeast-2",
+          "yAxis": {
+            "left": {
+              "label": "Count",
+              "min": 0
+            }
+          },
+          "view": "timeSeries",
+          "stacked": false
+        }
+      },
+      {
+        "type": "metric",
+        "x": 0,
+        "y": 12,
+        "width": 12,
+        "height": 6,
+        "properties": {
+          "title": "ECS Backend - CPU & Memory",
+          "metrics": [
+            [
+              "AWS/ECS",
+              "CPUUtilization",
+              {
+                "stat": "Average",
+                "label": "CPU %",
+                "color": "#1f77b4"
+              }
+            ],
+            [
+              ".",
+              "MemoryUtilization",
+              {
+                "stat": "Average",
+                "label": "Memory %",
+                "color": "#ff7f0e"
+              }
+            ]
+          ],
+          "region": "ap-southeast-2",
+          "yAxis": {
+            "left": {
+              "label": "Percent",
+              "min": 0,
+              "max": 100
+            }
+          },
+          "view": "timeSeries",
+          "stacked": false,
+          "annotations": {
+            "horizontal": [
+              {
+                "value": 80,
+                "label": "High Utilization",
+                "color": "#ff7f0e"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "metric",
+        "x": 12,
+        "y": 12,
+        "width": 12,
+        "height": 6,
+        "properties": {
+          "title": "ECS Task Count",
+          "metrics": [
+            [
+              "AWS/ECS",
+              "DesiredTaskCount",
+              {
+                "stat": "Average",
+                "label": "Desired",
+                "color": "#2ca02c"
+              }
+            ],
+            [
+              ".",
+              "RunningTaskCount",
+              {
+                "stat": "Average",
+                "label": "Running",
+                "color": "#1f77b4"
+              }
+            ]
+          ],
+          "region": "ap-southeast-2",
+          "yAxis": {
+            "left": {
+              "label": "Count",
+              "min": 0
+            }
+          },
+          "view": "timeSeries",
+          "stacked": false
+        }
+      },
+      {
+        "type": "metric",
+        "x": 0,
+        "y": 18,
+        "width": 8,
+        "height": 6,
+        "properties": {
+          "title": "RDS CPU & Connections",
+          "metrics": [
+            [
+              "AWS/RDS",
+              "CPUUtilization",
+              {
+                "stat": "Average",
+                "label": "CPU %",
+                "color": "#1f77b4"
+              }
+            ],
+            [
+              ".",
+              "DatabaseConnections",
+              {
+                "stat": "Average",
+                "label": "Connections",
+                "yAxis": "right",
+                "color": "#ff7f0e"
+              }
+            ]
+          ],
+          "region": "ap-southeast-2",
+          "yAxis": {
+            "left": {
+              "label": "CPU %",
+              "min": 0,
+              "max": 100
+            },
+            "right": {
+              "label": "Connections",
+              "min": 0
+            }
+          },
+          "view": "timeSeries",
+          "stacked": false
+        }
+      },
+      {
+        "type": "metric",
+        "x": 8,
+        "y": 18,
+        "width": 8,
+        "height": 6,
+        "properties": {
+          "title": "RDS Read/Write Latency",
+          "metrics": [
+            [
+              "AWS/RDS",
+              "ReadLatency",
+              {
+                "stat": "Average",
+                "label": "Read",
+                "color": "#1f77b4"
+              }
+            ],
+            [
+              ".",
+              "WriteLatency",
+              {
+                "stat": "Average",
+                "label": "Write",
+                "color": "#ff7f0e"
+              }
+            ]
+          ],
+          "region": "ap-southeast-2",
+          "yAxis": {
+            "left": {
+              "label": "Seconds",
+              "min": 0
+            }
+          },
+          "view": "timeSeries",
+          "stacked": false
+        }
+      },
+      {
+        "type": "metric",
+        "x": 16,
+        "y": 18,
+        "width": 8,
+        "height": 6,
+        "properties": {
+          "title": "RDS Storage",
+          "metrics": [
+            [
+              "AWS/RDS",
+              "FreeStorageSpace",
+              {
+                "stat": "Average",
+                "label": "Free Storage",
+                "color": "#2ca02c"
+              }
+            ]
+          ],
+          "region": "ap-southeast-2",
+          "yAxis": {
+            "left": {
+              "label": "Bytes"
+            }
+          },
+          "view": "timeSeries",
+          "stacked": false
+        }
+      },
+      {
+        "type": "metric",
+        "x": 0,
+        "y": 24,
+        "width": 12,
+        "height": 6,
+        "properties": {
+          "title": "Redis Cache Performance",
+          "metrics": [
+            [
+              "AWS/ElastiCache",
+              "CacheHits",
+              {
+                "stat": "Sum",
+                "label": "Cache Hits",
+                "color": "#2ca02c"
+              }
+            ],
+            [
+              ".",
+              "CacheMisses",
+              {
+                "stat": "Sum",
+                "label": "Cache Misses",
+                "color": "#d62728"
+              }
+            ]
+          ],
+          "region": "ap-southeast-2",
+          "yAxis": {
+            "left": {
+              "label": "Count"
+            }
+          },
+          "view": "timeSeries",
+          "stacked": true
+        }
+      },
+      {
+        "type": "metric",
+        "x": 12,
+        "y": 24,
+        "width": 12,
+        "height": 6,
+        "properties": {
+          "title": "Redis CPU & Memory",
+          "metrics": [
+            [
+              "AWS/ElastiCache",
+              "CPUUtilization",
+              {
+                "stat": "Average",
+                "label": "CPU %",
+                "color": "#1f77b4"
+              }
+            ],
+            [
+              ".",
+              "DatabaseMemoryUsagePercentage",
+              {
+                "stat": "Average",
+                "label": "Memory %",
+                "color": "#ff7f0e"
+              }
+            ]
+          ],
+          "region": "ap-southeast-2",
+          "yAxis": {
+            "left": {
+              "label": "Percent",
+              "min": 0,
+              "max": 100
+            }
+          },
+          "view": "timeSeries",
+          "stacked": false
+        }
+      },
+      {
+        "type": "log",
+        "x": 0,
+        "y": 30,
+        "width": 24,
+        "height": 6,
+        "properties": {
+          "title": "Recent Application Errors",
+          "query": "SOURCE '/ecs/flowcomply-backend'\n| fields @timestamp, @message, level, error\n| filter level = \"error\" or @message like /ERROR/\n| sort @timestamp desc\n| limit 20",
+          "region": "ap-southeast-2"
+        }
+      }
+    ]
+  }
+}
