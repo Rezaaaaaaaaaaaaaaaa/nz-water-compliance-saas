@@ -1,0 +1,610 @@
+name: Production Deployment
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+      - '.github/workflows/production-deploy.yml'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - staging
+          - production
+      skip_tests:
+        description: 'Skip tests (not recommended)'
+        required: false
+        type: boolean
+        default: false
+
+env:
+  AWS_REGION: ap-southeast-2
+  ECS_CLUSTER: flowcomply-production
+  BACKEND_SERVICE: backend-service
+  FRONTEND_SERVICE: frontend-service
+
+jobs:
+  # ============================================================
+  # Pre-Deployment: Tests and Security
+  # ============================================================
+  test-backend:
+    name: Test Backend
+    runs-on: ubuntu-latest
+    if: ${{ !inputs.skip_tests }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Run Prisma generate
+        working-directory: backend
+        run: npx prisma generate
+
+      - name: Run tests
+        working-directory: backend
+        run: npm test -- --coverage
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          directory: backend/coverage
+          flags: backend
+
+  test-frontend:
+    name: Test Frontend
+    runs-on: ubuntu-latest
+    if: ${{ !inputs.skip_tests }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Run linter
+        working-directory: frontend
+        run: npm run lint
+
+      - name: Build Next.js
+        working-directory: frontend
+        env:
+          NEXT_PUBLIC_API_URL: https://api.flowcomply.com
+        run: npm run build
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    if: ${{ !inputs.skip_tests }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run npm audit (Backend)
+        working-directory: backend
+        run: npm audit --production --audit-level=moderate || true
+
+      - name: Run npm audit (Frontend)
+        working-directory: frontend
+        run: npm audit --production --audit-level=moderate || true
+
+      - name: Run Snyk security scan
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
+  # ============================================================
+  # Database Backup
+  # ============================================================
+  backup-database:
+    name: Backup Database
+    runs-on: ubuntu-latest
+    needs: [test-backend, test-frontend, security-scan]
+    if: always() && !cancelled() && (needs.test-backend.result == 'success' || inputs.skip_tests)
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Create RDS snapshot
+        id: snapshot
+        run: |
+          SNAPSHOT_ID="flowcomply-pre-deploy-$(date +%Y%m%d-%H%M%S)"
+          echo "snapshot_id=$SNAPSHOT_ID" >> $GITHUB_OUTPUT
+
+          aws rds create-db-snapshot \
+            --db-instance-identifier flowcomply-production \
+            --db-snapshot-identifier $SNAPSHOT_ID
+
+          echo "Waiting for snapshot to complete..."
+          aws rds wait db-snapshot-available \
+            --db-snapshot-identifier $SNAPSHOT_ID
+
+          echo "✅ Snapshot created: $SNAPSHOT_ID"
+
+      - name: Tag snapshot
+        run: |
+          SNAPSHOT_ARN=$(aws rds describe-db-snapshots \
+            --db-snapshot-identifier ${{ steps.snapshot.outputs.snapshot_id }} \
+            --query 'DBSnapshots[0].DBSnapshotArn' \
+            --output text)
+
+          aws rds add-tags-to-resource \
+            --resource-name $SNAPSHOT_ARN \
+            --tags Key=Environment,Value=production \
+                   Key=Purpose,Value=pre-deployment-backup \
+                   Key=GitSHA,Value=${{ github.sha }}
+
+  # ============================================================
+  # Build and Push Images
+  # ============================================================
+  build-backend:
+    name: Build Backend Image
+    runs-on: ubuntu-latest
+    needs: [backup-database]
+    outputs:
+      image: ${{ steps.build-image.outputs.image }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push image
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: flowcomply-backend
+          IMAGE_TAG: ${{ github.sha }}
+        working-directory: backend
+        run: |
+          # Build image
+          docker build \
+            --build-arg NODE_ENV=production \
+            --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') \
+            --build-arg GIT_SHA=${{ github.sha }} \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:latest \
+            .
+
+          # Push images
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+          # Output for next steps
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          echo "✅ Backend image pushed: $IMAGE_TAG"
+
+      - name: Scan image for vulnerabilities
+        run: |
+          aws ecr start-image-scan \
+            --repository-name flowcomply-backend \
+            --image-id imageTag=${{ github.sha }} || true
+
+  build-frontend:
+    name: Build Frontend Image
+    runs-on: ubuntu-latest
+    needs: [backup-database]
+    outputs:
+      image: ${{ steps.build-image.outputs.image }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push image
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: flowcomply-frontend
+          IMAGE_TAG: ${{ github.sha }}
+          NEXT_PUBLIC_API_URL: https://api.flowcomply.com
+        working-directory: frontend
+        run: |
+          # Build image
+          docker build \
+            --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:latest \
+            .
+
+          # Push images
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+          # Output for next steps
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          echo "✅ Frontend image pushed: $IMAGE_TAG"
+
+  # ============================================================
+  # Database Migration
+  # ============================================================
+  migrate-database:
+    name: Run Database Migrations
+    runs-on: ubuntu-latest
+    needs: [build-backend]
+    environment:
+      name: production
+      url: https://api.flowcomply.com
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: backend
+        run: npm ci --production
+
+      - name: Run Prisma migrations
+        working-directory: backend
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          echo "📊 Checking migration status..."
+          npx prisma migrate status
+
+          echo "🚀 Deploying migrations..."
+          npx prisma migrate deploy
+
+          echo "✅ Migrations complete"
+
+  # ============================================================
+  # Deploy Services
+  # ============================================================
+  deploy-backend:
+    name: Deploy Backend to ECS
+    runs-on: ubuntu-latest
+    needs: [build-backend, migrate-database]
+    environment:
+      name: production
+      url: https://api.flowcomply.com
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition flowcomply-backend \
+            --query taskDefinition > task-definition.json
+
+      - name: Fill in new image ID
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: backend
+          image: ${{ needs.build-backend.outputs.image }}
+
+      - name: Deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.BACKEND_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
+
+      - name: Verify deployment
+        run: |
+          echo "⏳ Waiting for service to stabilize..."
+          sleep 30
+
+          echo "✅ Backend deployed successfully"
+
+  deploy-frontend:
+    name: Deploy Frontend to ECS
+    runs-on: ubuntu-latest
+    needs: [build-frontend, deploy-backend]
+    environment:
+      name: production
+      url: https://flowcomply.com
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition flowcomply-frontend \
+            --query taskDefinition > task-definition.json
+
+      - name: Fill in new image ID
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: frontend
+          image: ${{ needs.build-frontend.outputs.image }}
+
+      - name: Deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.FRONTEND_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
+
+      - name: Verify deployment
+        run: |
+          echo "⏳ Waiting for service to stabilize..."
+          sleep 30
+
+          echo "✅ Frontend deployed successfully"
+
+  # ============================================================
+  # Post-Deployment Verification
+  # ============================================================
+  smoke-tests:
+    name: Run Smoke Tests
+    runs-on: ubuntu-latest
+    needs: [deploy-backend, deploy-frontend]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Test backend health
+        run: |
+          echo "🔍 Testing backend health endpoint..."
+
+          RESPONSE=$(curl -s -w "\n%{http_code}" https://api.flowcomply.com/api/monitoring/health)
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | head -n1)
+
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "❌ Health check failed with status: $HTTP_CODE"
+            echo "Response: $BODY"
+            exit 1
+          fi
+
+          if ! echo "$BODY" | grep -q "healthy"; then
+            echo "❌ Health check returned unhealthy status"
+            echo "Response: $BODY"
+            exit 1
+          fi
+
+          echo "✅ Backend health check passed"
+
+      - name: Test frontend
+        run: |
+          echo "🔍 Testing frontend..."
+
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" https://flowcomply.com)
+
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "❌ Frontend check failed with status: $HTTP_CODE"
+            exit 1
+          fi
+
+          echo "✅ Frontend check passed"
+
+      - name: Test API authentication
+        env:
+          TEST_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
+          TEST_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+        run: |
+          echo "🔍 Testing API authentication..."
+
+          RESPONSE=$(curl -s -X POST https://api.flowcomply.com/api/auth/login \
+            -H "Content-Type: application/json" \
+            -d "{\"email\":\"$TEST_EMAIL\",\"password\":\"$TEST_PASSWORD\"}")
+
+          if ! echo "$RESPONSE" | grep -q "token"; then
+            echo "❌ Authentication test failed"
+            echo "Response: $RESPONSE"
+            exit 1
+          fi
+
+          echo "✅ Authentication test passed"
+
+  # ============================================================
+  # Monitoring & Notifications
+  # ============================================================
+  notify-success:
+    name: Notify Deployment Success
+    runs-on: ubuntu-latest
+    needs: [smoke-tests]
+    if: success()
+
+    steps:
+      - name: Send Slack notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: custom
+          custom_payload: |
+            {
+              "text": "✅ Production Deployment Successful",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "✅ Production Deployment Successful"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {"type": "mrkdwn", "text": "*Version:*\n${{ github.sha }}"},
+                    {"type": "mrkdwn", "text": "*Environment:*\nProduction"},
+                    {"type": "mrkdwn", "text": "*Deployed by:*\n${{ github.actor }}"},
+                    {"type": "mrkdwn", "text": "*Duration:*\n${{ github.event.head_commit.timestamp }}"}
+                  ]
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {"type": "plain_text", "text": "View Dashboard"},
+                      "url": "https://flowcomply.com/dashboard"
+                    },
+                    {
+                      "type": "button",
+                      "text": {"type": "plain_text", "text": "View Logs"},
+                      "url": "https://console.aws.amazon.com/cloudwatch"
+                    }
+                  ]
+                }
+              ]
+            }
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Create GitHub deployment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.repos.createDeployment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.sha,
+              environment: 'production',
+              auto_merge: false,
+              required_contexts: []
+            });
+
+  notify-failure:
+    name: Notify Deployment Failure
+    runs-on: ubuntu-latest
+    needs: [smoke-tests]
+    if: failure()
+
+    steps:
+      - name: Send Slack alert
+        uses: 8398a7/action-slack@v3
+        with:
+          status: custom
+          custom_payload: |
+            {
+              "text": "❌ Production Deployment Failed",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "❌ Production Deployment Failed"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {"type": "mrkdwn", "text": "*Version:*\n${{ github.sha }}"},
+                    {"type": "mrkdwn", "text": "*Environment:*\nProduction"},
+                    {"type": "mrkdwn", "text": "*Failed by:*\n${{ github.actor }}"},
+                    {"type": "mrkdwn", "text": "*Time:*\n${{ github.event.head_commit.timestamp }}"}
+                  ]
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "⚠️ *Action Required:* Review logs and consider rollback"
+                  }
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {"type": "plain_text", "text": "View Workflow"},
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                    },
+                    {
+                      "type": "button",
+                      "text": {"type": "plain_text", "text": "Rollback Guide"},
+                      "url": "https://github.com/${{ github.repository }}/blob/main/docs/runbooks/production-deployment.md#rollback-procedures"
+                    }
+                  ]
+                }
+              ]
+            }
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Create PagerDuty incident
+        if: always()
+        run: |
+          curl -X POST https://events.pagerduty.com/v2/enqueue \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "routing_key": "${{ secrets.PAGERDUTY_ROUTING_KEY }}",
+              "event_action": "trigger",
+              "payload": {
+                "summary": "Production deployment failed",
+                "severity": "error",
+                "source": "GitHub Actions",
+                "custom_details": {
+                  "sha": "${{ github.sha }}",
+                  "actor": "${{ github.actor }}",
+                  "workflow": "${{ github.workflow }}"
+                }
+              }
+            }'
