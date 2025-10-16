@@ -76,9 +76,13 @@ async function main() {
   // ========================================================================
   console.log('Creating users...');
 
+  // Hash password for all test users (password123)
+  const hashedPassword = await bcrypt.hash('password123', 10);
+
   const systemAdmin = await prisma.user.create({
     data: {
       email: 'admin@compliance-saas.co.nz',
+      password: hashedPassword,
       firstName: 'System',
       lastName: 'Administrator',
       role: UserRole.SYSTEM_ADMIN,
@@ -91,6 +95,7 @@ async function main() {
   const complianceManager = await prisma.user.create({
     data: {
       email: 'compliance@wcc.govt.nz',
+      password: hashedPassword,
       firstName: 'Sarah',
       lastName: 'Thompson',
       role: UserRole.COMPLIANCE_MANAGER,
@@ -102,6 +107,7 @@ async function main() {
   const inspector = await prisma.user.create({
     data: {
       email: 'inspector@wcc.govt.nz',
+      password: hashedPassword,
       firstName: 'James',
       lastName: 'Wilson',
       role: UserRole.INSPECTOR,
@@ -113,6 +119,7 @@ async function main() {
   const auditor = await prisma.user.create({
     data: {
       email: 'auditor@taumataarowai.govt.nz',
+      password: hashedPassword,
       firstName: 'Maria',
       lastName: 'Rodriguez',
       role: UserRole.AUDITOR,
@@ -121,7 +128,7 @@ async function main() {
     },
   });
 
-  console.log('✓ Created 4 users\n');
+  console.log('✓ Created 4 users (password: password123)\n');
 
   // ========================================================================
   // Assets
@@ -518,7 +525,7 @@ async function main() {
   console.log(`  - Reports: 1`);
   console.log('========================================\n');
 
-  console.log('Test Users:');
+  console.log('Test Users (all passwords: password123):');
   console.log(`  Admin:      admin@compliance-saas.co.nz`);
   console.log(`  Manager:    compliance@wcc.govt.nz`);
   console.log(`  Inspector:  inspector@wcc.govt.nz`);

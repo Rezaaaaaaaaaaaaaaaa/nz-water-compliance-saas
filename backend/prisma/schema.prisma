@@ -68,6 +68,7 @@ model User {
   id             String   @id @default(cuid())
   auth0Id        String?  @unique // For Auth0 integration
   email          String   @unique
+  password       String?  // Hashed password (bcrypt) - optional for Auth0 users
   firstName      String
   lastName       String
   role           UserRole

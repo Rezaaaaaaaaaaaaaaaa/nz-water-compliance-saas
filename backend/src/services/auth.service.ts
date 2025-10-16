@@ -32,14 +32,14 @@ export async function authenticateUser(
     return null;
   }
 
-  // For now, we don't have password field in schema
-  // This would require adding password field to User model
-  // For MVP, we'll use Auth0 or similar OAuth provider
-  // Placeholder for password verification:
-  // const passwordMatch = await bcrypt.compare(_password, user.password);
-  // if (!passwordMatch) {
-  //   return null;
-  // }
+  // If user has a password, verify it
+  // If user uses Auth0 (no password), skip password check
+  if (user.password) {
+    const passwordMatch = await bcrypt.compare(_password, user.password);
+    if (!passwordMatch) {
+      return null;
+    }
+  }
 
   return user;
 }
