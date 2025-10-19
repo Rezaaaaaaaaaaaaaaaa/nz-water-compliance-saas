@@ -90,7 +90,7 @@ async function buildApp(): Promise<FastifyInstance> {
   await app.register(rateLimit, {
     max: config.rateLimit.max,
     timeWindow: config.rateLimit.window,
-    redis: redis, // Use Redis for distributed rate limiting
+    redis: redis, // Use Redis client instance for distributed rate limiting
   });
 
   // JWT Authentication
