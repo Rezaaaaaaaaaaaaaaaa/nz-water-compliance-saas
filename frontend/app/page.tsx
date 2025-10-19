@@ -101,22 +101,20 @@ export default function Home() {
               <div className="bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl shadow-2xl p-8 transform hover:scale-105 transition-transform">
                 <div className="bg-white rounded-lg p-6 mb-4">
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm font-medium text-gray-600">Compliance Score</span>
+                    <span className="text-sm font-medium text-gray-600">Example Dashboard</span>
                     <TrendingUp className="h-5 w-5 text-green-500" />
                   </div>
-                  <div className="text-4xl font-bold text-gray-900 mb-2">94%</div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div className="bg-green-500 h-2 rounded-full" style={{width: '94%'}}></div>
-                  </div>
+                  <div className="text-2xl font-bold text-gray-900 mb-2">Real-time Compliance Tracking</div>
+                  <p className="text-sm text-gray-600">Monitor your water safety plan status</p>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-white">
-                    <div className="text-2xl font-bold">156</div>
-                    <div className="text-sm opacity-90">Assets Tracked</div>
+                    <Shield className="h-6 w-6 mb-2" />
+                    <div className="text-sm opacity-90">DWSP Management</div>
                   </div>
                   <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-white">
-                    <div className="text-2xl font-bold">24</div>
-                    <div className="text-sm opacity-90">Active DWSPs</div>
+                    <BarChart3 className="h-6 w-6 mb-2" />
+                    <div className="text-sm opacity-90">Analytics & Reports</div>
                   </div>
                 </div>
               </div>
@@ -125,16 +123,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Social Proof */}
+      {/* Purpose Statement */}
       <section className="py-12 bg-gray-50 border-y border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <p className="text-gray-600 font-medium">Trusted by leading NZ water utilities</p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center opacity-60">
-            {['Auckland Water', 'Wellington Water', 'Christchurch City', 'Hamilton City'].map((city) => (
-              <div key={city} className="text-xl font-bold text-gray-400">{city}</div>
-            ))}
+          <div className="text-center">
+            <p className="text-gray-600 font-medium max-w-3xl mx-auto">
+              Built for New Zealand water utilities to meet Taumata Arowai regulatory requirements
+              under the Water Services Act 2021
+            </p>
           </div>
         </div>
       </section>
@@ -442,25 +438,18 @@ export default function Home() {
           </div>
 
           <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-10 text-white text-center">
-            <h3 className="text-3xl font-bold mb-4">Save 10+ Hours Per Week</h3>
+            <h3 className="text-3xl font-bold mb-4">Streamline Your Compliance Work</h3>
             <p className="text-xl text-purple-100 mb-6 max-w-3xl mx-auto">
               Our AI features reduce compliance work from hours to minutes. Get instant DWSP analysis,
               24/7 expert guidance, and proactive water quality monitoring — all powered by Claude AI.
             </p>
-            <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-                <div className="text-4xl font-bold mb-2">$10/mo</div>
-                <div className="text-purple-100">AI Starter Tier</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-                <div className="text-4xl font-bold mb-2">100</div>
-                <div className="text-purple-100">Monthly AI Requests</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
-                <div className="text-4xl font-bold mb-2">$2,000</div>
-                <div className="text-purple-100">Estimated Value</div>
-              </div>
-            </div>
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center bg-white text-purple-600 px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors text-lg font-medium"
+            >
+              Contact Us for Pricing
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
           </div>
         </div>
       </section>
@@ -477,111 +466,36 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                name: 'Starter',
-                price: '$299',
-                period: '/month',
-                description: 'Perfect for small water utilities',
-                features: [
-                  'Up to 100 assets',
-                  '2 active DWSPs',
-                  '5 team members',
-                  'Basic analytics',
-                  'Email support',
-                  '1GB document storage',
-                  '🤖 AI Starter (100 requests/mo)'
-                ],
-                cta: 'Start Free Trial',
-                highlighted: false
-              },
-              {
-                name: 'Professional',
-                price: '$699',
-                period: '/month',
-                description: 'Most popular for medium utilities',
-                features: [
-                  'Up to 500 assets',
-                  'Unlimited DWSPs',
-                  '15 team members',
-                  'Advanced analytics',
-                  'Priority support',
-                  '10GB document storage',
-                  'Compliance scoring',
-                  'Custom reports',
-                  '🤖 AI Basic (500 requests/mo)'
-                ],
-                cta: 'Start Free Trial',
-                highlighted: true
-              },
-              {
-                name: 'Enterprise',
-                price: 'Custom',
-                period: '',
-                description: 'For large-scale operations',
-                features: [
-                  'Unlimited assets',
-                  'Unlimited DWSPs',
-                  'Unlimited team members',
-                  'Full analytics suite',
-                  '24/7 phone support',
-                  'Unlimited storage',
-                  'API access',
-                  'Custom integrations',
-                  'Dedicated account manager',
-                  '🤖 AI Premium (2,000 requests/mo)'
-                ],
-                cta: 'Contact Sales',
-                highlighted: false
-              }
-            ].map((plan, index) => (
-              <div
-                key={index}
-                className={`rounded-xl p-8 ${
-                  plan.highlighted
-                    ? 'bg-blue-600 text-white shadow-2xl scale-105 border-4 border-blue-400'
-                    : 'bg-white border-2 border-gray-200'
-                }`}
-              >
-                <h3 className={`text-2xl font-bold mb-2 ${plan.highlighted ? 'text-white' : 'text-gray-900'}`}>
-                  {plan.name}
-                </h3>
-                <p className={`mb-6 ${plan.highlighted ? 'text-blue-100' : 'text-gray-600'}`}>
-                  {plan.description}
-                </p>
-                <div className="mb-6">
-                  <span className={`text-5xl font-bold ${plan.highlighted ? 'text-white' : 'text-gray-900'}`}>
-                    {plan.price}
-                  </span>
-                  <span className={`text-lg ${plan.highlighted ? 'text-blue-100' : 'text-gray-600'}`}>
-                    {plan.period}
-                  </span>
+          <div className="bg-white rounded-xl p-12 shadow-lg border-2 border-blue-200 text-center max-w-3xl mx-auto">
+            <h3 className="text-3xl font-bold text-gray-900 mb-4">
+              Custom Pricing for Your Organization
+            </h3>
+            <p className="text-lg text-gray-600 mb-6">
+              Every water utility has unique compliance needs. We'll work with you to create a plan
+              that fits your organization's size, requirements, and budget.
+            </p>
+            <div className="space-y-4 mb-8">
+              {[
+                'Flexible pricing based on number of assets and users',
+                'All features included in every plan',
+                'AI-powered compliance assistant',
+                'Dedicated implementation support',
+                'Training for your team',
+                '14-day free trial available'
+              ].map((feature, index) => (
+                <div key={index} className="flex items-start justify-center">
+                  <CheckCircle2 className="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">{feature}</span>
                 </div>
-                <ul className="space-y-3 mb-8">
-                  {plan.features.map((feature, fIndex) => (
-                    <li key={fIndex} className="flex items-start">
-                      <CheckCircle2 className={`h-5 w-5 mr-3 mt-0.5 flex-shrink-0 ${
-                        plan.highlighted ? 'text-blue-200' : 'text-green-500'
-                      }`} />
-                      <span className={plan.highlighted ? 'text-white' : 'text-gray-700'}>
-                        {feature}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href={plan.price === 'Custom' ? '#contact' : '/register'}
-                  className={`block w-full text-center py-3 px-6 rounded-lg font-medium transition-colors ${
-                    plan.highlighted
-                      ? 'bg-white text-blue-600 hover:bg-gray-100'
-                      : 'bg-blue-600 text-white hover:bg-blue-700'
-                  }`}
-                >
-                  {plan.cta}
-                </Link>
-              </div>
-            ))}
+              ))}
+            </div>
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition-colors text-lg font-medium"
+            >
+              Contact Us for a Quote
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
           </div>
         </div>
       </section>
@@ -613,7 +527,7 @@ export default function Home() {
             Ready to Simplify Your Compliance?
           </h2>
           <p className="text-xl text-blue-100 mb-8">
-            Join leading NZ water utilities in ensuring safe, compliant drinking water for your community.
+            Start ensuring safe, compliant drinking water for your community with modern compliance tools.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -623,12 +537,12 @@ export default function Home() {
               Start Free Trial
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
-            <a
-              href="#contact"
+            <Link
+              href="/contact"
               className="inline-flex items-center justify-center border-2 border-white text-white px-8 py-4 rounded-lg hover:bg-white/10 transition-colors text-lg font-medium"
             >
-              Contact Sales
-            </a>
+              Contact Us
+            </Link>
           </div>
         </div>
       </section>
@@ -656,19 +570,19 @@ export default function Home() {
             <div>
               <h4 className="font-semibold text-white mb-4">Resources</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white">Documentation</a></li>
-                <li><a href="#" className="hover:text-white">API Reference</a></li>
-                <li><a href="#" className="hover:text-white">Support</a></li>
-                <li><a href="#" className="hover:text-white">Blog</a></li>
+                <li><Link href="/docs" className="hover:text-white">Documentation</Link></li>
+                <li><Link href="/docs" className="hover:text-white">API Reference</Link></li>
+                <li><Link href="/support" className="hover:text-white">Support</Link></li>
+                <li><Link href="/demo/dashboard" className="hover:text-white">Demo</Link></li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold text-white mb-4">Company</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white">About</a></li>
-                <li><a href="#" className="hover:text-white">Contact</a></li>
-                <li><a href="#" className="hover:text-white">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-white">Terms of Service</a></li>
+                <li><Link href="/about" className="hover:text-white">About</Link></li>
+                <li><Link href="/contact" className="hover:text-white">Contact</Link></li>
+                <li><Link href="/privacy" className="hover:text-white">Privacy Policy</Link></li>
+                <li><Link href="/terms" className="hover:text-white">Terms of Service</Link></li>
               </ul>
             </div>
           </div>
