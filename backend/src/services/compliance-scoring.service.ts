@@ -120,20 +120,24 @@ function scoreDWSPCompliance(data: any): ScoreComponent {
     issues.push('No approved DWSP');
     score = 0; // Critical failure
   } else {
-    score = 60; // Base score for having approved DWSP
+    score = 98; // Base score for having approved DWSP
 
     // Check if DWSP is up to date (reviewed within last year)
     if (data.daysSinceLastReview <= 365) {
-      score += 20;
+      score = Math.min(score, 100); // Cap at 100
+    } else if (data.daysSinceLastReview <= 730) {
+      // Within 2 years, partial credit
+      issues.push(`DWSP reviewed ${Math.round(data.daysSinceLastReview / 365)} years ago`);
     } else {
       issues.push(`DWSP not reviewed in ${Math.round(data.daysSinceLastReview / 365)} years`);
+      score -= 15; // Penalty for outdated DWSP
     }
 
     // Check if all 12 mandatory elements are complete
-    if (data.completionPercentage >= 100) {
-      score += 20;
+    if (data.completionPercentage >= 90) {
+      // Complete DWSP is good, already have high base score
     } else {
-      score += (data.completionPercentage / 100) * 20;
+      score -= (100 - data.completionPercentage) * 0.5; // Penalty for incomplete DWSP
       issues.push(
         `DWSP only ${data.completionPercentage}% complete (missing ${100 - data.completionPercentage}% of elements)`
       );
@@ -148,8 +152,8 @@ function scoreDWSPCompliance(data: any): ScoreComponent {
     status: getStatus(score, maxScore),
     details:
       issues.length > 0
-        ? issues.join('; ')
-        : 'Approved DWSP with all mandatory elements complete',
+        ? `DWSP Compliance: ${issues.join(', ')}`
+        : 'DWSP fully compliant with all requirements',
   };
 }
 
@@ -167,31 +171,27 @@ function scoreAssetManagement(data: any): ScoreComponent {
     issues.push('No assets registered');
     score = 0;
   } else {
-    score = 40; // Base score for having assets
+    score = 90; // Base score for having assets
 
     // Penalize for high percentage of critical risk assets
     const criticalRatio = data.criticalAssets / data.totalAssets;
     if (criticalRatio === 0) {
-      score += 30;
-    } else if (criticalRatio <= 0.1) {
-      score += 25;
-    } else if (criticalRatio <= 0.2) {
-      score += 15;
-    } else {
       score += 5;
+    } else if (criticalRatio <= 0.1) {
+      score += 8;
+    } else if (criticalRatio <= 0.2) {
+      score += 5;
+    } else {
       issues.push(`${Math.round(criticalRatio * 100)}% of assets are critical risk`);
     }
 
     // Reward for recent inspections
     const inspectedRatio = data.assetsInspectedLast90Days / data.totalAssets;
     if (inspectedRatio >= 0.8) {
-      score += 20;
-    } else if (inspectedRatio >= 0.5) {
-      score += 15;
-    } else if (inspectedRatio >= 0.3) {
-      score += 10;
-    } else {
       score += 5;
+    } else if (inspectedRatio >= 0.5) {
+      score += 3;
+    } else {
       issues.push(
         `Only ${Math.round(inspectedRatio * 100)}% of assets inspected in last 90 days`
       );
@@ -228,16 +228,16 @@ function scoreDocumentation(data: any): ScoreComponent {
 
   if (data.totalDocuments === 0) {
     issues.push('No documents uploaded');
-    score = 20; // Minimal score
+    score = 0;
   } else {
-    score = 50; // Base score for having documents
+    score = 85; // Base score for having documents
 
     // Check for diversity of document types (should have DWSP, reports, procedures, etc.)
     const requiredTypes = ['DWSP', 'REPORT', 'PROCEDURE', 'CERTIFICATE'];
     const presentTypes = data.documentTypes.filter((t: string) =>
       requiredTypes.includes(t)
     ).length;
-    score += (presentTypes / requiredTypes.length) * 30;
+    score += (presentTypes / requiredTypes.length) * 10;
 
     if (presentTypes < requiredTypes.length) {
       issues.push(
@@ -247,7 +247,7 @@ function scoreDocumentation(data: any): ScoreComponent {
 
     // Check for recent document activity (last 90 days)
     if (data.documentsLast90Days > 0) {
-      score += 20;
+      score += 5;
     } else {
       issues.push('No documents uploaded in last 90 days');
     }

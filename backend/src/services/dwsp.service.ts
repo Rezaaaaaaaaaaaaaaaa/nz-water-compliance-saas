@@ -13,72 +13,107 @@ const prisma = new PrismaClient();
 
 /**
  * Validate DWSP completeness
- * Checks for all 12 required elements
+ * Checks for all 12 required elements per Taumata Arowai requirements
+ *
+ * Reference: Drinking Water Safety Plan Template
+ * https://www.taumataarowai.govt.nz/
  */
 export function validateDWSP(dwsp: any): DWSPValidation {
   const missingElements: string[] = [];
   const warnings: string[] = [];
   const errors: string[] = [];
 
-  // Check required elements
+  // Element 1: Water Supply Description
+  if (!dwsp.waterSupplyDescription && !dwsp.waterSupplyName) {
+    missingElements.push('1. Water Supply Description');
+  }
+
+  // Element 2: Hazard Identification
   if (!dwsp.hazards || dwsp.hazards.length === 0) {
-    missingElements.push('1. Hazard Identification');
+    missingElements.push('2. Hazard Identification');
   }
 
-  if (!dwsp.riskAssessments) {
-    missingElements.push('2. Risk Assessment');
+  // Element 3: Risk Assessment
+  if (!dwsp.riskAssessment || (typeof dwsp.riskAssessment === 'object' && Object.keys(dwsp.riskAssessment).length === 0)) {
+    if (!dwsp.riskAssessments) {
+      missingElements.push('3. Risk Assessment');
+    }
   }
 
+  // Element 4: Preventive Measures
   if (!dwsp.preventiveMeasures || dwsp.preventiveMeasures.length === 0) {
-    missingElements.push('3. Preventive Measures / Control Measures');
+    missingElements.push('4. Preventive Measures');
   }
 
+  // Element 5: Operational Monitoring
   if (!dwsp.operationalMonitoring) {
-    missingElements.push('4. Operational Monitoring');
+    missingElements.push('5. Operational Monitoring');
   }
 
+  // Element 6: Verification Monitoring
   if (!dwsp.verificationMonitoring) {
-    missingElements.push('5. Verification Monitoring');
+    missingElements.push('6. Verification Monitoring');
   }
 
+  // Element 7: Corrective Actions
   if (!dwsp.correctiveActions || dwsp.correctiveActions.length === 0) {
-    missingElements.push('6. Corrective Actions');
+    missingElements.push('7. Corrective Actions');
   }
 
-  // Multi-barrier approach (Element 7)
-  if (!dwsp.treatmentProcesses || dwsp.treatmentProcesses.length < 2) {
-    warnings.push('Multi-barrier approach: Consider implementing multiple treatment barriers');
+  // Element 8: Multi-Barrier Approach
+  if (!dwsp.multiBarrierApproach) {
+    missingElements.push('8. Multi-Barrier Approach');
   }
 
-  if (!dwsp.emergencyResponses) {
-    missingElements.push('8. Emergency Response Procedures');
+  // Element 9: Emergency Response Procedures
+  if (!dwsp.emergencyResponses && !dwsp.emergencyResponse) {
+    missingElements.push('9. Emergency Response');
   }
 
+  // Element 10: Residual Disinfection (or exemption)
   if (!dwsp.residualDisinfection) {
-    missingElements.push('9. Residual Disinfection (or exemption)');
+    missingElements.push('10. Residual Disinfection');
   }
 
+  // Element 11: Water Quantity Planning
   if (!dwsp.waterQuantity) {
-    missingElements.push('10. Water Quantity Planning');
+    missingElements.push('11. Water Quantity');
   }
 
-  // Source water risk management (Element 11 - conditional)
-  const hasSurfaceWater = dwsp.sourceTypes?.includes('SURFACE_WATER') || dwsp.sourceTypes?.includes('Surface Water');
+  // Element 12: Source Water Risk Management (conditional)
+  // Required only for surface water sources
+  const hasSurfaceWater =
+    dwsp.sourceTypes?.includes('SURFACE_WATER') ||
+    dwsp.sourceTypes?.includes('Surface Water') ||
+    dwsp.waterSupplyDescription?.sourceTypes?.includes('Surface Water');
+
   if (hasSurfaceWater && !dwsp.sourceWaterRiskManagement) {
-    missingElements.push('11. Source Water Risk Management Plan (required for surface water sources)');
+    missingElements.push('12. Source Water Risk Management Plan (required for surface water sources)');
   }
 
+  // Element 13: Review and Amendment Procedures
   if (!dwsp.reviewProcedures) {
-    missingElements.push('12. Review and Amendment Procedures');
+    missingElements.push('12. Review Procedures');
   }
 
-  // Additional validation
-  if (!dwsp.waterSupplyName) {
-    errors.push('Water supply name is required');
-  }
-
-  if (!dwsp.supplyPopulation || dwsp.supplyPopulation < 26) {
-    errors.push('Supply population must be 26 or more (DWSP requirement)');
+  // Additional validation for data completeness
+  if (dwsp.waterSupplyDescription) {
+    if (!dwsp.waterSupplyDescription.supplyName && !dwsp.waterSupplyName) {
+      errors.push('Water supply name is required');
+    }
+    if (!dwsp.waterSupplyDescription.supplyType) {
+      warnings.push('Water supply type should be specified for completeness');
+    }
+    if (!dwsp.waterSupplyDescription.population) {
+      warnings.push('Water supply population should be provided for completeness');
+    } else if (dwsp.waterSupplyDescription.population < 26) {
+      errors.push('Supply population must be 26 or more (DWSP requirement for population >25)');
+    }
+  } else if (dwsp.waterSupplyName) {
+    // Alternative structure using direct fields
+    if (!dwsp.supplyPopulation || dwsp.supplyPopulation < 26) {
+      errors.push('Supply population must be 26 or more (DWSP requirement for population >25)');
+    }
   }
 
   return {

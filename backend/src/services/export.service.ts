@@ -75,7 +75,7 @@ export async function exportAssetsToCSV(organizationId: string): Promise<string>
   }
 
   logger.info({ organizationId, count: assets.length }, 'Assets exported to CSV');
-  return csv;
+  return csv.trimEnd();
 }
 
 /**
@@ -117,11 +117,11 @@ export async function exportDocumentsToCSV(organizationId: string): Promise<stri
     const row = [
       doc.id,
       escapeCSV(doc.title),
-      doc.documentType,
+      (doc as any).type || (doc as any).documentType || '',
       escapeCSV(doc.description || ''),
       escapeCSV(doc.fileName),
       (doc.fileSize / (1024 * 1024)).toFixed(2),
-      doc.fileType, // MIME type
+      (doc as any).mimeType || doc.fileType || '', // MIME type
       doc.version,
       escapeCSV(Array.isArray(doc.tags) ? (doc.tags as string[]).join('; ') : ''),
       escapeCSV(
@@ -135,7 +135,7 @@ export async function exportDocumentsToCSV(organizationId: string): Promise<stri
   }
 
   logger.info({ organizationId, count: documents.length }, 'Documents exported to CSV');
-  return csv;
+  return csv.trimEnd();
 }
 
 /**
@@ -202,7 +202,7 @@ export async function exportCompliancePlansToCSV(organizationId: string): Promis
   }
 
   logger.info({ organizationId, count: plans.length }, 'Compliance plans exported to CSV');
-  return csv;
+  return csv.trimEnd();
 }
 
 /**
@@ -279,7 +279,7 @@ export async function exportAuditLogsToCSV(
   }
 
   logger.info({ organizationId, count: logs.length }, 'Audit logs exported to CSV');
-  return csv;
+  return csv.trimEnd();
 }
 
 /**

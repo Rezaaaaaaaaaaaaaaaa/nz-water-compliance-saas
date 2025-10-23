@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "FlowComply - NZ Water Compliance Management",
   description: "Professional water compliance management for New Zealand utilities - flowcomply.com",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

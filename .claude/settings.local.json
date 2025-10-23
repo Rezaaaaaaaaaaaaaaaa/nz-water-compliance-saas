@@ -56,7 +56,19 @@
       "Bash(./quick-start.bat)",
       "Bash(npx kill-port:*)",
       "Bash(git pull:*)",
-      "Bash(git rebase:*)"
+      "Bash(git rebase:*)",
+      "Bash(if [ -f .env ])",
+      "Bash(then echo \".env file exists\")",
+      "Bash(else echo \".env file MISSING - copy .env.example to .env\")",
+      "Bash(docker-compose:*)",
+      "Bash(timeout 60 npm test:*)",
+      "Bash(lsof:*)",
+      "Bash(cat:*)",
+      "Bash(cmd /c \"taskkill /pid 18368 /F\")",
+      "Bash(cmd /c \"taskkill /pid 20580 /F\")",
+      "Bash(cmd /c \"taskkill /F /IM node.exe 2>nul\")",
+      "Bash(awk:*)",
+      "Bash(cmd /c \"taskkill /PID 20580 /F\")"
     ],
     "deny": [],
     "ask": []

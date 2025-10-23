@@ -4,9 +4,8 @@ const nextConfig: NextConfig = {
   // Enable standalone output for Docker
   output: 'standalone',
 
-  // Disable telemetry
-  webpack: (config) => {
-    config.resolve.fallback = { fs: false, net: false, tls: false };
+  // Use webpack instead of Turbopack (more stable on Windows)
+  webpack: (config, { isServer }) => {
     return config;
   },
 
@@ -17,7 +16,7 @@ const nextConfig: NextConfig = {
 
   // Environment variables
   env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001',
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
   },
 };
 

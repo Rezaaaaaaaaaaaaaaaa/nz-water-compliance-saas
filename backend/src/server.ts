@@ -29,15 +29,38 @@ import { PrismaClient } from '@prisma/client';
 import Redis from 'ioredis';
 
 const prisma = new PrismaClient();
+
+// Initialize Redis with proper error handling
 const redis = new Redis({
   host: config.redis?.host || 'localhost',
   port: config.redis?.port || 6379,
-  password: config.redis?.password,
+  password: config.redis?.password || undefined,
   maxRetriesPerRequest: 3,
   retryStrategy: (times) => {
-    if (times > 3) return null;
+    if (times > 3) {
+      logger.error('Redis connection failed after max retries');
+      return null;
+    }
     return Math.min(times * 50, 2000);
   },
+  lazyConnect: true, // Don't connect immediately
+});
+
+// Handle Redis connection errors gracefully
+redis.on('error', (error) => {
+  logger.error({ err: error }, 'Redis connection error - caching disabled');
+});
+
+redis.on('connect', () => {
+  logger.info('Redis connected successfully');
+});
+
+// Attempt to connect but don't crash if it fails
+redis.connect().catch((error) => {
+  logger.warn(
+    { err: error },
+    'Redis connection failed - running without cache. Set REDIS_PASSWORD in .env'
+  );
 });
 
 // Type for authenticated user (used with type assertion)
@@ -86,12 +109,14 @@ async function buildApp(): Promise<FastifyInstance> {
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   });
 
-  // Rate Limiting - Prevent abuse
-  await app.register(rateLimit, {
-    max: config.rateLimit.max,
-    timeWindow: config.rateLimit.window,
-    redis: redis, // Use Redis client instance for distributed rate limiting
-  });
+  // Rate Limiting - Prevent abuse (skip in test mode)
+  if (config.nodeEnv !== 'test') {
+    await app.register(rateLimit, {
+      max: config.rateLimit.max,
+      timeWindow: config.rateLimit.window,
+      redis: redis, // Use Redis client instance for distributed rate limiting
+    });
+  }
 
   // JWT Authentication
   await app.register(jwt, {
@@ -303,10 +328,40 @@ async function start() {
   }
 }
 
+/**
+ * Cleanup function for tests and graceful shutdown
+ * Removes all process event listeners to prevent memory leaks
+ */
+async function cleanup() {
+  try {
+    // Stop background workers
+    await stopWorkers();
+
+    // Close database connections
+    await prisma.$disconnect();
+    logger.info('Database connection closed');
+
+    // Close Redis connection
+    await redis.quit();
+    logger.info('Redis connection closed');
+
+    // Remove all process event listeners to prevent memory leaks
+    process.removeAllListeners('SIGINT');
+    process.removeAllListeners('SIGTERM');
+    process.removeAllListeners('exit');
+    process.removeAllListeners('uncaughtException');
+    process.removeAllListeners('unhandledRejection');
+
+    logger.info('Cleanup completed');
+  } catch (error) {
+    logger.error({ err: error }, 'Error during cleanup');
+  }
+}
+
 // Start server if run directly (skip in test environment)
 if (process.env.NODE_ENV !== 'test') {
   // Always start in development mode with tsx watch
   void start();
 }
 
-export { buildApp, start };
+export { buildApp, start, cleanup };
