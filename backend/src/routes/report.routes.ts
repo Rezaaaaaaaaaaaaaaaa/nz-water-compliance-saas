@@ -26,6 +26,12 @@ export default async function reportRoutes(fastify: FastifyInstance) {
     handler: reportController.createReport,
   });
 
+  // Update report
+  fastify.patch('/:id', {
+    preHandler: [requirePermission(ResourceType.REPORT, Action.UPDATE)],
+    handler: reportController.updateReport,
+  });
+
   // Generate monthly report
   fastify.get('/generate/monthly', {
     preHandler: [requirePermission(ResourceType.REPORT, Action.CREATE)],

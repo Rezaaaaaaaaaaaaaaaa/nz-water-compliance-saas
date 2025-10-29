@@ -24,6 +24,13 @@ export async function login(
   request: FastifyRequest<{ Body: LoginRequest }>,
   reply: FastifyReply
 ) {
+  // Safely handle missing body
+  if (!request.body) {
+    return reply.code(400).send({
+      error: 'Email and password are required',
+    });
+  }
+
   const { email, password } = request.body;
 
   try {
@@ -92,11 +99,18 @@ export async function refresh(
   request: FastifyRequest<{ Body: RefreshTokenRequest }>,
   reply: FastifyReply
 ) {
+  // Safely handle missing body
+  if (!request.body) {
+    return reply.code(401).send({
+      error: 'Refresh token is required',
+    });
+  }
+
   const { refreshToken } = request.body;
 
   try {
     if (!refreshToken) {
-      return reply.code(400).send({
+      return reply.code(401).send({
         error: 'Refresh token is required',
       });
     }

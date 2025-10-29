@@ -35,6 +35,32 @@ export async function createReport(
 }
 
 /**
+ * PATCH /api/v1/reports/:id
+ * Update report (placeholder - full implementation pending)
+ */
+export async function updateReport(
+  request: FastifyRequest<{ Params: { id: string }; Body: Partial<reportService.CreateReportRequest> }>,
+  reply: FastifyReply
+) {
+  try {
+    const user = requireUser(request);
+    const { id } = request.params;
+
+    // TODO: Implement full update logic
+    return reply.code(501).send({
+      error: 'Not implemented',
+      message: 'Report update functionality is not yet implemented',
+    });
+  } catch (error) {
+    request.log.error({ err: error }, 'Update report error');
+    return reply.code(500).send({
+      error: 'Failed to update report',
+      message: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+}
+
+/**
  * GET /api/v1/reports
  * List reports
  */
