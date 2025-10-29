@@ -68,7 +68,18 @@
       "Bash(cmd /c \"taskkill /pid 20580 /F\")",
       "Bash(cmd /c \"taskkill /F /IM node.exe 2>nul\")",
       "Bash(awk:*)",
-      "Bash(cmd /c \"taskkill /PID 20580 /F\")"
+      "Bash(cmd /c \"taskkill /PID 20580 /F\")",
+      "Bash(cmd /c \"taskkill /F /IM node.exe 2>nul || echo No Node processes running\")",
+      "Bash(if exist \"backend\\dist\" rmdir /s /q \"backend\\dist\")",
+      "Bash(if exist \"backend\\node_modules\" rmdir /s /q \"backend\\node_modules\")",
+      "Bash(if exist \"website\\node_modules\" rmdir /s /q \"website\\node_modules\")",
+      "Bash(if exist \"website\\.next\" rmdir /s /q \"website\\.next\")",
+      "Bash(cmd /c \"if exist backend\\dist rmdir /s /q backend\\dist\")",
+      "Bash(cmd /c \"if exist backend\\node_modules rmdir /s /q backend\\node_modules\")",
+      "Bash(cmd /c:*)",
+      "Bash(cmd /c \"if exist website\\.next rmdir /s /q website\\.next\")",
+      "Bash(bash test-all-endpoints.sh:*)",
+      "Bash(timeout /t 3)"
     ],
     "deny": [],
     "ask": []

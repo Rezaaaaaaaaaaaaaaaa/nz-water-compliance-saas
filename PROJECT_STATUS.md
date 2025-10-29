@@ -1,6 +1,6 @@
 # FlowComply - Project Status Report
 
-**Last Updated:** October 6, 2025
+**Last Updated:** October 29, 2025
 **Version:** 2.0 (Production Ready)
 **Status:** ✅ **PRODUCTION READY**
 
@@ -604,7 +604,7 @@ This will create the following tables:
 ```bash
 # Clone repository
 git clone <repository-url>
-cd compliance-saas
+cd nz-water-compliance-saas
 
 # Configure environment
 cp backend/.env.example backend/.env
@@ -619,9 +619,9 @@ cd backend
 npx prisma migrate dev --name add_ai_models
 
 # Access application
-# Frontend: http://localhost:3000
-# Backend: http://localhost:4000
-# API Docs: http://localhost:4000/documentation
+# Frontend: http://localhost:3001
+# Backend: http://localhost:3000
+# API Docs: http://localhost:3000/documentation
 ```
 
 ### Production Deploy
@@ -708,6 +708,6 @@ This platform is **production-ready** with comprehensive features, robust testin
 
 ---
 
-*Generated: October 6, 2025*
+*Generated: October 29, 2025*
 *Version: 2.0*
 *Claude Code Project*
