@@ -99,8 +99,7 @@ export const Logo: React.FC<LogoProps> = ({
   }
 };
 
-// Export types and components for use in other files
+// Export types for use in other files
 export type { LogoProps };
-export { MonogramLogo, FullLogo, TextLogo };
 
 export default Logo;

@@ -43,8 +43,8 @@ export async function updateReport(
   reply: FastifyReply
 ) {
   try {
-    const user = requireUser(request);
-    const { id } = request.params;
+    requireUser(request);
+    // const { id } = request.params; // TODO: Use this when implementing
 
     // TODO: Implement full update logic
     return reply.code(501).send({

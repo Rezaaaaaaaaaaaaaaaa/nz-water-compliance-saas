@@ -6,10 +6,12 @@
  */
 
 import { Logo, MonogramLogo } from '@/components/Logo';
-import type { LogoProps } from '@/components/Logo';
 
-interface FlowComplyLogoProps extends LogoProps {
+interface FlowComplyLogoProps {
   variant?: 'monogram' | 'full' | 'text' | 'white';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  className?: string;
+  clickable?: boolean;
 }
 
 /**
