@@ -21,6 +21,22 @@ export async function authenticateUser(
   // Find user by email
   const user = await prisma.user.findUnique({
     where: { email: email.toLowerCase() },
+    select: {
+      id: true,
+      auth0Id: true,
+      email: true,
+      password: true,
+      firstName: true,
+      lastName: true,
+      role: true,
+      organizationId: true,
+      isActive: true,
+      lastLoginAt: true,
+      notificationPreferences: true,
+      createdAt: true,
+      updatedAt: true,
+      deletedAt: true,
+    },
   });
 
   if (!user || user.deletedAt !== null) {
