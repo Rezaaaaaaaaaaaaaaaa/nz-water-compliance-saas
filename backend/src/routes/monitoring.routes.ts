@@ -5,15 +5,13 @@
  */
 
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { PrismaClient } from '@prisma/client';
 import { authenticate } from '../middleware/auth.js';
 import { requirePermission } from '../middleware/rbac.js';
 import { ResourceType, Action } from '../types/auth.js';
 import { getAllQueueStats } from '../services/queue.service.js';
 import { getWorkerStatus } from '../workers/index.js';
 import * as cacheService from '../services/cache.service.js';
-
-const prisma = new PrismaClient();
+import { prisma } from '../config/database.js';
 
 export default async function monitoringRoutes(fastify: FastifyInstance) {
   // All routes require authentication and admin permission

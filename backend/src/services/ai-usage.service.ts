@@ -5,9 +5,8 @@
  * to control costs and ensure fair usage across organizations.
  */
 
-import { PrismaClient, AIFeature } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { AIFeature } from '@prisma/client';
+import { prisma } from '../config/database.js';
 
 /**
  * Pricing configuration for Claude API

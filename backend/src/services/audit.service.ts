@@ -5,11 +5,10 @@
  * Audit logs are IMMUTABLE and retained for 7 years (Taumata Arowai requirement)
  */
 
-import { PrismaClient, AuditAction } from '@prisma/client';
+import { AuditAction } from '@prisma/client';
 import { AuthenticatedUser } from '../types/auth.js';
 import { logAudit } from '../config/logger.js';
-
-const prisma = new PrismaClient();
+import { prisma } from '../config/database.js';
 
 /**
  * Create audit log entry

@@ -5,14 +5,12 @@
  */
 
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { PrismaClient } from '@prisma/client';
 import { LoginRequest, RefreshTokenRequest } from '../types/auth.js';
 import * as authService from '../services/auth.service.js';
 import * as auditService from '../services/audit.service.js';
 import { requireUser } from '../middleware/auth.js';
 import { logSecurity } from '../config/logger.js';
-
-const prisma = new PrismaClient();
+import { prisma } from '../config/database.js';
 
 /**
  * POST /api/v1/auth/login

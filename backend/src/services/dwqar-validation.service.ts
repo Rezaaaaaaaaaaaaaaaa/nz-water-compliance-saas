@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
 import { DWQARReport } from './dwqar-aggregation.service';
-
-const prisma = new PrismaClient();
+import { prisma } from '../config/database.js';
 
 /**
  * Validation Error (blocks export)

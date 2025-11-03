@@ -67,6 +67,7 @@ export default function RegisterPage() {
                 placeholder="John"
                 error={errors.firstName?.message}
                 {...register('firstName')}
+                id="register-firstName"
               />
 
               <Input
@@ -74,6 +75,7 @@ export default function RegisterPage() {
                 placeholder="Doe"
                 error={errors.lastName?.message}
                 {...register('lastName')}
+                id="register-lastName"
               />
             </div>
 
@@ -83,6 +85,7 @@ export default function RegisterPage() {
               placeholder="john.doe@example.co.nz"
               error={errors.email?.message}
               {...register('email')}
+              id="register-email"
             />
 
             <Input
@@ -90,6 +93,7 @@ export default function RegisterPage() {
               placeholder="Wellington Water Limited"
               error={errors.organizationName?.message}
               {...register('organizationName')}
+              id="register-organizationName"
             />
 
             <div>
@@ -118,6 +122,7 @@ export default function RegisterPage() {
               helperText="Must contain uppercase, lowercase, and number"
               error={errors.password?.message}
               {...register('password')}
+              id="register-password"
             />
 
             <Input
@@ -126,6 +131,7 @@ export default function RegisterPage() {
               placeholder="Confirm your password"
               error={errors.confirmPassword?.message}
               {...register('confirmPassword')}
+              id="register-confirmPassword"
             />
           </div>
 

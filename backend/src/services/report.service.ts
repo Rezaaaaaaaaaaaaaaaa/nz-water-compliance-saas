@@ -5,11 +5,10 @@
  * Includes monthly, quarterly, and annual compliance reports
  */
 
-import { PrismaClient, ReportType, ReportStatus } from '@prisma/client';
+import { ReportType, ReportStatus } from '@prisma/client';
 import { AuthenticatedUser } from '../types/auth.js';
 import * as auditService from './audit.service.js';
-
-const prisma = new PrismaClient();
+import { prisma } from '../config/database.js';
 
 export interface CreateReportRequest {
   title: string;

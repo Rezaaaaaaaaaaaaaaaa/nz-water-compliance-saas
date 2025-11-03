@@ -5,12 +5,11 @@
  * Required for compliance record keeping (7-year retention)
  */
 
-import { PrismaClient, DocumentType } from '@prisma/client';
+import { DocumentType } from '@prisma/client';
 import { AuthenticatedUser } from '../types/auth.js';
 import * as s3Service from './s3.service.js';
 import * as auditService from './audit.service.js';
-
-const prisma = new PrismaClient();
+import { prisma } from '../config/database.js';
 
 export interface CreateDocumentRequest {
   title: string;

@@ -109,7 +109,12 @@
       "Bash(clean-and-rebuild.bat)",
       "Bash(timeout /t 10)",
       "Bash(git stash:*)",
-      "Bash(git stash pop:*)"
+      "Bash(git stash pop:*)",
+      "Bash(start \"Frontend Server (Port 3002)\" cmd /k \"cd frontend && npm run dev\")",
+      "Bash(start chrome http://localhost:3002)",
+      "Bash(tasklist:*)",
+      "Bash(start chrome http://localhost:3001)",
+      "Bash(timeout:*)"
     ],
     "deny": [],
     "ask": []

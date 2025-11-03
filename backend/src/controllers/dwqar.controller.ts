@@ -5,14 +5,12 @@
  */
 
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { PrismaClient } from '@prisma/client';
 import { dwqarAggregationService } from '../services/dwqar-aggregation.service.js';
 import { dwqarValidationService } from '../services/dwqar-validation.service.js';
 import { dwqarExcelExportService } from '../services/dwqar-excel-export.service.js';
 import { logger } from '../config/logger.js';
 import type { AuthenticatedUser } from '../server.js';
-
-const prisma = new PrismaClient();
+import { prisma } from '../config/database.js';
 
 // Helper to get authenticated user from request
 function getUser(request: FastifyRequest): AuthenticatedUser {

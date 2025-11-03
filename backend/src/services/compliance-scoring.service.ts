@@ -5,10 +5,9 @@
  * against Taumata Arowai regulatory requirements
  */
 
-import { PrismaClient, AssetCondition, RiskLevel } from '@prisma/client';
+import { AssetCondition, RiskLevel } from '@prisma/client';
 import { logger } from '../config/logger.js';
-
-const prisma = new PrismaClient();
+import { prisma } from '../config/database.js';
 
 export interface ComplianceScore {
   overall: number;

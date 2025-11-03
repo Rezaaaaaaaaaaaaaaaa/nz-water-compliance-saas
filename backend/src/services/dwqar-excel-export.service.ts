@@ -1,13 +1,11 @@
 import ExcelJS from 'exceljs';
 import { format } from 'date-fns';
-import { PrismaClient } from '@prisma/client';
 import {
   DWQARReport,
   WaterQualityTestData,
   RuleComplianceData,
 } from './dwqar-aggregation.service';
-
-const prisma = new PrismaClient();
+import { prisma } from '../config/database.js';
 
 /**
  * DWQAR Excel Export Service

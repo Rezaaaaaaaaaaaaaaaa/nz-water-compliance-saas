@@ -6,12 +6,11 @@
  */
 
 import Anthropic from '@anthropic-ai/sdk';
-import { PrismaClient, AIFeature } from '@prisma/client';
+import { AIFeature } from '@prisma/client';
 import { checkAIQuota, logAIUsage } from './ai-usage.service';
 import { logger } from '../config/logger';
 import { config } from '../config/index.js';
-
-const prisma = new PrismaClient();
+import { prisma } from '../config/database.js';
 
 const anthropic = new Anthropic({
   apiKey: config.ai.anthropicApiKey || '',

@@ -25,10 +25,8 @@ import { exportRoutes } from './routes/export.routes.js';
 import { dwqarRoutes } from './routes/dwqar.routes.js';
 import { aiRoutes } from './routes/ai.routes.js';
 import { startWorkers, stopWorkers } from './workers/index.js';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from './config/database.js';
 import Redis from 'ioredis';
-
-const prisma = new PrismaClient();
 
 // Initialize Redis with proper error handling
 const redis = new Redis({

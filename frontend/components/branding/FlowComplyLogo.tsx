@@ -8,7 +8,7 @@ interface FlowComplyLogoProps {
 export function FlowComplyLogo({
   className = '',
   size = 'md',
-  showText = true,
+  showText = false,
   variant = 'default'
 }: FlowComplyLogoProps) {
   const sizeMap = {
@@ -19,17 +19,17 @@ export function FlowComplyLogo({
   };
 
   const colorMap = {
-    default: { primary: '#2563eb', secondary: '#3b82f6', text: 'text-gray-900' },
-    white: { primary: '#ffffff', secondary: '#e0e0e0', text: 'text-white' },
-    dark: { primary: '#1e40af', secondary: '#2563eb', text: 'text-gray-900' }
+    default: { bg: '#2563eb', text: '#ffffff', textColor: 'text-gray-900' },
+    white: { bg: '#ffffff', text: '#2563eb', textColor: 'text-white' },
+    dark: { bg: '#1e40af', text: '#ffffff', textColor: 'text-gray-900' }
   };
 
   const { logo: logoSize, text: textSize } = sizeMap[size];
-  const { primary, secondary, text: textColor } = colorMap[variant];
+  const { bg, text: textFill, textColor } = colorMap[variant];
 
   return (
     <div className={`flex items-center space-x-2 ${className}`}>
-      {/* Logo SVG - Water Flow Symbol */}
+      {/* Simple FC Monogram */}
       <svg
         width={logoSize}
         height={logoSize}
@@ -37,43 +37,28 @@ export function FlowComplyLogo({
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        {/* Outer circle */}
-        <circle cx="50" cy="50" r="45" fill={primary} opacity="0.1" />
-
-        {/* Water flow waves */}
-        <path
-          d="M30 50 Q 40 35, 50 50 T 70 50"
-          stroke={primary}
-          strokeWidth="4"
-          fill="none"
-          strokeLinecap="round"
-        />
-        <path
-          d="M25 60 Q 37 45, 50 60 T 75 60"
-          stroke={secondary}
-          strokeWidth="3.5"
-          fill="none"
-          strokeLinecap="round"
-          opacity="0.8"
-        />
-        <path
-          d="M28 40 Q 39 25, 50 40 T 72 40"
-          stroke={primary}
-          strokeWidth="3"
-          fill="none"
-          strokeLinecap="round"
-          opacity="0.6"
+        {/* Background Square with rounded corners */}
+        <rect
+          x="10"
+          y="10"
+          width="80"
+          height="80"
+          rx="16"
+          fill={bg}
         />
 
-        {/* Checkmark for compliance */}
-        <path
-          d="M35 50 L 43 58 L 65 36"
-          stroke={primary}
-          strokeWidth="5"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+        {/* FC Letters */}
+        <text
+          x="50"
+          y="68"
+          fontFamily="Arial, sans-serif"
+          fontSize="48"
+          fontWeight="700"
+          fill={textFill}
+          textAnchor="middle"
+        >
+          FC
+        </text>
       </svg>
 
       {/* Text */}
@@ -96,12 +81,12 @@ export function FlowComplyIcon({
   variant?: 'default' | 'white' | 'dark';
 }) {
   const colorMap = {
-    default: { primary: '#2563eb', secondary: '#3b82f6' },
-    white: { primary: '#ffffff', secondary: '#e0e0e0' },
-    dark: { primary: '#1e40af', secondary: '#2563eb' }
+    default: { bg: '#2563eb', text: '#ffffff' },
+    white: { bg: '#ffffff', text: '#2563eb' },
+    dark: { bg: '#1e40af', text: '#ffffff' }
   };
 
-  const { primary, secondary } = colorMap[variant];
+  const { bg, text } = colorMap[variant];
 
   return (
     <svg
@@ -112,38 +97,28 @@ export function FlowComplyIcon({
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
-      <circle cx="50" cy="50" r="45" fill={primary} opacity="0.1" />
-      <path
-        d="M30 50 Q 40 35, 50 50 T 70 50"
-        stroke={primary}
-        strokeWidth="4"
-        fill="none"
-        strokeLinecap="round"
+      {/* Background Square with rounded corners */}
+      <rect
+        x="10"
+        y="10"
+        width="80"
+        height="80"
+        rx="16"
+        fill={bg}
       />
-      <path
-        d="M25 60 Q 37 45, 50 60 T 75 60"
-        stroke={secondary}
-        strokeWidth="3.5"
-        fill="none"
-        strokeLinecap="round"
-        opacity="0.8"
-      />
-      <path
-        d="M28 40 Q 39 25, 50 40 T 72 40"
-        stroke={primary}
-        strokeWidth="3"
-        fill="none"
-        strokeLinecap="round"
-        opacity="0.6"
-      />
-      <path
-        d="M35 50 L 43 58 L 65 36"
-        stroke={primary}
-        strokeWidth="5"
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+
+      {/* FC Letters */}
+      <text
+        x="50"
+        y="68"
+        fontFamily="Arial, sans-serif"
+        fontSize="48"
+        fontWeight="700"
+        fill={text}
+        textAnchor="middle"
+      >
+        FC
+      </text>
     </svg>
   );
 }

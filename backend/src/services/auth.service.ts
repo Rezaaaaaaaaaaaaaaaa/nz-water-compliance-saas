@@ -4,12 +4,11 @@
  * Handles user authentication, token generation, and session management
  */
 
-import { PrismaClient, User } from '@prisma/client';
+import { User } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { JWTPayload, LoginResponse } from '../types/auth.js';
 import { config } from '../config/index.js';
-
-const prisma = new PrismaClient();
+import { prisma } from '../config/database.js';
 
 /**
  * Authenticate user with email and password

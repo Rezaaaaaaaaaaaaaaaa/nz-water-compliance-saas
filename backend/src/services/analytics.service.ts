@@ -4,9 +4,8 @@
  * Provides data aggregation and analytics for dashboards
  */
 
-import { PrismaClient, AssetCondition, RiskLevel } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { AssetCondition, RiskLevel } from '@prisma/client';
+import { prisma } from '../config/database.js';
 
 /**
  * Get compliance overview statistics

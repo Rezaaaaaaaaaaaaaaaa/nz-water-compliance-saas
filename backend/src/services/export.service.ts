@@ -4,10 +4,8 @@
  * Handles data export in multiple formats: CSV, Excel, PDF
  */
 
-import { PrismaClient } from '@prisma/client';
 import { logger } from '../config/logger.js';
-
-const prisma = new PrismaClient();
+import { prisma } from '../config/database.js';
 
 /**
  * Export assets to CSV format

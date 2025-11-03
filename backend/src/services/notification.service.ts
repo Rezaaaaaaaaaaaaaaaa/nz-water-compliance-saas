@@ -4,11 +4,9 @@
  * Handles sending email and in-app notifications
  */
 
-import { PrismaClient } from '@prisma/client';
 import { logger } from '../config/logger.js';
 import * as emailService from './email.service.js';
-
-const prisma = new PrismaClient();
+import { prisma } from '../config/database.js';
 
 export interface SendNotificationParams {
   userId: string;

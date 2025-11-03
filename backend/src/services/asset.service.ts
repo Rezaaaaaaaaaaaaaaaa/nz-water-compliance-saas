@@ -5,11 +5,10 @@
  * Required for Asset Management Plans and DWSP compliance
  */
 
-import { PrismaClient, AssetType, AssetCondition, RiskLevel } from '@prisma/client';
+import { AssetType, AssetCondition, RiskLevel } from '@prisma/client';
 import { AuthenticatedUser } from '../types/auth.js';
 import * as auditService from './audit.service.js';
-
-const prisma = new PrismaClient();
+import { prisma } from '../config/database.js';
 
 export interface CreateAssetRequest {
   name: string;

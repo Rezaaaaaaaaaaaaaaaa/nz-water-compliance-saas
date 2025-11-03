@@ -5,14 +5,12 @@
  */
 
 import { Worker, Job } from 'bullmq';
-import { PrismaClient } from '@prisma/client';
 import { config } from '../config/index.js';
 import { logger } from '../config/logger.js';
 import { ComplianceReminderJob, QueueName } from '../services/queue.service.js';
+import { prisma } from '../config/database.js';
 // TODO: Re-enable when assignedTo is added to schema
 // import * as notificationService from '../services/notification.service.js';
-
-const prisma = new PrismaClient();
 
 const redisConnection = {
   host: config.redis?.host || 'localhost',

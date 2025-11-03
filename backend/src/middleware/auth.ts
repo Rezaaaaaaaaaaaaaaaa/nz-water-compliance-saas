@@ -6,11 +6,9 @@
  */
 
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { PrismaClient } from '@prisma/client';
 import { JWTPayload, AuthenticatedUser } from '../types/auth.js';
 import { logSecurity } from '../config/logger.js';
-
-const prisma = new PrismaClient();
+import { prisma } from '../config/database.js';
 
 /**
  * Authentication Decorator

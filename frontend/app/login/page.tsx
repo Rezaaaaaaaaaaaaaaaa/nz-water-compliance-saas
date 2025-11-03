@@ -66,6 +66,7 @@ export default function LoginPage() {
               placeholder="your.email@example.com"
               error={errors.email?.message}
               {...register('email')}
+              id="login-email"
             />
 
             <Input
@@ -74,6 +75,7 @@ export default function LoginPage() {
               placeholder="••••••••"
               error={errors.password?.message}
               {...register('password')}
+              id="login-password"
             />
 
             <button

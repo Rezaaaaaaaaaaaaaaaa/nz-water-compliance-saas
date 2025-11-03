@@ -1,6 +1,5 @@
-import { PrismaClient, WaterQualityTest } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { WaterQualityTest } from '@prisma/client';
+import { prisma } from '../config/database.js';
 
 /**
  * DWQAR Report Structure for Annual Submission

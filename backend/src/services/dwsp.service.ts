@@ -4,12 +4,11 @@
  * Business logic for managing DWSPs according to Taumata Arowai requirements
  */
 
-import { PrismaClient, CompliancePlanStatus, CompliancePlanType } from '@prisma/client';
+import { CompliancePlanStatus, CompliancePlanType } from '@prisma/client';
 import { CreateDWSPRequest, DWSPValidation } from '../types/dwsp.js';
 import { AuthenticatedUser } from '../types/auth.js';
 import * as auditService from './audit.service.js';
-
-const prisma = new PrismaClient();
+import { prisma } from '../config/database.js';
 
 /**
  * Validate DWSP completeness
