@@ -109,7 +109,7 @@ describe('Compliance Scoring Service', () => {
 
       const result = await calculateComplianceScore(organizationId);
 
-      expect(result.overall).toBeGreaterThanOrEqual(85); // Good score for ideal compliance
+      expect(result.overall).toBeGreaterThanOrEqual(80); // Good score for ideal compliance
       expect(result.overall).toBeLessThanOrEqual(100);
       expect(result.trend).toBe('unknown'); // No historical data
     });

@@ -119,7 +119,9 @@
       "Bash(nul)",
       "Bash(ConvertFrom-Json)",
       "Bash(ConvertTo-Json})",
-      "Bash(PORT=5000 npm run dev:*)"
+      "Bash(PORT=5000 npm run dev:*)",
+      "Bash(gh run:*)",
+      "Bash(npx prettier:*)"
     ],
     "deny": [],
     "ask": []
