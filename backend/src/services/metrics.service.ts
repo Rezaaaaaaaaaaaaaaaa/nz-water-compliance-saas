@@ -63,10 +63,7 @@ export async function trackFailedJob(jobName: string, error: Error) {
 /**
  * Track compliance violation
  */
-export async function trackComplianceViolation(
-  organizationId: string,
-  violationType: string
-) {
+export async function trackComplianceViolation(organizationId: string, violationType: string) {
   await sendMetric('ComplianceViolations', 1, StandardUnit.Count, {
     OrganizationId: organizationId,
     ViolationType: violationType,

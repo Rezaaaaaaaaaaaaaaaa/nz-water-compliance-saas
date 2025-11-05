@@ -78,10 +78,7 @@ async function sendViaSES(options: EmailOptions): Promise<void> {
       delayMs: 1000,
       exponentialBackoff: true,
       onRetry: (attempt, error) => {
-        logger.warn(
-          { attempt, to: options.to, err: error },
-          'Retrying SES email send...'
-        );
+        logger.warn({ attempt, to: options.to, err: error }, 'Retrying SES email send...');
       },
     }
   );
@@ -144,10 +141,7 @@ async function sendViaSendGrid(options: EmailOptions): Promise<void> {
       delayMs: 1000,
       exponentialBackoff: true,
       onRetry: (attempt, error) => {
-        logger.warn(
-          { attempt, to: options.to, err: error },
-          'Retrying SendGrid email send...'
-        );
+        logger.warn({ attempt, to: options.to, err: error }, 'Retrying SendGrid email send...');
       },
     }
   );

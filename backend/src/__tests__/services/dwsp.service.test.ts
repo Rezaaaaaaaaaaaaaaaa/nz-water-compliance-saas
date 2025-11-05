@@ -77,9 +77,7 @@ describe('DWSP Service', () => {
       const validation = dwspService.validateDWSP(incompleteDWSP);
 
       expect(validation.isValid).toBe(false);
-      expect(validation.missingElements).toContain(
-        '1. Water Supply Description'
-      );
+      expect(validation.missingElements).toContain('1. Water Supply Description');
     });
 
     it('should identify missing hazard identification', () => {
@@ -116,9 +114,7 @@ describe('DWSP Service', () => {
 
       expect(validation.isValid).toBe(false);
       expect(validation.missingElements.length).toBeGreaterThan(0);
-      expect(validation.missingElements).toContain(
-        '1. Water Supply Description'
-      );
+      expect(validation.missingElements).toContain('1. Water Supply Description');
       expect(validation.missingElements).toContain('2. Hazard Identification');
       expect(validation.missingElements).toContain('3. Risk Assessment');
     });
@@ -167,9 +163,7 @@ describe('DWSP Service', () => {
       ];
 
       expectedElements.forEach((element) => {
-        const found = validation.missingElements.some((missing) =>
-          missing.includes(element)
-        );
+        const found = validation.missingElements.some((missing) => missing.includes(element));
         expect(found).toBe(true);
       });
     });

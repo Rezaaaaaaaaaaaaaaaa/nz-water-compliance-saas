@@ -57,21 +57,14 @@ export class DWQARAggregationService {
    * @param period - Reporting period (e.g., "2024-Annual", "2024-Q1")
    * @returns Complete DWQAR report structure
    */
-  async aggregateReportingPeriod(
-    organizationId: string,
-    period: string
-  ): Promise<DWQARReport> {
+  async aggregateReportingPeriod(organizationId: string, period: string): Promise<DWQARReport> {
     console.log(`[DWQAR] Aggregating data for ${organizationId}, period: ${period}`);
 
     // Parse reporting period
     const { startDate, endDate } = this.parseReportingPeriod(period);
 
     // Get all water quality tests for period
-    const tests = await this.getWaterQualityTests(
-      organizationId,
-      startDate,
-      endDate
-    );
+    const tests = await this.getWaterQualityTests(organizationId, startDate, endDate);
 
     console.log(`[DWQAR] Found ${tests.length} water quality tests`);
 
@@ -91,13 +84,11 @@ export class DWQARAggregationService {
     }));
 
     // Group by rule + component and calculate compliance
-    const reportsData = await this.calculateRuleCompliance(
-      tests,
-      organizationId,
-      period
-    );
+    const reportsData = await this.calculateRuleCompliance(tests, organizationId, period);
 
-    console.log(`[DWQAR] Calculated compliance for ${reportsData.length} rule-component combinations`);
+    console.log(
+      `[DWQAR] Calculated compliance for ${reportsData.length} rule-component combinations`
+    );
 
     // Calculate completeness
     const completeness = await this.calculateCompleteness(
@@ -192,12 +183,8 @@ export class DWQARAggregationService {
       const [ruleId, componentId] = key.split('|');
 
       const totalSamples = groupTests.length;
-      const compliantSamples = groupTests.filter(
-        (t) => t.compliesWithRule
-      ).length;
-      const nonCompliantPeriods = groupTests.filter(
-        (t) => !t.compliesWithRule
-      ).length;
+      const compliantSamples = groupTests.filter((t) => t.compliesWithRule).length;
+      const nonCompliantPeriods = groupTests.filter((t) => !t.compliesWithRule).length;
 
       // Overall compliance: all samples must comply
       const complies = nonCompliantPeriods === 0;
@@ -272,14 +259,8 @@ export class DWQARAggregationService {
     const expectedTests = totalActiveRules * totalComponents * 12; // Monthly testing
     const expectedRules = totalActiveRules * totalComponents;
 
-    const testCompleteness = Math.min(
-      (actualTests / expectedTests) * 100,
-      100
-    );
-    const ruleCompleteness = Math.min(
-      (actualRules / expectedRules) * 100,
-      100
-    );
+    const testCompleteness = Math.min((actualTests / expectedTests) * 100, 100);
+    const ruleCompleteness = Math.min((actualRules / expectedRules) * 100, 100);
 
     return (testCompleteness + ruleCompleteness) / 2;
   }

@@ -112,10 +112,7 @@ function getQueue(queueName: QueueName): Queue {
 /**
  * Add compliance reminder job
  */
-export async function addComplianceReminderJob(
-  data: ComplianceReminderJob,
-  scheduledFor?: Date
-) {
+export async function addComplianceReminderJob(data: ComplianceReminderJob, scheduledFor?: Date) {
   const queue = getQueue(QueueName.COMPLIANCE_REMINDERS);
 
   return await queue.add('compliance-reminder', data, {

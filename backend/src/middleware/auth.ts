@@ -14,10 +14,7 @@ import { prisma } from '../config/database.js';
  * Authentication Decorator
  * Verifies JWT token and loads user from database
  */
-export async function authenticate(
-  request: FastifyRequest,
-  reply: FastifyReply
-): Promise<void> {
+export async function authenticate(request: FastifyRequest, reply: FastifyReply): Promise<void> {
   try {
     // Verify JWT token (Fastify JWT plugin)
     await request.jwtVerify();
@@ -121,10 +118,7 @@ export async function authenticate(
  * Optional Authentication
  * Attempts to authenticate but doesn't fail if no token
  */
-export async function optionalAuth(
-  request: FastifyRequest,
-  reply: FastifyReply
-): Promise<void> {
+export async function optionalAuth(request: FastifyRequest, reply: FastifyReply): Promise<void> {
   const authHeader = request.headers.authorization;
 
   if (!authHeader) {

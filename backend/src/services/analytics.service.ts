@@ -11,76 +11,70 @@ import { prisma } from '../config/database.js';
  * Get compliance overview statistics
  */
 export async function getComplianceOverview(organizationId: string) {
-  const [
-    totalAssets,
-    criticalAssets,
-    activeDWSPs,
-    pendingReports,
-    overdueItems,
-    recentIncidents,
-  ] = await Promise.all([
-    // Total assets
-    prisma.asset.count({
-      where: { organizationId, deletedAt: null },
-    }),
+  const [totalAssets, criticalAssets, activeDWSPs, pendingReports, overdueItems, recentIncidents] =
+    await Promise.all([
+      // Total assets
+      prisma.asset.count({
+        where: { organizationId, deletedAt: null },
+      }),
 
-    // Critical assets
-    prisma.asset.count({
-      where: {
-        organizationId,
-        deletedAt: null,
-        OR: [{ isCritical: true }, { riskLevel: RiskLevel.CRITICAL }],
-      },
-    }),
-
-    // Active DWSPs
-    prisma.compliancePlan.count({
-      where: {
-        organizationId,
-        deletedAt: null,
-        planType: 'DWSP',
-        status: {
-          in: ['APPROVED', 'IN_REVIEW'],
+      // Critical assets
+      prisma.asset.count({
+        where: {
+          organizationId,
+          deletedAt: null,
+          OR: [{ isCritical: true }, { riskLevel: RiskLevel.CRITICAL }],
         },
-      },
-    }),
+      }),
 
-    // Pending reports
-    prisma.compliancePlan.count({
-      where: {
-        organizationId,
-        deletedAt: null,
-        planType: 'DWSP',
-        status: 'DRAFT',
-      },
-    }),
+      // Active DWSPs
+      prisma.compliancePlan.count({
+        where: {
+          organizationId,
+          deletedAt: null,
+          planType: 'DWSP',
+          status: {
+            in: ['APPROVED', 'IN_REVIEW'],
+          },
+        },
+      }),
 
-    // Overdue items (compliance plans past target date)
-    prisma.compliancePlan.count({
-      where: {
-        organizationId,
-        deletedAt: null,
-        targetDate: {
-          lt: new Date(),
+      // Pending reports
+      prisma.compliancePlan.count({
+        where: {
+          organizationId,
+          deletedAt: null,
+          planType: 'DWSP',
+          status: 'DRAFT',
         },
-        status: {
-          not: 'APPROVED',
-        },
-      },
-    }),
+      }),
 
-    // Recent incidents (last 30 days)
-    prisma.compliancePlan.count({
-      where: {
-        organizationId,
-        deletedAt: null,
-        planType: 'DWSP',
-        createdAt: {
-          gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+      // Overdue items (compliance plans past target date)
+      prisma.compliancePlan.count({
+        where: {
+          organizationId,
+          deletedAt: null,
+          targetDate: {
+            lt: new Date(),
+          },
+          status: {
+            not: 'APPROVED',
+          },
         },
-      },
-    }),
-  ]);
+      }),
+
+      // Recent incidents (last 30 days)
+      prisma.compliancePlan.count({
+        where: {
+          organizationId,
+          deletedAt: null,
+          planType: 'DWSP',
+          createdAt: {
+            gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+          },
+        },
+      }),
+    ]);
 
   return {
     totalAssets,
@@ -278,15 +272,18 @@ export async function getActivityTimeline(organizationId: string, days: number =
   });
 
   // Group by week
-  const weeklyActivity = activities.reduce((acc, activity) => {
-    const week = getWeekKey(activity.timestamp);
-    if (!acc[week]) {
-      acc[week] = { week, count: 0, actions: {} };
-    }
-    acc[week].count++;
-    acc[week].actions[activity.action] = (acc[week].actions[activity.action] || 0) + 1;
-    return acc;
-  }, {} as Record<string, { week: string; count: number; actions: Record<string, number> }>);
+  const weeklyActivity = activities.reduce(
+    (acc, activity) => {
+      const week = getWeekKey(activity.timestamp);
+      if (!acc[week]) {
+        acc[week] = { week, count: 0, actions: {} };
+      }
+      acc[week].count++;
+      acc[week].actions[activity.action] = (acc[week].actions[activity.action] || 0) + 1;
+      return acc;
+    },
+    {} as Record<string, { week: string; count: number; actions: Record<string, number> }>
+  );
 
   return {
     timeline: Object.values(weeklyActivity).sort((a, b) => a.week.localeCompare(b.week)),
@@ -336,18 +333,21 @@ export async function getDWSPTrends(organizationId: string) {
   });
 
   // Group by month
-  const monthlySubmissions = submissions.reduce((acc, sub) => {
-    if (sub.submittedAt) {
-      const month = getMonthKey(sub.submittedAt);
-      if (!acc[month]) {
-        acc[month] = { month, total: 0, approved: 0, rejected: 0 };
+  const monthlySubmissions = submissions.reduce(
+    (acc, sub) => {
+      if (sub.submittedAt) {
+        const month = getMonthKey(sub.submittedAt);
+        if (!acc[month]) {
+          acc[month] = { month, total: 0, approved: 0, rejected: 0 };
+        }
+        acc[month].total++;
+        if (sub.status === 'APPROVED') acc[month].approved++;
+        if (sub.status === 'REJECTED') acc[month].rejected++;
       }
-      acc[month].total++;
-      if (sub.status === 'APPROVED') acc[month].approved++;
-      if (sub.status === 'REJECTED') acc[month].rejected++;
-    }
-    return acc;
-  }, {} as Record<string, { month: string; total: number; approved: number; rejected: number }>);
+      return acc;
+    },
+    {} as Record<string, { month: string; total: number; approved: number; rejected: number }>
+  );
 
   return {
     trends: Object.values(monthlySubmissions).sort((a, b) => a.month.localeCompare(b.month)),
@@ -455,30 +455,24 @@ export async function getDashboardData(organizationId: string) {
  * Get system-wide analytics (for System Admin)
  */
 export async function getSystemAnalytics() {
-  const [
-    totalOrganizations,
-    totalUsers,
-    totalAssets,
-    totalDocuments,
-    activeDWSPs,
-    systemStorage,
-  ] = await Promise.all([
-    prisma.organization.count({ where: { deletedAt: null } }),
-    prisma.user.count({ where: { deletedAt: null } }),
-    prisma.asset.count({ where: { deletedAt: null } }),
-    prisma.document.count({ where: { deletedAt: null } }),
-    prisma.compliancePlan.count({
-      where: {
-        planType: 'DWSP',
-        status: { in: ['APPROVED', 'IN_REVIEW'] },
-        deletedAt: null,
-      },
-    }),
-    prisma.document.aggregate({
-      _sum: { fileSize: true },
-      where: { deletedAt: null },
-    }),
-  ]);
+  const [totalOrganizations, totalUsers, totalAssets, totalDocuments, activeDWSPs, systemStorage] =
+    await Promise.all([
+      prisma.organization.count({ where: { deletedAt: null } }),
+      prisma.user.count({ where: { deletedAt: null } }),
+      prisma.asset.count({ where: { deletedAt: null } }),
+      prisma.document.count({ where: { deletedAt: null } }),
+      prisma.compliancePlan.count({
+        where: {
+          planType: 'DWSP',
+          status: { in: ['APPROVED', 'IN_REVIEW'] },
+          deletedAt: null,
+        },
+      }),
+      prisma.document.aggregate({
+        _sum: { fileSize: true },
+        where: { deletedAt: null },
+      }),
+    ]);
 
   // Organizations by DWSP status
   const orgs = await prisma.organization.findMany({

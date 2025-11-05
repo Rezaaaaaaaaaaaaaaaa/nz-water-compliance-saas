@@ -13,27 +13,32 @@ import { logger } from '../config/logger.js';
  */
 export const CommonSchemas = {
   // Date range validation
-  dateRange: z.object({
-    startDate: z.string().datetime().optional(),
-    endDate: z.string().datetime().optional(),
-  }).refine((data) => {
-    if (data.startDate && data.endDate) {
-      const start = new Date(data.startDate);
-      const end = new Date(data.endDate);
+  dateRange: z
+    .object({
+      startDate: z.string().datetime().optional(),
+      endDate: z.string().datetime().optional(),
+    })
+    .refine(
+      (data) => {
+        if (data.startDate && data.endDate) {
+          const start = new Date(data.startDate);
+          const end = new Date(data.endDate);
 
-      // End date must be after start date
-      if (end <= start) {
-        return false;
+          // End date must be after start date
+          if (end <= start) {
+            return false;
+          }
+
+          // Maximum 1 year range
+          const daysDiff = (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
+          return daysDiff <= 365;
+        }
+        return true;
+      },
+      {
+        message: 'Invalid date range: end must be after start, max 1 year range',
       }
-
-      // Maximum 1 year range
-      const daysDiff = (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
-      return daysDiff <= 365;
-    }
-    return true;
-  }, {
-    message: "Invalid date range: end must be after start, max 1 year range"
-  }),
+    ),
 
   // Pagination validation
   pagination: z.object({

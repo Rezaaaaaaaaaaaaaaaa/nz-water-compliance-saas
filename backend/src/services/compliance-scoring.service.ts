@@ -42,9 +42,7 @@ interface ScoreComponent {
 /**
  * Calculate comprehensive compliance score for organization
  */
-export async function calculateComplianceScore(
-  organizationId: string
-): Promise<ComplianceScore> {
+export async function calculateComplianceScore(organizationId: string): Promise<ComplianceScore> {
   // Gather all compliance data
   const [
     dwspData,
@@ -191,9 +189,7 @@ function scoreAssetManagement(data: any): ScoreComponent {
     } else if (inspectedRatio >= 0.5) {
       score += 3;
     } else {
-      issues.push(
-        `Only ${Math.round(inspectedRatio * 100)}% of assets inspected in last 90 days`
-      );
+      issues.push(`Only ${Math.round(inspectedRatio * 100)}% of assets inspected in last 90 days`);
     }
 
     // Penalize for very poor condition assets
@@ -233,15 +229,11 @@ function scoreDocumentation(data: any): ScoreComponent {
 
     // Check for diversity of document types (should have DWSP, reports, procedures, etc.)
     const requiredTypes = ['DWSP', 'REPORT', 'PROCEDURE', 'CERTIFICATE'];
-    const presentTypes = data.documentTypes.filter((t: string) =>
-      requiredTypes.includes(t)
-    ).length;
+    const presentTypes = data.documentTypes.filter((t: string) => requiredTypes.includes(t)).length;
     score += (presentTypes / requiredTypes.length) * 10;
 
     if (presentTypes < requiredTypes.length) {
-      issues.push(
-        `Missing ${requiredTypes.length - presentTypes} required document types`
-      );
+      issues.push(`Missing ${requiredTypes.length - presentTypes} required document types`);
     }
 
     // Check for recent document activity (last 90 days)
@@ -259,9 +251,7 @@ function scoreDocumentation(data: any): ScoreComponent {
     weightedScore: (score / maxScore) * weight * 100,
     status: getStatus(score, maxScore),
     details:
-      issues.length > 0
-        ? issues.join('; ')
-        : 'Complete documentation with all required types',
+      issues.length > 0 ? issues.join('; ') : 'Complete documentation with all required types',
   };
 }
 
@@ -422,8 +412,7 @@ function generateRecommendations(breakdown: any, data: any): any[] {
       category: 'DWSP Compliance',
       severity: 'high' as const,
       issue: 'DWSP requires review',
-      recommendation:
-        'Review and update your DWSP annually as required by regulations',
+      recommendation: 'Review and update your DWSP annually as required by regulations',
       potentialImpact: 7,
     });
   }
@@ -483,17 +472,27 @@ function generateRecommendations(breakdown: any, data: any): any[] {
       category: 'Timeliness',
       severity: data.timelinessData.overdueItems > 5 ? 'critical' : 'high',
       issue: `${data.timelinessData.overdueItems} overdue compliance items`,
-      recommendation:
-        'Address all overdue items immediately to maintain regulatory compliance',
+      recommendation: 'Address all overdue items immediately to maintain regulatory compliance',
       potentialImpact: 5,
     });
   }
 
   // Sort by severity and potential impact
   return recommendations.sort((a: any, b: any) => {
-    const severityOrder: Record<'critical' | 'high' | 'medium' | 'low', number> = { critical: 0, high: 1, medium: 2, low: 3 };
-    if (severityOrder[a.severity as 'critical' | 'high' | 'medium' | 'low'] !== severityOrder[b.severity as 'critical' | 'high' | 'medium' | 'low']) {
-      return severityOrder[a.severity as 'critical' | 'high' | 'medium' | 'low'] - severityOrder[b.severity as 'critical' | 'high' | 'medium' | 'low'];
+    const severityOrder: Record<'critical' | 'high' | 'medium' | 'low', number> = {
+      critical: 0,
+      high: 1,
+      medium: 2,
+      low: 3,
+    };
+    if (
+      severityOrder[a.severity as 'critical' | 'high' | 'medium' | 'low'] !==
+      severityOrder[b.severity as 'critical' | 'high' | 'medium' | 'low']
+    ) {
+      return (
+        severityOrder[a.severity as 'critical' | 'high' | 'medium' | 'low'] -
+        severityOrder[b.severity as 'critical' | 'high' | 'medium' | 'low']
+      );
     }
     return b.potentialImpact - a.potentialImpact;
   });
@@ -568,37 +567,33 @@ async function getDWSPData(organizationId: string) {
 }
 
 async function getAssetData(organizationId: string) {
-  const [
-    totalAssets,
-    criticalAssets,
-    veryPoorConditionAssets,
-    assetsInspectedLast90Days,
-  ] = await Promise.all([
-    prisma.asset.count({ where: { organizationId, deletedAt: null } }),
-    prisma.asset.count({
-      where: {
-        organizationId,
-        deletedAt: null,
-        OR: [{ isCritical: true }, { riskLevel: RiskLevel.CRITICAL }],
-      },
-    }),
-    prisma.asset.count({
-      where: {
-        organizationId,
-        deletedAt: null,
-        condition: AssetCondition.VERY_POOR,
-      },
-    }),
-    prisma.asset.count({
-      where: {
-        organizationId,
-        deletedAt: null,
-        lastInspectionDate: {
-          gte: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000),
+  const [totalAssets, criticalAssets, veryPoorConditionAssets, assetsInspectedLast90Days] =
+    await Promise.all([
+      prisma.asset.count({ where: { organizationId, deletedAt: null } }),
+      prisma.asset.count({
+        where: {
+          organizationId,
+          deletedAt: null,
+          OR: [{ isCritical: true }, { riskLevel: RiskLevel.CRITICAL }],
         },
-      },
-    }),
-  ]);
+      }),
+      prisma.asset.count({
+        where: {
+          organizationId,
+          deletedAt: null,
+          condition: AssetCondition.VERY_POOR,
+        },
+      }),
+      prisma.asset.count({
+        where: {
+          organizationId,
+          deletedAt: null,
+          lastInspectionDate: {
+            gte: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000),
+          },
+        },
+      }),
+    ]);
 
   return {
     totalAssets,
@@ -774,10 +769,7 @@ async function getTimelinessData(organizationId: string) {
   };
 }
 
-async function getHistoricalScores(
-  organizationId: string,
-  limit: number
-): Promise<number[]> {
+async function getHistoricalScores(organizationId: string, limit: number): Promise<number[]> {
   const scores = await prisma.complianceScore.findMany({
     where: { organizationId },
     orderBy: { calculatedAt: 'desc' },

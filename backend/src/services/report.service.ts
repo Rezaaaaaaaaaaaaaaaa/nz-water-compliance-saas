@@ -76,9 +76,7 @@ async function generateReportData(
   });
 
   reportData.summary.totalCompliancePlans = compliancePlans.length;
-  reportData.summary.approvedPlans = compliancePlans.filter(
-    (p) => p.status === 'APPROVED'
-  ).length;
+  reportData.summary.approvedPlans = compliancePlans.filter((p) => p.status === 'APPROVED').length;
   reportData.summary.submittedPlans = compliancePlans.filter(
     (p) => p.status === 'SUBMITTED'
   ).length;
@@ -119,8 +117,7 @@ async function generateReportData(
     reportData.summary.assetsNeedingInspection = assets.filter(
       (a) =>
         !a.lastInspectionDate ||
-        (endDate.getTime() - a.lastInspectionDate.getTime()) / (1000 * 60 * 60 * 24) >
-          365
+        (endDate.getTime() - a.lastInspectionDate.getTime()) / (1000 * 60 * 60 * 24) > 365
     ).length;
 
     reportData.assets = assets;
@@ -231,8 +228,7 @@ async function generateReportData(
 
   // Calculate compliance rate
   const totalItems =
-    (reportData.summary.totalCompliancePlans || 0) +
-    (reportData.summary.totalTests || 0);
+    (reportData.summary.totalCompliancePlans || 0) + (reportData.summary.totalTests || 0);
   const compliantItems =
     (reportData.summary.approvedPlans || 0) + (reportData.summary.compliantTests || 0);
 
@@ -455,11 +451,7 @@ export async function deleteReport(id: string, user: AuthenticatedUser, request:
 /**
  * Generate monthly compliance report
  */
-export async function generateMonthlyReport(
-  organizationId: string,
-  year: number,
-  month: number
-) {
+export async function generateMonthlyReport(organizationId: string, year: number, month: number) {
   const startDate = new Date(year, month - 1, 1);
   const endDate = new Date(year, month, 0, 23, 59, 59);
 

@@ -65,9 +65,7 @@ export async function askComplianceQuestion(
   const context = await getOrganizationContext(organizationId);
 
   // Get conversation history for context (last 5 messages)
-  const conversationHistory = sessionId
-    ? await getConversationHistory(sessionId, 5)
-    : [];
+  const conversationHistory = sessionId ? await getConversationHistory(sessionId, 5) : [];
 
   // Build system prompt with context
   const systemPrompt = buildSystemPrompt(context);
@@ -98,9 +96,10 @@ export async function askComplianceQuestion(
       messages,
     });
 
-    const answer = response.content[0].type === 'text'
-      ? response.content[0].text
-      : 'Sorry, I could not generate a response.';
+    const answer =
+      response.content[0].type === 'text'
+        ? response.content[0].text
+        : 'Sorry, I could not generate a response.';
 
     const latencyMs = Date.now() - startTime;
 
@@ -123,13 +122,16 @@ export async function askComplianceQuestion(
     const newSessionId = sessionId || generateSessionId();
     await saveConversation(organizationId, userId, newSessionId, question, answer);
 
-    logger.info({
-      organizationId,
-      userId,
-      inputTokens: response.usage.input_tokens,
-      outputTokens: response.usage.output_tokens,
-      latencyMs,
-    }, 'AI compliance question answered');
+    logger.info(
+      {
+        organizationId,
+        userId,
+        inputTokens: response.usage.input_tokens,
+        outputTokens: response.usage.output_tokens,
+        latencyMs,
+      },
+      'AI compliance question answered'
+    );
 
     return {
       answer,
@@ -137,10 +139,7 @@ export async function askComplianceQuestion(
       usage: {
         inputTokens: response.usage.input_tokens,
         outputTokens: response.usage.output_tokens,
-        estimatedCost: calculateCost(
-          response.usage.input_tokens,
-          response.usage.output_tokens
-        ),
+        estimatedCost: calculateCost(response.usage.input_tokens, response.usage.output_tokens),
       },
     };
   } catch (error: any) {
@@ -162,11 +161,14 @@ export async function askComplianceQuestion(
       userAgent,
     });
 
-    logger.error({
-      organizationId,
-      userId,
-      error: error.message,
-    }, 'AI compliance question failed');
+    logger.error(
+      {
+        organizationId,
+        userId,
+        error: error.message,
+      },
+      'AI compliance question failed'
+    );
 
     throw new Error(`AI assistant error: ${error.message}`);
   }
@@ -215,34 +217,31 @@ Format your responses in a professional but friendly tone, as if speaking to a b
 /**
  * Get organization context for AI
  */
-async function getOrganizationContext(
-  organizationId: string
-): Promise<ComplianceContext> {
-  const [org, assets, compliancePlans, reports, complianceScore] =
-    await Promise.all([
-      prisma.organization.findUnique({
-        where: { id: organizationId },
-      }),
-      prisma.asset.count({
-        where: { organizationId, deletedAt: null },
-      }),
-      prisma.compliancePlan.findFirst({
-        where: { organizationId, deletedAt: null },
-        orderBy: { createdAt: 'desc' },
-      }),
-      prisma.report.count({
-        where: {
-          organizationId,
-          createdAt: {
-            gte: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000), // Last 90 days
-          },
+async function getOrganizationContext(organizationId: string): Promise<ComplianceContext> {
+  const [org, assets, compliancePlans, reports, complianceScore] = await Promise.all([
+    prisma.organization.findUnique({
+      where: { id: organizationId },
+    }),
+    prisma.asset.count({
+      where: { organizationId, deletedAt: null },
+    }),
+    prisma.compliancePlan.findFirst({
+      where: { organizationId, deletedAt: null },
+      orderBy: { createdAt: 'desc' },
+    }),
+    prisma.report.count({
+      where: {
+        organizationId,
+        createdAt: {
+          gte: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000), // Last 90 days
         },
-      }),
-      prisma.complianceScore.findFirst({
-        where: { organizationId },
-        orderBy: { calculatedAt: 'desc' },
-      }),
-    ]);
+      },
+    }),
+    prisma.complianceScore.findFirst({
+      where: { organizationId },
+      orderBy: { calculatedAt: 'desc' },
+    }),
+  ]);
 
   const criticalAssets = await prisma.asset.count({
     where: {

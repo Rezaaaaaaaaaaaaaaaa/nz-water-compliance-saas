@@ -13,10 +13,7 @@ import { prisma } from '../config/database.js';
 /**
  * Authenticate user with email and password
  */
-export async function authenticateUser(
-  email: string,
-  _password: string
-): Promise<User | null> {
+export async function authenticateUser(email: string, _password: string): Promise<User | null> {
   // Find user by email
   const user = await prisma.user.findUnique({
     where: { email: email.toLowerCase() },
@@ -154,9 +151,6 @@ export async function hashPassword(password: string): Promise<string> {
 /**
  * Verify password (for future use)
  */
-export async function verifyPassword(
-  password: string,
-  hashedPassword: string
-): Promise<boolean> {
+export async function verifyPassword(password: string, hashedPassword: string): Promise<boolean> {
   return await bcrypt.compare(password, hashedPassword);
 }

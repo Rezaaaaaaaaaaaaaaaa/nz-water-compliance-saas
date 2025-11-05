@@ -147,10 +147,7 @@ async function processDailyComplianceCheck(_job: Job) {
 async function processComplianceReminder(job: Job<ComplianceReminderJob>) {
   const { organizationId, compliancePlanId, reminderType, dueDate } = job.data;
 
-  logger.info(
-    { organizationId, compliancePlanId, reminderType },
-    'Processing compliance reminder'
-  );
+  logger.info({ organizationId, compliancePlanId, reminderType }, 'Processing compliance reminder');
 
   // Get compliance plan
   const plan = await prisma.compliancePlan.findUnique({
@@ -241,10 +238,7 @@ export function createComplianceRemindersWorker() {
   });
 
   worker.on('failed', (job, err) => {
-    logger.error(
-      { jobId: job?.id, jobName: job?.name, err },
-      'Compliance reminder job failed'
-    );
+    logger.error({ jobId: job?.id, jobName: job?.name, err }, 'Compliance reminder job failed');
   });
 
   logger.info('Compliance reminders worker started');

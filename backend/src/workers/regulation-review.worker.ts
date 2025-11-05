@@ -44,15 +44,13 @@ async function processQuarterlyReview(job: Job<RegulationReviewJob>) {
   const reviewTasks = [
     {
       category: 'DWSP Requirements',
-      description:
-        'Review Taumata Arowai DWSP requirements for any updates or changes',
+      description: 'Review Taumata Arowai DWSP requirements for any updates or changes',
       url: 'https://www.taumataarowai.govt.nz/for-water-suppliers/drinking-water-safety-plans/',
       priority: 'HIGH',
     },
     {
       category: 'Water Quality Standards',
-      description:
-        'Review Drinking Water Quality Assurance Rules (DWQAR) for updates',
+      description: 'Review Drinking Water Quality Assurance Rules (DWQAR) for updates',
       url: 'https://www.taumataarowai.govt.nz/for-water-suppliers/drinking-water-quality-assurance-rules/',
       priority: 'HIGH',
     },
@@ -64,8 +62,7 @@ async function processQuarterlyReview(job: Job<RegulationReviewJob>) {
     },
     {
       category: 'Asset Management',
-      description:
-        'Review asset management plan requirements and best practices',
+      description: 'Review asset management plan requirements and best practices',
       url: 'https://www.taumataarowai.govt.nz/',
       priority: 'MEDIUM',
     },
@@ -77,8 +74,7 @@ async function processQuarterlyReview(job: Job<RegulationReviewJob>) {
     },
     {
       category: 'Documentation Standards',
-      description:
-        'Review record-keeping and documentation retention requirements',
+      description: 'Review record-keeping and documentation retention requirements',
       url: 'https://www.taumataarowai.govt.nz/',
       priority: 'MEDIUM',
     },
@@ -193,18 +189,12 @@ async function scheduleNextQuarterlyReview() {
 /**
  * Create manual regulation review
  */
-export async function triggerManualReview(
-  triggeredByUserId: string,
-  reason: string
-) {
+export async function triggerManualReview(triggeredByUserId: string, reason: string) {
   const now = new Date();
   const quarter = Math.floor(now.getMonth() / 3) + 1;
   const year = now.getFullYear();
 
-  logger.info(
-    { triggeredByUserId, reason, quarter, year },
-    'Manual regulation review triggered'
-  );
+  logger.info({ triggeredByUserId, reason, quarter, year }, 'Manual regulation review triggered');
 
   // Process the review immediately
   return await processQuarterlyReview({

@@ -122,9 +122,7 @@ export async function exportDocumentsToCSV(organizationId: string): Promise<stri
       (doc as any).mimeType || doc.fileType || '', // MIME type
       doc.version,
       escapeCSV(Array.isArray(doc.tags) ? (doc.tags as string[]).join('; ') : ''),
-      escapeCSV(
-        doc.uploadedBy ? `${doc.uploadedBy.firstName} ${doc.uploadedBy.lastName}` : ''
-      ),
+      escapeCSV(doc.uploadedBy ? `${doc.uploadedBy.firstName} ${doc.uploadedBy.lastName}` : ''),
       doc.uploadedAt ? formatDate(doc.uploadedAt) : formatDate(doc.createdAt),
       doc.retentionUntil ? formatDate(doc.retentionUntil) : '',
     ];
@@ -185,12 +183,8 @@ export async function exportCompliancePlansToCSV(organizationId: string): Promis
       plan.reportingPeriod || '',
       plan.targetDate ? formatDate(plan.targetDate) : '',
       plan.reviewDate ? formatDate(plan.reviewDate) : '',
-      escapeCSV(
-        plan.createdBy ? `${plan.createdBy.firstName} ${plan.createdBy.lastName}` : ''
-      ),
-      escapeCSV(
-        plan.assignedTo ? `${plan.assignedTo.firstName} ${plan.assignedTo.lastName}` : ''
-      ),
+      escapeCSV(plan.createdBy ? `${plan.createdBy.firstName} ${plan.createdBy.lastName}` : ''),
+      escapeCSV(plan.assignedTo ? `${plan.assignedTo.firstName} ${plan.assignedTo.lastName}` : ''),
       plan.submittedAt ? formatDate(plan.submittedAt) : '',
       plan.approvedAt ? formatDate(plan.approvedAt) : '',
       formatDate(plan.createdAt),
@@ -283,9 +277,7 @@ export async function exportAuditLogsToCSV(
 /**
  * Export compliance overview report to formatted text
  */
-export async function exportComplianceOverviewReport(
-  organizationId: string
-): Promise<string> {
+export async function exportComplianceOverviewReport(organizationId: string): Promise<string> {
   const [org, assets, documents, plans, recentLogs] = await Promise.all([
     prisma.organization.findUnique({
       where: { id: organizationId },
@@ -360,7 +352,14 @@ Asset Breakdown by Condition:
 ${getAssetBreakdown(assets, 'condition')}
 
 Critical Assets Requiring Attention:
-${criticalAssets.length > 0 ? criticalAssets.slice(0, 10).map((a) => `  - ${a.name} (${a.type}) - ${a.condition} condition, ${a.riskLevel} risk`).join('\n') : '  None'}
+${
+  criticalAssets.length > 0
+    ? criticalAssets
+        .slice(0, 10)
+        .map((a) => `  - ${a.name} (${a.type}) - ${a.condition} condition, ${a.riskLevel} risk`)
+        .join('\n')
+    : '  None'
+}
 
 ===============================================================================
                         RECENT ACTIVITY (Last 30 Days)
@@ -505,9 +504,7 @@ function generateRecommendationsText(
 /**
  * Get export format from request
  */
-export function getExportFormat(
-  formatParam: string | undefined
-): 'csv' | 'excel' | 'pdf' | 'text' {
+export function getExportFormat(formatParam: string | undefined): 'csv' | 'excel' | 'pdf' | 'text' {
   const format = (formatParam || 'csv').toLowerCase();
   if (['csv', 'excel', 'pdf', 'text'].includes(format)) {
     return format as 'csv' | 'excel' | 'pdf' | 'text';

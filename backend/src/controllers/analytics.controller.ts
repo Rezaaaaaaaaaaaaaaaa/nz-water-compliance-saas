@@ -18,10 +18,7 @@ function getUser(request: FastifyRequest): AuthenticatedUser {
 /**
  * Get dashboard data for organization (with caching)
  */
-export async function getDashboard(
-  request: FastifyRequest,
-  reply: FastifyReply
-): Promise<void> {
+export async function getDashboard(request: FastifyRequest, reply: FastifyReply): Promise<void> {
   try {
     const organizationId = getUser(request).organizationId;
     const cacheKey = cacheService.getDashboardKey(organizationId);
@@ -163,10 +160,7 @@ export async function getActivityTimeline(
 /**
  * Get DWSP trends
  */
-export async function getDWSPTrends(
-  request: FastifyRequest,
-  reply: FastifyReply
-): Promise<void> {
+export async function getDWSPTrends(request: FastifyRequest, reply: FastifyReply): Promise<void> {
   try {
     const organizationId = getUser(request).organizationId;
 

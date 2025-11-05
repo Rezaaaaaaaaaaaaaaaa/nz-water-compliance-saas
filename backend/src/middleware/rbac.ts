@@ -29,8 +29,20 @@ const ROLE_PERMISSIONS = {
       [ResourceType.ORGANIZATION]: [Action.READ, Action.UPDATE],
       [ResourceType.USER]: [Action.CREATE, Action.READ, Action.UPDATE, Action.DELETE],
       [ResourceType.ASSET]: [Action.CREATE, Action.READ, Action.UPDATE, Action.DELETE],
-      [ResourceType.DOCUMENT]: [Action.CREATE, Action.READ, Action.UPDATE, Action.DELETE, Action.EXPORT],
-      [ResourceType.COMPLIANCE_PLAN]: [Action.CREATE, Action.READ, Action.UPDATE, Action.DELETE, Action.APPROVE],
+      [ResourceType.DOCUMENT]: [
+        Action.CREATE,
+        Action.READ,
+        Action.UPDATE,
+        Action.DELETE,
+        Action.EXPORT,
+      ],
+      [ResourceType.COMPLIANCE_PLAN]: [
+        Action.CREATE,
+        Action.READ,
+        Action.UPDATE,
+        Action.DELETE,
+        Action.APPROVE,
+      ],
       [ResourceType.REPORT]: [Action.CREATE, Action.READ, Action.EXPORT],
       [ResourceType.AUDIT_LOG]: [Action.READ, Action.AUDIT],
       [ResourceType.NOTIFICATION]: [Action.READ, Action.UPDATE],
@@ -46,7 +58,13 @@ const ROLE_PERMISSIONS = {
       [ResourceType.USER]: [Action.READ],
       [ResourceType.ASSET]: [Action.CREATE, Action.READ, Action.UPDATE],
       [ResourceType.DOCUMENT]: [Action.CREATE, Action.READ, Action.UPDATE, Action.EXPORT],
-      [ResourceType.COMPLIANCE_PLAN]: [Action.CREATE, Action.READ, Action.UPDATE, Action.SUBMIT, Action.APPROVE],
+      [ResourceType.COMPLIANCE_PLAN]: [
+        Action.CREATE,
+        Action.READ,
+        Action.UPDATE,
+        Action.SUBMIT,
+        Action.APPROVE,
+      ],
       [ResourceType.REPORT]: [Action.CREATE, Action.READ, Action.EXPORT],
       [ResourceType.AUDIT_LOG]: [Action.READ],
       [ResourceType.NOTIFICATION]: [Action.READ, Action.UPDATE],
@@ -103,7 +121,8 @@ export function hasPermission(
   }
 
   // Check if action is allowed for this role and resource
-  const allowedActions = ('allowedActions' in roleConfig && roleConfig.allowedActions?.[resource]) || [];
+  const allowedActions =
+    ('allowedActions' in roleConfig && roleConfig.allowedActions?.[resource]) || [];
   if (!allowedActions.includes(action)) {
     return false;
   }
@@ -157,8 +176,7 @@ export function requirePermission(resource: ResourceType, action: Action) {
 
     // Extract organization ID from request params or body
     const resourceOrgId =
-      (request.params as any)?.organizationId ||
-      (request.body as any)?.organizationId;
+      (request.params as any)?.organizationId || (request.body as any)?.organizationId;
 
     if (!hasPermission(user, resource, action, resourceOrgId)) {
       logSecurity({
@@ -232,11 +250,7 @@ export function requireSameOrganization() {
  * For DWSP submission and approval
  */
 export function requireComplianceManager() {
-  return requireRole(
-    UserRole.SYSTEM_ADMIN,
-    UserRole.ORG_ADMIN,
-    UserRole.COMPLIANCE_MANAGER
-  );
+  return requireRole(UserRole.SYSTEM_ADMIN, UserRole.ORG_ADMIN, UserRole.COMPLIANCE_MANAGER);
 }
 
 /**

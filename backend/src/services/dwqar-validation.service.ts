@@ -140,9 +140,7 @@ export class DWQARValidationService {
     }
 
     // 2. Missing recommended tests
-    const requiredTestCount = await this.getRequiredTestCount(
-      report.organizationId
-    );
+    const requiredTestCount = await this.getRequiredTestCount(report.organizationId);
     if (report.totalSamples < requiredTestCount * 0.9) {
       warnings.push({
         severity: 'WARNING',
@@ -166,9 +164,7 @@ export class DWQARValidationService {
     }
 
     // 4. Missing lab accreditation
-    const samplesWithoutAccreditation = report.samplesData.filter(
-      (s) => !s.sourceClass
-    );
+    const samplesWithoutAccreditation = report.samplesData.filter((s) => !s.sourceClass);
     if (samplesWithoutAccreditation.length > 0) {
       warnings.push({
         severity: 'WARNING',
@@ -246,9 +242,7 @@ export class DWQARValidationService {
    * Get required test count for organization
    * Based on components and applicable rules
    */
-  private async getRequiredTestCount(
-    organizationId: string
-  ): Promise<number> {
+  private async getRequiredTestCount(organizationId: string): Promise<number> {
     // Get active components
     const components = await prisma.waterSupplyComponent.count({
       where: { organizationId, isActive: true },

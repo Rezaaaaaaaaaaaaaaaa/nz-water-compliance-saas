@@ -304,14 +304,14 @@ describe('Export Service', () => {
       mockPrisma.compliancePlan.findMany.mockResolvedValue([
         {
           id: '1',
-          type: 'DWSP',
+          planType: 'DWSP',
           status: 'APPROVED',
           title: 'Wellington DWSP 2024',
           approvedAt: new Date('2024-01-01'),
         },
         {
           id: '2',
-          type: 'REPORT',
+          planType: 'REPORT',
           status: 'SUBMITTED',
         },
       ]);
@@ -327,9 +327,7 @@ describe('Export Service', () => {
         },
       ]);
 
-      const { exportComplianceOverviewReport } = await import(
-        '../../services/export.service.js'
-      );
+      const { exportComplianceOverviewReport } = await import('../../services/export.service.js');
 
       const report = await exportComplianceOverviewReport(organizationId);
 
@@ -361,9 +359,7 @@ describe('Export Service', () => {
       mockPrisma.compliancePlan.findMany.mockResolvedValue([]);
       mockPrisma.auditLog.findMany.mockResolvedValue([]);
 
-      const { exportComplianceOverviewReport } = await import(
-        '../../services/export.service.js'
-      );
+      const { exportComplianceOverviewReport } = await import('../../services/export.service.js');
 
       const report = await exportComplianceOverviewReport(organizationId);
 

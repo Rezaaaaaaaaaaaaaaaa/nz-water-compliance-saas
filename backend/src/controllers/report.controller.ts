@@ -39,7 +39,10 @@ export async function createReport(
  * Update report (placeholder - full implementation pending)
  */
 export async function updateReport(
-  request: FastifyRequest<{ Params: { id: string }; Body: Partial<reportService.CreateReportRequest> }>,
+  request: FastifyRequest<{
+    Params: { id: string };
+    Body: Partial<reportService.CreateReportRequest>;
+  }>,
   reply: FastifyReply
 ) {
   try {
@@ -198,11 +201,7 @@ export async function generateMonthlyReport(
       });
     }
 
-    const reportData = await reportService.generateMonthlyReport(
-      user.organizationId,
-      year,
-      month
-    );
+    const reportData = await reportService.generateMonthlyReport(user.organizationId, year, month);
 
     return reply.code(200).send({
       reportData,

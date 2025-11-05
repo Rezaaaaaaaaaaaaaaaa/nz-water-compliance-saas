@@ -237,11 +237,7 @@ export async function auditExport(
 /**
  * Log LOGIN action
  */
-export async function auditLogin(
-  userId: string,
-  organizationId: string,
-  request: any
-) {
+export async function auditLogin(userId: string, organizationId: string, request: any) {
   return createAuditLog({
     organizationId,
     userId,
@@ -256,11 +252,7 @@ export async function auditLogin(
 /**
  * Log LOGOUT action
  */
-export async function auditLogout(
-  userId: string,
-  organizationId: string,
-  request: any
-) {
+export async function auditLogout(userId: string, organizationId: string, request: any) {
   return createAuditLog({
     organizationId,
     userId,

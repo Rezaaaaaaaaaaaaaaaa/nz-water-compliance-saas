@@ -73,8 +73,14 @@ const configSchema = z.object({
   }),
 
   // File Upload
-  maxFileSize: z.number().int().positive().default(50 * 1024 * 1024), // 50MB
-  allowedFileTypes: z.array(z.string()).default(['pdf', 'docx', 'doc', 'xlsx', 'xls', 'jpg', 'jpeg', 'png']),
+  maxFileSize: z
+    .number()
+    .int()
+    .positive()
+    .default(50 * 1024 * 1024), // 50MB
+  allowedFileTypes: z
+    .array(z.string())
+    .default(['pdf', 'docx', 'doc', 'xlsx', 'xls', 'jpg', 'jpeg', 'png']),
 
   // Logging
   logLevel: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']).default('info'),

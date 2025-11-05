@@ -264,11 +264,7 @@ export async function getDownloadUrl(id: string, user: AuthenticatedUser, reques
  * Delete document (soft delete)
  * File remains in S3 for regulatory compliance (7-year retention)
  */
-export async function deleteDocument(
-  id: string,
-  user: AuthenticatedUser,
-  request: any
-) {
+export async function deleteDocument(id: string, user: AuthenticatedUser, request: any) {
   const document = await getDocument(id, user);
   if (!document) {
     throw new Error('Document not found');

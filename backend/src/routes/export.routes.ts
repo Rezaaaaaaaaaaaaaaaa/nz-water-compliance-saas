@@ -30,7 +30,12 @@ export async function exportRoutes(app: FastifyInstance) {
     format: CommonSchemas.exportFormat,
     startDate: z.string().datetime().optional(),
     endDate: z.string().datetime().optional(),
-    limit: z.string().regex(/^\d+$/).transform(Number).pipe(z.number().min(1).max(50000)).optional(),
+    limit: z
+      .string()
+      .regex(/^\d+$/)
+      .transform(Number)
+      .pipe(z.number().min(1).max(50000))
+      .optional(),
   });
 
   // Export assets

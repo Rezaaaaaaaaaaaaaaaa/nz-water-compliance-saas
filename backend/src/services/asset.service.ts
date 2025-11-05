@@ -45,10 +45,7 @@ export interface AssetFilters {
  * Calculate risk level based on asset criticality and condition
  * Simple algorithm - you should customize based on regulatory requirements
  */
-export function calculateRiskLevel(
-  isCritical: boolean,
-  condition: AssetCondition
-): RiskLevel {
+export function calculateRiskLevel(isCritical: boolean, condition: AssetCondition): RiskLevel {
   if (isCritical) {
     // Critical assets
     switch (condition) {
@@ -78,18 +75,11 @@ export function calculateRiskLevel(
 /**
  * Create new asset
  */
-export async function createAsset(
-  user: AuthenticatedUser,
-  data: CreateAssetRequest,
-  request: any
-) {
+export async function createAsset(user: AuthenticatedUser, data: CreateAssetRequest, request: any) {
   // Calculate risk level if not provided
   const riskLevel =
     data.riskLevel ||
-    calculateRiskLevel(
-      data.isCritical || false,
-      data.condition || AssetCondition.UNKNOWN
-    );
+    calculateRiskLevel(data.isCritical || false, data.condition || AssetCondition.UNKNOWN);
 
   const asset = await prisma.asset.create({
     data: {
@@ -258,10 +248,7 @@ export async function updateAsset(
 
   // Recalculate risk level if criticality or condition changed
   let riskLevel = data.riskLevel;
-  if (
-    !riskLevel &&
-    (data.isCritical !== undefined || data.condition !== undefined)
-  ) {
+  if (!riskLevel && (data.isCritical !== undefined || data.condition !== undefined)) {
     riskLevel = calculateRiskLevel(
       data.isCritical ?? existing.isCritical,
       data.condition ?? existing.condition
@@ -282,12 +269,8 @@ export async function updateAsset(
       expectedLife: data.expectedLife,
       replacementValue: data.replacementValue,
       condition: data.condition,
-      lastInspectionDate: data.lastInspectionDate
-        ? new Date(data.lastInspectionDate)
-        : undefined,
-      nextInspectionDate: data.nextInspectionDate
-        ? new Date(data.nextInspectionDate)
-        : undefined,
+      lastInspectionDate: data.lastInspectionDate ? new Date(data.lastInspectionDate) : undefined,
+      nextInspectionDate: data.nextInspectionDate ? new Date(data.nextInspectionDate) : undefined,
       isCritical: data.isCritical,
       riskLevel,
       metadata: data.metadata,
@@ -336,14 +319,7 @@ export async function getAssetStatistics(user: AuthenticatedUser) {
     where.organizationId = user.organizationId;
   }
 
-  const [
-    total,
-    critical,
-    byCondition,
-    byType,
-    byRiskLevel,
-    needingInspection,
-  ] = await Promise.all([
+  const [total, critical, byCondition, byType, byRiskLevel, needingInspection] = await Promise.all([
     // Total assets
     prisma.asset.count({ where }),
 

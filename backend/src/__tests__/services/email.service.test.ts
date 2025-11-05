@@ -46,9 +46,7 @@ describe('Email Service', () => {
     });
 
     it('should send deadline reminder email with correct data', async () => {
-      const { sendDeadlineReminderEmail } = await import(
-        '../../services/email.service.js'
-      );
+      const { sendDeadlineReminderEmail } = await import('../../services/email.service.js');
 
       await sendDeadlineReminderEmail('user@test.com', 'John Doe', {
         type: 'Compliance Plan',
@@ -62,9 +60,7 @@ describe('Email Service', () => {
     });
 
     it('should send overdue deadline reminder with urgency', async () => {
-      const { sendDeadlineReminderEmail } = await import(
-        '../../services/email.service.js'
-      );
+      const { sendDeadlineReminderEmail } = await import('../../services/email.service.js');
 
       await sendDeadlineReminderEmail('user@test.com', 'Jane Smith', {
         type: 'Compliance Plan',
@@ -78,9 +74,7 @@ describe('Email Service', () => {
     });
 
     it('should send quarterly regulation review email', async () => {
-      const { sendRegulationReviewEmail } = await import(
-        '../../services/email.service.js'
-      );
+      const { sendRegulationReviewEmail } = await import('../../services/email.service.js');
 
       await sendRegulationReviewEmail('user@test.com', 'John Doe', {
         quarter: 4,
@@ -176,9 +170,7 @@ describe('Email Service', () => {
     });
 
     it('should generate HTML with proper styling', async () => {
-      const { sendDeadlineReminderEmail } = await import(
-        '../../services/email.service.js'
-      );
+      const { sendDeadlineReminderEmail } = await import('../../services/email.service.js');
 
       // Call the function to ensure HTML is generated
       await sendDeadlineReminderEmail('user@test.com', 'Test User', {
@@ -192,9 +184,7 @@ describe('Email Service', () => {
     });
 
     it('should include NZ date formatting', async () => {
-      const { sendDeadlineReminderEmail } = await import(
-        '../../services/email.service.js'
-      );
+      const { sendDeadlineReminderEmail } = await import('../../services/email.service.js');
 
       const testDate = new Date('2024-03-15');
 
@@ -210,9 +200,7 @@ describe('Email Service', () => {
     });
 
     it('should include proper email headers and footers', async () => {
-      const { sendRegulationReviewEmail } = await import(
-        '../../services/email.service.js'
-      );
+      const { sendRegulationReviewEmail } = await import('../../services/email.service.js');
 
       await sendRegulationReviewEmail('user@test.com', 'Test User', {
         quarter: 1,

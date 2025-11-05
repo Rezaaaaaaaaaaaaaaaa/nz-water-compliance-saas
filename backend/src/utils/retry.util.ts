@@ -20,12 +20,7 @@ export async function retryOperation<T>(
   operation: () => Promise<T>,
   options: RetryOptions = {}
 ): Promise<T> {
-  const {
-    maxAttempts = 3,
-    delayMs = 1000,
-    exponentialBackoff = true,
-    onRetry,
-  } = options;
+  const { maxAttempts = 3, delayMs = 1000, exponentialBackoff = true, onRetry } = options;
 
   let lastError: Error;
 
@@ -45,10 +40,7 @@ export async function retryOperation<T>(
 
       const delay = exponentialBackoff ? delayMs * Math.pow(2, attempt - 1) : delayMs;
 
-      logger.warn(
-        { attempt, maxAttempts, delay, err: error },
-        'Operation failed, retrying...'
-      );
+      logger.warn({ attempt, maxAttempts, delay, err: error }, 'Operation failed, retrying...');
 
       if (onRetry) {
         onRetry(attempt, lastError);

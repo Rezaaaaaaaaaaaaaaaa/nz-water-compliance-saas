@@ -23,7 +23,10 @@ export async function dwqarRoutes(app: FastifyInstance) {
 
   // Validation schemas
   const periodQuerySchema = z.object({
-    period: z.string().regex(/^\d{4}-(Annual|Q[1-4])$/).optional(),
+    period: z
+      .string()
+      .regex(/^\d{4}-(Annual|Q[1-4])$/)
+      .optional(),
   });
 
   const validateQuerySchema = z.object({

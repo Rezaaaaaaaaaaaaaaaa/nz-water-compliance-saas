@@ -91,9 +91,7 @@ export async function listDocuments(
       search: request.query.search,
       tags: request.query.tags ? request.query.tags.split(',') : undefined,
       isPublic:
-        request.query.isPublic !== undefined
-          ? request.query.isPublic === 'true'
-          : undefined,
+        request.query.isPublic !== undefined ? request.query.isPublic === 'true' : undefined,
       limit: request.query.limit ? parseInt(request.query.limit) : undefined,
       offset: request.query.offset ? parseInt(request.query.offset) : undefined,
     });
@@ -195,10 +193,7 @@ export async function linkToAsset(
   reply: FastifyReply
 ) {
   try {
-    const result = await documentService.linkToAsset(
-      request.params.id,
-      request.body.assetId
-    );
+    const result = await documentService.linkToAsset(request.params.id, request.body.assetId);
 
     return reply.code(200).send({
       link: result,

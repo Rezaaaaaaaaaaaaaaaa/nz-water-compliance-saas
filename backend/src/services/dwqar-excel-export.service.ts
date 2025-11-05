@@ -18,9 +18,7 @@ export class DWQARExcelExportService {
    * @returns Excel file buffer
    */
   async generateExcel(report: DWQARReport): Promise<Buffer> {
-    console.log(
-      `[DWQAR Excel] Generating Excel for ${report.reportingPeriod}`
-    );
+    console.log(`[DWQAR Excel] Generating Excel for ${report.reportingPeriod}`);
 
     const workbook = new ExcelJS.Workbook();
 
@@ -221,9 +219,7 @@ export class DWQARExcelExportService {
   /**
    * Add RuleIDs reference sheet (read-only)
    */
-  private async addRuleIDsReference(
-    sheet: ExcelJS.Worksheet
-  ): Promise<void> {
+  private async addRuleIDsReference(sheet: ExcelJS.Worksheet): Promise<void> {
     // Headers
     const headerRow = sheet.addRow([
       'Rule ID',

@@ -116,12 +116,7 @@ export async function updateDWSP(
 ) {
   try {
     const user = requireUser(request);
-    const dwsp = await dwspService.updateDWSP(
-      request.params.id,
-      user,
-      request.body,
-      request
-    );
+    const dwsp = await dwspService.updateDWSP(request.params.id, user, request.body, request);
 
     return reply.code(200).send({
       dwsp,

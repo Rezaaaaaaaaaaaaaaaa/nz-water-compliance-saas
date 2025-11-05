@@ -30,9 +30,7 @@ export async function getCurrentStatus(
   try {
     const organizationId = getUser(request).organizationId;
 
-    const status = await dwqarAggregationService.getCurrentStatus(
-      organizationId
-    );
+    const status = await dwqarAggregationService.getCurrentStatus(organizationId);
 
     reply.send({
       success: true,
@@ -71,10 +69,7 @@ export async function validateReport(
     }
 
     // Aggregate report data
-    const report = await dwqarAggregationService.aggregateReportingPeriod(
-      organizationId,
-      period
-    );
+    const report = await dwqarAggregationService.aggregateReportingPeriod(organizationId, period);
 
     // Validate report
     const validation = await dwqarValidationService.validate(report);
@@ -106,16 +101,10 @@ export async function exportExcel(
     const organizationId = getUser(request).organizationId;
     const period = request.query.period;
 
-    logger.info(
-      { organizationId, period },
-      'Generating DWQAR Excel export'
-    );
+    logger.info({ organizationId, period }, 'Generating DWQAR Excel export');
 
     // Aggregate report data
-    const report = await dwqarAggregationService.aggregateReportingPeriod(
-      organizationId,
-      period
-    );
+    const report = await dwqarAggregationService.aggregateReportingPeriod(organizationId, period);
 
     // Validate before export (warn if issues, but allow export)
     const validation = await dwqarValidationService.validate(report);
@@ -136,15 +125,10 @@ export async function exportExcel(
     const buffer = await dwqarExcelExportService.generateExcel(report);
 
     // Validate exported Excel
-    const exportValidation = await dwqarExcelExportService.validateExport(
-      buffer
-    );
+    const exportValidation = await dwqarExcelExportService.validateExport(buffer);
 
     if (!exportValidation.valid) {
-      logger.error(
-        { errors: exportValidation.errors },
-        'Excel export validation failed'
-      );
+      logger.error({ errors: exportValidation.errors }, 'Excel export validation failed');
       reply.status(500).send({
         success: false,
         error: 'Excel export validation failed',
@@ -157,10 +141,7 @@ export async function exportExcel(
     const filename = `DWQAR_${period}_${organizationId}_${new Date().toISOString().split('T')[0]}.xlsx`;
 
     reply
-      .header(
-        'Content-Type',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-      )
+      .header('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
       .header('Content-Disposition', `attachment; filename="${filename}"`)
       .send(buffer);
   } catch (error) {
@@ -190,10 +171,7 @@ export async function recordSubmission(
     const organizationId = getUser(request).organizationId;
     const { period, hinekōrakoId } = request.body;
 
-    logger.info(
-      { organizationId, period, hinekōrakoId },
-      'Recording DWQAR submission'
-    );
+    logger.info({ organizationId, period, hinekōrakoId }, 'Recording DWQAR submission');
 
     // Create or update report record
     const report = await prisma.report.upsert({
@@ -294,10 +272,7 @@ export async function getAggregation(
     const organizationId = getUser(request).organizationId;
     const period = request.params.period;
 
-    const report = await dwqarAggregationService.aggregateReportingPeriod(
-      organizationId,
-      period
-    );
+    const report = await dwqarAggregationService.aggregateReportingPeriod(organizationId, period);
 
     reply.send({
       success: true,
@@ -326,10 +301,7 @@ export async function getCompleteness(
     const organizationId = getUser(request).organizationId;
     const period = request.query.period || `${new Date().getFullYear()}-Annual`;
 
-    const report = await dwqarAggregationService.aggregateReportingPeriod(
-      organizationId,
-      period
-    );
+    const report = await dwqarAggregationService.aggregateReportingPeriod(organizationId, period);
 
     reply.send({
       success: true,

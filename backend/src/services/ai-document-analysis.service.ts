@@ -126,10 +126,7 @@ Focus on:
       ],
     });
 
-    const answerText =
-      response.content[0].type === 'text'
-        ? response.content[0].text
-        : '{}';
+    const answerText = response.content[0].type === 'text' ? response.content[0].text : '{}';
 
     // Parse JSON response
     const jsonMatch = answerText.match(/\{[\s\S]*\}/);
@@ -161,24 +158,24 @@ Focus on:
       userAgent,
     });
 
-    logger.info({
-      organizationId,
-      userId,
-      documentId,
-      completenessScore: analysis.completenessScore,
-      inputTokens: response.usage.input_tokens,
-      outputTokens: response.usage.output_tokens,
-    }, 'DWSP analysis completed');
+    logger.info(
+      {
+        organizationId,
+        userId,
+        documentId,
+        completenessScore: analysis.completenessScore,
+        inputTokens: response.usage.input_tokens,
+        outputTokens: response.usage.output_tokens,
+      },
+      'DWSP analysis completed'
+    );
 
     return {
       ...analysis,
       usage: {
         inputTokens: response.usage.input_tokens,
         outputTokens: response.usage.output_tokens,
-        estimatedCost: calculateCost(
-          response.usage.input_tokens,
-          response.usage.output_tokens
-        ),
+        estimatedCost: calculateCost(response.usage.input_tokens, response.usage.output_tokens),
       },
     };
   } catch (error: any) {
@@ -199,11 +196,14 @@ Focus on:
       userAgent,
     });
 
-    logger.error({
-      organizationId,
-      userId,
-      error: error.message,
-    }, 'DWSP analysis failed');
+    logger.error(
+      {
+        organizationId,
+        userId,
+        error: error.message,
+      },
+      'DWSP analysis failed'
+    );
 
     throw new Error(`Document analysis error: ${error.message}`);
   }
@@ -232,11 +232,7 @@ export async function generateReportSummary(
 }> {
   const startTime = Date.now();
 
-  const quotaCheck = await checkAIQuota(
-    organizationId,
-    AIFeature.REPORT_GENERATION,
-    3000
-  );
+  const quotaCheck = await checkAIQuota(organizationId, AIFeature.REPORT_GENERATION, 3000);
 
   if (!quotaCheck.allowed) {
     throw new Error(quotaCheck.reason || 'AI quota exceeded');
@@ -265,8 +261,7 @@ Create a professional summary suitable for submission to Taumata Arowai in JSON 
       messages: [{ role: 'user', content: prompt }],
     });
 
-    const answerText =
-      response.content[0].type === 'text' ? response.content[0].text : '{}';
+    const answerText = response.content[0].type === 'text' ? response.content[0].text : '{}';
     const jsonMatch = answerText.match(/\{[\s\S]*\}/);
     const result = jsonMatch ? JSON.parse(jsonMatch[0]) : {};
 
@@ -291,10 +286,7 @@ Create a professional summary suitable for submission to Taumata Arowai in JSON 
       usage: {
         inputTokens: response.usage.input_tokens,
         outputTokens: response.usage.output_tokens,
-        estimatedCost: calculateCost(
-          response.usage.input_tokens,
-          response.usage.output_tokens
-        ),
+        estimatedCost: calculateCost(response.usage.input_tokens, response.usage.output_tokens),
       },
     };
   } catch (error: any) {

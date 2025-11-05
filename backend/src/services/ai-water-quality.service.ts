@@ -68,11 +68,7 @@ export async function analyzeWaterQuality(
   const startTime = Date.now();
 
   // Check quota
-  const quotaCheck = await checkAIQuota(
-    organizationId,
-    AIFeature.WATER_QUALITY_ANALYSIS,
-    4000
-  );
+  const quotaCheck = await checkAIQuota(organizationId, AIFeature.WATER_QUALITY_ANALYSIS, 4000);
 
   if (!quotaCheck.allowed) {
     throw new Error(quotaCheck.reason || 'AI quota exceeded');
@@ -168,8 +164,7 @@ Focus on:
       messages: [{ role: 'user', content: prompt }],
     });
 
-    const answerText =
-      response.content[0].type === 'text' ? response.content[0].text : '{}';
+    const answerText = response.content[0].type === 'text' ? response.content[0].text : '{}';
     const jsonMatch = answerText.match(/\{[\s\S]*\}/);
     const analysis = jsonMatch
       ? JSON.parse(jsonMatch[0])
@@ -197,22 +192,22 @@ Focus on:
       userAgent,
     });
 
-    logger.info({
-      organizationId,
-      componentId,
-      testsAnalyzed: tests.length,
-      overallStatus: analysis.compliance.overallStatus,
-    }, 'Water quality analysis completed');
+    logger.info(
+      {
+        organizationId,
+        componentId,
+        testsAnalyzed: tests.length,
+        overallStatus: analysis.compliance.overallStatus,
+      },
+      'Water quality analysis completed'
+    );
 
     return {
       ...analysis,
       usage: {
         inputTokens: response.usage.input_tokens,
         outputTokens: response.usage.output_tokens,
-        estimatedCost: calculateCost(
-          response.usage.input_tokens,
-          response.usage.output_tokens
-        ),
+        estimatedCost: calculateCost(response.usage.input_tokens, response.usage.output_tokens),
       },
     };
   } catch (error: any) {
@@ -233,11 +228,14 @@ Focus on:
       userAgent,
     });
 
-    logger.error({
-      organizationId,
-      componentId,
-      error: error.message,
-    }, 'Water quality analysis failed');
+    logger.error(
+      {
+        organizationId,
+        componentId,
+        error: error.message,
+      },
+      'Water quality analysis failed'
+    );
 
     throw new Error(`Water quality analysis error: ${error.message}`);
   }

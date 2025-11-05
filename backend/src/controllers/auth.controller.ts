@@ -19,10 +19,7 @@ import bcrypt from 'bcrypt';
  *
  * NOTE: This is a placeholder. In production, use Auth0 or similar OAuth provider
  */
-export async function login(
-  request: FastifyRequest<{ Body: LoginRequest }>,
-  reply: FastifyReply
-) {
+export async function login(request: FastifyRequest<{ Body: LoginRequest }>, reply: FastifyReply) {
   // Safely handle missing body
   if (!request.body) {
     return reply.code(400).send({
@@ -61,10 +58,7 @@ export async function login(
     }
 
     // Generate tokens
-    const { accessToken, refreshToken } = await authService.generateTokens(
-      request.server,
-      user
-    );
+    const { accessToken, refreshToken } = await authService.generateTokens(request.server, user);
 
     // Create response
     const response = authService.createLoginResponse(user, accessToken, refreshToken);
@@ -177,10 +171,7 @@ export async function register(
     });
 
     // Generate tokens
-    const { accessToken, refreshToken } = await authService.generateTokens(
-      request.server,
-      user
-    );
+    const { accessToken, refreshToken } = await authService.generateTokens(request.server, user);
 
     // Create response
     const response = authService.createLoginResponse(user, accessToken, refreshToken);

@@ -5,7 +5,12 @@
  * Secure method - files go directly from browser to S3
  */
 
-import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
+import {
+  S3Client,
+  PutObjectCommand,
+  GetObjectCommand,
+  DeleteObjectCommand,
+} from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { config } from '../config/index.js';
 import crypto from 'crypto';
@@ -61,7 +66,11 @@ export function generateFileKey(
 /**
  * Validate file type
  */
-export function validateFileType(mimeType: string): { valid: boolean; extension?: string; error?: string } {
+export function validateFileType(mimeType: string): {
+  valid: boolean;
+  extension?: string;
+  error?: string;
+} {
   const extension = ALLOWED_MIME_TYPES[mimeType as keyof typeof ALLOWED_MIME_TYPES];
 
   if (!extension) {

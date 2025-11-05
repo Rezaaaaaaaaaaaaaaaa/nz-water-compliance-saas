@@ -107,11 +107,7 @@ describe('S3 Service', () => {
     });
 
     it('should sanitize special characters in filename', () => {
-      const key = s3Service.generateFileKey(
-        'org1',
-        'DWSP',
-        'test file!@#$%.pdf'
-      );
+      const key = s3Service.generateFileKey('org1', 'DWSP', 'test file!@#$%.pdf');
       expect(key).toMatch(/test_file_+\.pdf$/);
     });
 
@@ -121,22 +117,14 @@ describe('S3 Service', () => {
     });
 
     it('should handle files with multiple dots', () => {
-      const key = s3Service.generateFileKey(
-        'org1',
-        'DWSP',
-        'my.test.file.pdf'
-      );
+      const key = s3Service.generateFileKey('org1', 'DWSP', 'my.test.file.pdf');
       expect(key).toMatch(/\.pdf$/);
     });
   });
 
   describe('File Security', () => {
     it('should prevent directory traversal in filenames', () => {
-      const key = s3Service.generateFileKey(
-        'org1',
-        'DWSP',
-        '../../../etc/passwd'
-      );
+      const key = s3Service.generateFileKey('org1', 'DWSP', '../../../etc/passwd');
       expect(key).not.toContain('../');
       expect(key).toContain('organizations/org1');
     });

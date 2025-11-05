@@ -231,12 +231,7 @@ export async function logAIUsage(data: {
 
   // Update quota if successful
   if (data.success) {
-    await incrementQuota(
-      data.organizationId,
-      data.feature,
-      totalTokens,
-      estimatedCost
-    );
+    await incrementQuota(data.organizationId, data.feature, totalTokens, estimatedCost);
   }
 
   return log;
@@ -297,10 +292,7 @@ export function calculateCost(inputTokens: number, outputTokens: number): number
 /**
  * Get feature-specific limits
  */
-function getFeatureLimits(
-  feature: AIFeature,
-  quota: any
-): { current: number; max: number } {
+function getFeatureLimits(feature: AIFeature, quota: any): { current: number; max: number } {
   const map = {
     COMPLIANCE_ASSISTANT: {
       current: quota.chatRequestCount,
@@ -387,9 +379,7 @@ export async function getAIUsageStats(organizationId: string) {
       tokensRemaining: (quota?.maxTokens || 0) - (quota?.tokenCount || 0),
       costUsed: quota?.costCents || 0,
       costRemaining: (quota?.maxCostCents || 0) - (quota?.costCents || 0),
-      percentUsed: quota
-        ? Math.round((quota.requestCount / quota.maxRequests) * 100)
-        : 0,
+      percentUsed: quota ? Math.round((quota.requestCount / quota.maxRequests) * 100) : 0,
     },
   };
 }

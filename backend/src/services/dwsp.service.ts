@@ -33,7 +33,10 @@ export function validateDWSP(dwsp: any): DWSPValidation {
   }
 
   // Element 3: Risk Assessment
-  if (!dwsp.riskAssessment || (typeof dwsp.riskAssessment === 'object' && Object.keys(dwsp.riskAssessment).length === 0)) {
+  if (
+    !dwsp.riskAssessment ||
+    (typeof dwsp.riskAssessment === 'object' && Object.keys(dwsp.riskAssessment).length === 0)
+  ) {
     if (!dwsp.riskAssessments) {
       missingElements.push('3. Risk Assessment');
     }
@@ -87,7 +90,9 @@ export function validateDWSP(dwsp: any): DWSPValidation {
     dwsp.waterSupplyDescription?.sourceTypes?.includes('Surface Water');
 
   if (hasSurfaceWater && !dwsp.sourceWaterRiskManagement) {
-    missingElements.push('12. Source Water Risk Management Plan (required for surface water sources)');
+    missingElements.push(
+      '12. Source Water Risk Management Plan (required for surface water sources)'
+    );
   }
 
   // Element 13: Review and Amendment Procedures
@@ -126,11 +131,7 @@ export function validateDWSP(dwsp: any): DWSPValidation {
 /**
  * Create new DWSP
  */
-export async function createDWSP(
-  user: AuthenticatedUser,
-  data: CreateDWSPRequest,
-  request: any
-) {
+export async function createDWSP(user: AuthenticatedUser, data: CreateDWSPRequest, request: any) {
   // Validate DWSP
   const validation = validateDWSP(data);
 
@@ -312,8 +313,10 @@ export async function updateDWSP(
   }
 
   // Can't update if submitted or approved
-  if (existing.status === CompliancePlanStatus.SUBMITTED ||
-      existing.status === CompliancePlanStatus.ACCEPTED) {
+  if (
+    existing.status === CompliancePlanStatus.SUBMITTED ||
+    existing.status === CompliancePlanStatus.ACCEPTED
+  ) {
     throw new Error('Cannot update submitted or accepted DWSP. Create a new version instead.');
   }
 
@@ -348,11 +351,7 @@ export async function updateDWSP(
  * Submit DWSP to Taumata Arowai
  * CRITICAL: Only Compliance Managers can submit (regulatory requirement)
  */
-export async function submitDWSP(
-  id: string,
-  user: AuthenticatedUser,
-  request: any
-) {
+export async function submitDWSP(id: string, user: AuthenticatedUser, request: any) {
   const dwsp = await getDWSP(id, user);
   if (!dwsp) {
     throw new Error('DWSP not found');
@@ -361,9 +360,7 @@ export async function submitDWSP(
   // Validate completeness
   const validation = validateDWSP(dwsp);
   if (!validation.isValid) {
-    throw new Error(
-      `DWSP is incomplete. Missing: ${validation.missingElements.join(', ')}`
-    );
+    throw new Error(`DWSP is incomplete. Missing: ${validation.missingElements.join(', ')}`);
   }
 
   // Can only submit if APPROVED
@@ -433,19 +430,17 @@ export async function approveDWSP(
 /**
  * Delete DWSP (soft delete)
  */
-export async function deleteDWSP(
-  id: string,
-  user: AuthenticatedUser,
-  request: any
-) {
+export async function deleteDWSP(id: string, user: AuthenticatedUser, request: any) {
   const dwsp = await getDWSP(id, user);
   if (!dwsp) {
     throw new Error('DWSP not found');
   }
 
   // Can't delete submitted plans
-  if (dwsp.status === CompliancePlanStatus.SUBMITTED ||
-      dwsp.status === CompliancePlanStatus.ACCEPTED) {
+  if (
+    dwsp.status === CompliancePlanStatus.SUBMITTED ||
+    dwsp.status === CompliancePlanStatus.ACCEPTED
+  ) {
     throw new Error('Cannot delete submitted or accepted DWSP');
   }
 

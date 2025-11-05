@@ -76,9 +76,7 @@ describe('Analytics Service', () => {
         .mockResolvedValueOnce(2) // overdueItems
         .mockResolvedValueOnce(1); // recentIncidents
 
-      const { getComplianceOverview } = await import(
-        '../../services/analytics.service.js'
-      );
+      const { getComplianceOverview } = await import('../../services/analytics.service.js');
 
       const result = await getComplianceOverview(organizationId);
 
@@ -94,9 +92,7 @@ describe('Analytics Service', () => {
     });
 
     it('should calculate compliance score of 100 for perfect compliance', async () => {
-      mockPrisma.asset.count
-        .mockResolvedValueOnce(100)
-        .mockResolvedValueOnce(0); // No critical assets
+      mockPrisma.asset.count.mockResolvedValueOnce(100).mockResolvedValueOnce(0); // No critical assets
 
       mockPrisma.compliancePlan.count
         .mockResolvedValueOnce(2) // activeDWSPs
@@ -104,9 +100,7 @@ describe('Analytics Service', () => {
         .mockResolvedValueOnce(0) // No overdue items
         .mockResolvedValueOnce(0); // No incidents
 
-      const { getComplianceOverview } = await import(
-        '../../services/analytics.service.js'
-      );
+      const { getComplianceOverview } = await import('../../services/analytics.service.js');
 
       const result = await getComplianceOverview(organizationId);
 
@@ -117,9 +111,7 @@ describe('Analytics Service', () => {
       mockPrisma.asset.count.mockResolvedValue(100);
       mockPrisma.compliancePlan.count.mockResolvedValue(0); // No DWSPs
 
-      const { getComplianceOverview } = await import(
-        '../../services/analytics.service.js'
-      );
+      const { getComplianceOverview } = await import('../../services/analytics.service.js');
 
       const result = await getComplianceOverview(organizationId);
 
@@ -134,9 +126,7 @@ describe('Analytics Service', () => {
         .mockResolvedValueOnce(10) // 10 overdue items
         .mockResolvedValueOnce(0);
 
-      const { getComplianceOverview } = await import(
-        '../../services/analytics.service.js'
-      );
+      const { getComplianceOverview } = await import('../../services/analytics.service.js');
 
       const result = await getComplianceOverview(organizationId);
 
@@ -208,9 +198,7 @@ describe('Analytics Service', () => {
         _sum: { fileSize: 1073741824 }, // 1GB in bytes
       });
 
-      const { getDocumentAnalytics } = await import(
-        '../../services/analytics.service.js'
-      );
+      const { getDocumentAnalytics } = await import('../../services/analytics.service.js');
 
       const result = await getDocumentAnalytics(organizationId);
 
@@ -228,9 +216,7 @@ describe('Analytics Service', () => {
         _sum: { fileSize: null },
       });
 
-      const { getDocumentAnalytics } = await import(
-        '../../services/analytics.service.js'
-      );
+      const { getDocumentAnalytics } = await import('../../services/analytics.service.js');
 
       const result = await getDocumentAnalytics(organizationId);
 
@@ -292,9 +278,7 @@ describe('Analytics Service', () => {
         { id: 'user5', firstName: 'Charlie', lastName: 'Davis', email: 'charlie@test.com' },
       ]);
 
-      const { getUserActivitySummary } = await import(
-        '../../services/analytics.service.js'
-      );
+      const { getUserActivitySummary } = await import('../../services/analytics.service.js');
 
       const result = await getUserActivitySummary(organizationId);
 

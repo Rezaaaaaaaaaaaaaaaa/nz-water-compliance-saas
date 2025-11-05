@@ -59,9 +59,7 @@ export async function listAssets(
       type: request.query.type,
       condition: request.query.condition,
       isCritical:
-        request.query.isCritical !== undefined
-          ? request.query.isCritical === 'true'
-          : undefined,
+        request.query.isCritical !== undefined ? request.query.isCritical === 'true' : undefined,
       riskLevel: request.query.riskLevel,
       search: request.query.search,
       limit: request.query.limit ? parseInt(request.query.limit) : undefined,
@@ -135,12 +133,7 @@ export async function updateAsset(
 ) {
   try {
     const user = requireUser(request);
-    const asset = await assetService.updateAsset(
-      request.params.id,
-      user,
-      request.body,
-      request
-    );
+    const asset = await assetService.updateAsset(request.params.id, user, request.body, request);
 
     return reply.code(200).send({
       asset,
@@ -197,11 +190,7 @@ export async function bulkImportAssets(
       });
     }
 
-    const result = await assetService.bulkImportAssets(
-      user,
-      request.body.assets,
-      request
-    );
+    const result = await assetService.bulkImportAssets(user, request.body.assets, request);
 
     return reply.code(200).send({
       message: `Imported ${result.created} assets`,
