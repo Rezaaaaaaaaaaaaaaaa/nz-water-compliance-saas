@@ -197,12 +197,12 @@ Focus on:
       userAgent,
     });
 
-    logger.info('Water quality analysis completed', {
+    logger.info({
       organizationId,
       componentId,
       testsAnalyzed: tests.length,
       overallStatus: analysis.compliance.overallStatus,
-    });
+    }, 'Water quality analysis completed');
 
     return {
       ...analysis,
@@ -233,11 +233,11 @@ Focus on:
       userAgent,
     });
 
-    logger.error('Water quality analysis failed', {
+    logger.error({
       organizationId,
       componentId,
       error: error.message,
-    });
+    }, 'Water quality analysis failed');
 
     throw new Error(`Water quality analysis error: ${error.message}`);
   }

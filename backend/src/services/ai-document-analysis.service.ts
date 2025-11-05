@@ -161,14 +161,14 @@ Focus on:
       userAgent,
     });
 
-    logger.info('DWSP analysis completed', {
+    logger.info({
       organizationId,
       userId,
       documentId,
       completenessScore: analysis.completenessScore,
       inputTokens: response.usage.input_tokens,
       outputTokens: response.usage.output_tokens,
-    });
+    }, 'DWSP analysis completed');
 
     return {
       ...analysis,
@@ -199,11 +199,11 @@ Focus on:
       userAgent,
     });
 
-    logger.error('DWSP analysis failed', {
+    logger.error({
       organizationId,
       userId,
       error: error.message,
-    });
+    }, 'DWSP analysis failed');
 
     throw new Error(`Document analysis error: ${error.message}`);
   }

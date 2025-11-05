@@ -54,11 +54,11 @@ export async function askQuestion(
       request.headers['user-agent']
     );
 
-    logger.info('AI question answered', {
+    logger.info({
       userId: user.id,
       organizationId: user.organizationId,
       inputTokens: result.usage.inputTokens,
-    });
+    }, 'AI question answered');
 
     return reply.send({
       answer: result.answer,
@@ -66,10 +66,10 @@ export async function askQuestion(
       usage: result.usage,
     });
   } catch (error: any) {
-    logger.error('AI question failed', {
+    logger.error({
       error: error.message,
       userId: (request as any).user?.id,
-    });
+    }, 'AI question failed');
 
     if (error.message.includes('quota')) {
       return reply.code(429).send({
@@ -117,18 +117,18 @@ export async function analyzeDwspDocument(
       request.headers['user-agent']
     );
 
-    logger.info('DWSP analysis completed', {
+    logger.info({
       userId: user.id,
       documentId,
       completenessScore: result.completenessScore,
-    });
+    }, 'DWSP analysis completed');
 
     return reply.send(result);
   } catch (error: any) {
-    logger.error('DWSP analysis failed', {
+    logger.error({
       error: error.message,
       userId: (request as any).user?.id,
-    });
+    }, 'DWSP analysis failed');
 
     if (error.message.includes('quota')) {
       return reply.code(429).send({
@@ -176,18 +176,18 @@ export async function analyzeWaterQualityData(
       request.headers['user-agent']
     );
 
-    logger.info('Water quality analysis completed', {
+    logger.info({
       userId: user.id,
       componentId,
       status: result.compliance.overallStatus,
-    });
+    }, 'Water quality analysis completed');
 
     return reply.send(result);
   } catch (error: any) {
-    logger.error('Water quality analysis failed', {
+    logger.error({
       error: error.message,
       userId: (request as any).user?.id,
-    });
+    }, 'Water quality analysis failed');
 
     if (error.message.includes('quota')) {
       return reply.code(429).send({
@@ -238,17 +238,17 @@ export async function generateSummary(
       request.headers['user-agent']
     );
 
-    logger.info('Report summary generated', {
+    logger.info({
       userId: user.id,
       year: reportData.year,
-    });
+    }, 'Report summary generated');
 
     return reply.send(result);
   } catch (error: any) {
-    logger.error('Report summary generation failed', {
+    logger.error({
       error: error.message,
       userId: (request as any).user?.id,
-    });
+    }, 'Report summary generation failed');
 
     if (error.message.includes('quota')) {
       return reply.code(429).send({
@@ -279,10 +279,10 @@ export async function getUsageStats(
 
     return reply.send(stats);
   } catch (error: any) {
-    logger.error('Failed to get usage stats', {
+    logger.error({
       error: error.message,
       userId: (request as any).user?.id,
-    });
+    }, 'Failed to get usage stats');
 
     return reply.code(500).send({
       error: 'Failed to get usage statistics',
@@ -315,10 +315,10 @@ export async function getConversations(
 
     return reply.send({ conversations });
   } catch (error: any) {
-    logger.error('Failed to get conversations', {
+    logger.error({
       error: error.message,
       userId: (request as any).user?.id,
-    });
+    }, 'Failed to get conversations');
 
     return reply.code(500).send({
       error: 'Failed to get conversation history',
@@ -346,10 +346,10 @@ export async function deleteConversationHandler(
 
     return reply.send({ success: true });
   } catch (error: any) {
-    logger.error('Failed to delete conversation', {
+    logger.error({
       error: error.message,
       userId: (request as any).user?.id,
-    });
+    }, 'Failed to delete conversation');
 
     return reply.code(500).send({
       error: 'Failed to delete conversation',
@@ -383,18 +383,18 @@ export async function updateTier(
 
     const result = await updateOrganizationTier(organizationId, tier);
 
-    logger.info('Organization tier updated', {
+    logger.info({
       organizationId,
       tier,
       updatedBy: user.id,
-    });
+    }, 'Organization tier updated');
 
     return reply.send(result);
   } catch (error: any) {
-    logger.error('Failed to update tier', {
+    logger.error({
       error: error.message,
       userId: (request as any).user?.id,
-    });
+    }, 'Failed to update tier');
 
     return reply.code(500).send({
       error: 'Failed to update tier',

@@ -123,13 +123,13 @@ export async function askComplianceQuestion(
     const newSessionId = sessionId || generateSessionId();
     await saveConversation(organizationId, userId, newSessionId, question, answer);
 
-    logger.info('AI compliance question answered', {
+    logger.info({
       organizationId,
       userId,
       inputTokens: response.usage.input_tokens,
       outputTokens: response.usage.output_tokens,
       latencyMs,
-    });
+    }, 'AI compliance question answered');
 
     return {
       answer,
@@ -162,11 +162,11 @@ export async function askComplianceQuestion(
       userAgent,
     });
 
-    logger.error('AI compliance question failed', {
+    logger.error({
       organizationId,
       userId,
       error: error.message,
-    });
+    }, 'AI compliance question failed');
 
     throw new Error(`AI assistant error: ${error.message}`);
   }
