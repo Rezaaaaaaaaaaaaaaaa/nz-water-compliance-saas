@@ -14,7 +14,7 @@ import {
   getConversations,
   deleteConversationHandler,
   updateTier,
-} from '../controllers/ai.controller';
+} from '../controllers/ai.controller.js';
 import { authenticate } from '../middleware/auth.middleware.js';
 
 export async function aiRoutes(fastify: FastifyInstance) {

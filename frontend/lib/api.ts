@@ -4,9 +4,40 @@
  * Axios-based client for communicating with the backend API
  */
 
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api/v1';
+
+/**
+ * Custom API Error Class
+ * Provides consistent error handling across the application
+ */
+export class APIError extends Error {
+  constructor(
+    public status: number,
+    message: string,
+    public details?: Record<string, unknown>
+  ) {
+    super(message);
+    this.name = 'APIError';
+  }
+}
+
+/**
+ * Extract error message from API response
+ */
+function getErrorMessage(error: AxiosError<any>): string {
+  if (error.response?.data?.message) {
+    return error.response.data.message;
+  }
+  if (error.response?.data?.error) {
+    return error.response.data.error;
+  }
+  if (error.message) {
+    return error.message;
+  }
+  return 'An unexpected error occurred';
+}
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -19,9 +50,12 @@ export const apiClient = axios.create({
 // Add auth token to requests
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('auth_token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    // Only access localStorage on client side
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('auth_token');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
     return config;
   },
@@ -30,16 +64,71 @@ apiClient.interceptors.request.use(
   }
 );
 
-// Handle auth errors
+// Handle errors with detailed logging and status-specific handling
 apiClient.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      // Clear token and redirect to login
-      localStorage.removeItem('auth_token');
-      window.location.href = '/login';
+  (error: AxiosError<any>) => {
+    const status = error.response?.status || 0;
+    const errorMessage = getErrorMessage(error);
+
+    // Log error details
+    console.error('API Error:', {
+      status,
+      message: errorMessage,
+      url: error.config?.url,
+      data: error.response?.data,
+    });
+
+    // Handle specific HTTP status codes
+    switch (status) {
+      case 400:
+        // Bad request - validation error
+        return Promise.reject(
+          new APIError(400, errorMessage, error.response?.data?.details)
+        );
+
+      case 401:
+        // Unauthorized - clear token and redirect to login
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('auth_token');
+          window.location.href = '/login';
+        }
+        return Promise.reject(new APIError(401, 'Unauthorized. Please log in.'));
+
+      case 403:
+        // Forbidden - user doesn't have permission
+        return Promise.reject(
+          new APIError(403, 'You do not have permission to access this resource.')
+        );
+
+      case 404:
+        // Not found
+        return Promise.reject(new APIError(404, 'The requested resource was not found.'));
+
+      case 429:
+        // Rate limited
+        return Promise.reject(
+          new APIError(429, 'Too many requests. Please try again later.')
+        );
+
+      case 500:
+      case 502:
+      case 503:
+      case 504:
+        // Server errors
+        return Promise.reject(
+          new APIError(status, 'Server error. Please try again later.')
+        );
+
+      default:
+        // Network or other errors
+        if (!error.response) {
+          return Promise.reject(
+            new APIError(0, 'Network error. Please check your connection.')
+          );
+        }
+        return Promise.reject(new APIError(status, errorMessage));
     }
-    return Promise.reject(error);
   }
 );
 
@@ -65,7 +154,9 @@ export const authApi = {
   },
   logout: async () => {
     const response = await apiClient.post('/auth/logout');
-    localStorage.removeItem('auth_token');
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('auth_token');
+    }
     return response.data;
   },
 };

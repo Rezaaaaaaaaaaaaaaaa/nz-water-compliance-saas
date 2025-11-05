@@ -22,7 +22,7 @@ export default function RegisterPage() {
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      organizationType: 'WATER_SUPPLIER',
+      organizationType: 'COUNCIL',
     },
   });
 
@@ -105,10 +105,10 @@ export default function RegisterPage() {
                 {...register('organizationType')}
                 className="appearance-none relative block w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               >
-                <option value="WATER_SUPPLIER">Water Supplier</option>
-                <option value="CONSULTANT">Consultant</option>
-                <option value="REGULATOR">Regulator</option>
-                <option value="OTHER">Other</option>
+                <option value="COUNCIL">Local Authority (Council)</option>
+                <option value="CCO">Council-Controlled Organization (CCO)</option>
+                <option value="PRIVATE_OPERATOR">Private Operator</option>
+                <option value="IWI_AUTHORITY">Iwi Authority</option>
               </select>
               {errors.organizationType && (
                 <p className="mt-1 text-sm text-red-600">{errors.organizationType.message}</p>

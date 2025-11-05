@@ -114,7 +114,12 @@
       "Bash(start chrome http://localhost:3002)",
       "Bash(tasklist:*)",
       "Bash(start chrome http://localhost:3001)",
-      "Bash(timeout:*)"
+      "Bash(timeout:*)",
+      "Bash(ping:*)",
+      "Bash(nul)",
+      "Bash(ConvertFrom-Json)",
+      "Bash(ConvertTo-Json})",
+      "Bash(PORT=5000 npm run dev:*)"
     ],
     "deny": [],
     "ask": []

@@ -51,6 +51,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const checkAuth = async () => {
     try {
+      // Only access localStorage on client side
+      if (typeof window === 'undefined') {
+        setLoading(false);
+        return;
+      }
+
       const token = localStorage.getItem('auth_token');
       if (token) {
         const response = await authApi.getCurrentUser();
@@ -58,7 +64,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     } catch (error) {
       console.error('Auth check failed:', error);
-      localStorage.removeItem('auth_token');
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('auth_token');
+      }
     } finally {
       setLoading(false);
     }
@@ -67,7 +75,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string) => {
     try {
       const response = await authApi.login(email, password);
-      localStorage.setItem('auth_token', response.token);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('auth_token', response.accessToken);
+      }
       setUser(response.user);
     } catch (error) {
       throw error;
@@ -84,7 +94,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }) => {
     try {
       const response = await authApi.register(data);
-      localStorage.setItem('auth_token', response.token);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('auth_token', response.accessToken);
+      }
       setUser(response.user);
     } catch (error) {
       throw error;
@@ -97,9 +109,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
-      localStorage.removeItem('auth_token');
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('auth_token');
+        window.location.href = '/login';
+      }
       setUser(null);
-      window.location.href = '/login';
     }
   };
 

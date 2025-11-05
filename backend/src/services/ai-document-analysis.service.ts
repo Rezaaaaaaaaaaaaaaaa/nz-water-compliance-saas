@@ -7,8 +7,8 @@
 
 import Anthropic from '@anthropic-ai/sdk';
 import { AIFeature } from '@prisma/client';
-import { checkAIQuota, logAIUsage } from './ai-usage.service';
-import { logger } from '../config/logger';
+import { checkAIQuota, logAIUsage } from './ai-usage.service.js';
+import { logger } from '../config/logger.js';
 import { config } from '../config/index.js';
 
 const anthropic = new Anthropic({

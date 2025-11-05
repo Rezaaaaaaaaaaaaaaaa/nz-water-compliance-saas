@@ -9,7 +9,7 @@ import { authenticate } from '../middleware/auth.js';
 export default async function authRoutes(fastify: FastifyInstance) {
   // Public routes (no authentication required)
   fastify.post('/login', authController.login);
-  fastify.post('/register', authController.login); // Register uses same validation as login for testing
+  fastify.post('/register', authController.register); // User registration with organization creation
   fastify.post('/refresh', authController.refresh);
 
   // Protected routes (authentication required)

@@ -1,4 +1,4 @@
-import { DWQARReport } from './dwqar-aggregation.service';
+import { DWQARReport } from './dwqar-aggregation.service.js';
 import { prisma } from '../config/database.js';
 
 /**

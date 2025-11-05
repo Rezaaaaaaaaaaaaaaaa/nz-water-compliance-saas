@@ -17,7 +17,7 @@ export const registerSchema = z.object({
     .regex(/[0-9]/, 'Password must contain at least one number'),
   confirmPassword: z.string().min(1, 'Please confirm your password'),
   organizationName: z.string().min(1, 'Organization name is required'),
-  organizationType: z.enum(['WATER_SUPPLIER', 'CONSULTANT', 'REGULATOR', 'OTHER'], {
+  organizationType: z.enum(['COUNCIL', 'CCO', 'PRIVATE_OPERATOR', 'IWI_AUTHORITY'], {
     message: 'Please select an organization type',
   }),
 }).refine((data) => data.password === data.confirmPassword, {

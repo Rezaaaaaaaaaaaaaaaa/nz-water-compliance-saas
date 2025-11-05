@@ -10,17 +10,17 @@ import {
   askComplianceQuestion,
   getConversationHistoryForUser,
   deleteConversation,
-} from '../services/ai-compliance-assistant.service';
+} from '../services/ai-compliance-assistant.service.js';
 import {
   analyzeDWSP,
   generateReportSummary,
-} from '../services/ai-document-analysis.service';
-import { analyzeWaterQuality } from '../services/ai-water-quality.service';
+} from '../services/ai-document-analysis.service.js';
+import { analyzeWaterQuality } from '../services/ai-water-quality.service.js';
 import {
   getAIUsageStats,
   updateOrganizationTier,
-} from '../services/ai-usage.service';
-import { logger } from '../config/logger';
+} from '../services/ai-usage.service.js';
+import { logger } from '../config/logger.js';
 
 /**
  * Ask compliance assistant a question

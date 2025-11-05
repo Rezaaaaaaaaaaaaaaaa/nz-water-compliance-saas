@@ -4,7 +4,7 @@ import {
   DWQARReport,
   WaterQualityTestData,
   RuleComplianceData,
-} from './dwqar-aggregation.service';
+} from './dwqar-aggregation.service.js';
 import { prisma } from '../config/database.js';
 
 /**

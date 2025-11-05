@@ -23,6 +23,9 @@ interface ToastContextType {
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
 
+// Use a counter for deterministic toast IDs
+let toastCounter = 0;
+
 export const useToast = () => {
   const context = useContext(ToastContext);
   if (!context) {
@@ -40,7 +43,8 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const addToast = useCallback(
     (message: any, type: ToastType = 'info', duration: number = 5000) => {
-      const id = Math.random().toString(36).substr(2, 9);
+      // Use a counter-based ID for deterministic rendering
+      const id = `toast-${++toastCounter}-${Date.now()}`;
 
       // Ensure message is always a string
       let stringMessage: string;

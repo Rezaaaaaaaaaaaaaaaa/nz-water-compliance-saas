@@ -11,6 +11,7 @@ import * as auditService from '../services/audit.service.js';
 import { requireUser } from '../middleware/auth.js';
 import { logSecurity } from '../config/logger.js';
 import { prisma } from '../config/database.js';
+import bcrypt from 'bcrypt';
 
 /**
  * POST /api/v1/auth/login
@@ -84,6 +85,129 @@ export async function login(
 
     return reply.code(500).send({
       error: 'Login failed',
+      message: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+}
+
+/**
+ * POST /api/v1/auth/register
+ * User registration with organization creation
+ */
+export async function register(
+  request: FastifyRequest<{
+    Body: {
+      firstName: string;
+      lastName: string;
+      email: string;
+      password: string;
+      organizationName: string;
+      organizationType: 'COUNCIL' | 'CCO' | 'PRIVATE_OPERATOR' | 'IWI_AUTHORITY';
+      region?: string;
+      contactEmail?: string;
+    };
+  }>,
+  reply: FastifyReply
+) {
+  if (!request.body) {
+    return reply.code(400).send({
+      error: 'Registration data is required',
+    });
+  }
+
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    organizationName,
+    organizationType,
+    region = 'NZ', // Default region
+    contactEmail = email, // Default to user email
+  } = request.body;
+
+  try {
+    // Validate input
+    if (!email || !password || !firstName || !lastName || !organizationName || !organizationType) {
+      return reply.code(400).send({
+        error: 'All fields are required',
+      });
+    }
+
+    // Check if user already exists
+    const existingUser = await prisma.user.findUnique({
+      where: { email: email.toLowerCase() },
+    });
+
+    if (existingUser) {
+      return reply.code(409).send({
+        error: 'Email already in use',
+      });
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create organization and user in transaction
+    const { user } = await prisma.$transaction(async (tx) => {
+      // Create organization
+      const organization = await tx.organization.create({
+        data: {
+          name: organizationName,
+          type: organizationType,
+          region,
+          contactEmail,
+        },
+      });
+
+      // Create user with ORG_ADMIN role
+      const newUser = await tx.user.create({
+        data: {
+          email: email.toLowerCase(),
+          password: hashedPassword,
+          firstName,
+          lastName,
+          role: 'ORG_ADMIN',
+          organizationId: organization.id,
+          isActive: true,
+        },
+      });
+
+      return { user: newUser };
+    });
+
+    // Generate tokens
+    const { accessToken, refreshToken } = await authService.generateTokens(
+      request.server,
+      user
+    );
+
+    // Create response
+    const response = authService.createLoginResponse(user, accessToken, refreshToken);
+
+    // Log successful registration
+    await auditService.auditLogin(user.id, user.organizationId, request);
+
+    logSecurity({
+      type: 'USER_REGISTERED',
+      ipAddress: request.ip,
+      userAgent: request.headers['user-agent'],
+      metadata: { email, organizationId: user.organizationId },
+    });
+
+    return reply.code(201).send(response);
+  } catch (error) {
+    request.log.error({ err: error }, 'Registration error');
+
+    logSecurity({
+      type: 'REGISTRATION_FAILURE',
+      ipAddress: request.ip,
+      userAgent: request.headers['user-agent'],
+      reason: error instanceof Error ? error.message : 'Unknown error',
+    });
+
+    return reply.code(500).send({
+      error: 'Registration failed',
       message: error instanceof Error ? error.message : 'Unknown error',
     });
   }
