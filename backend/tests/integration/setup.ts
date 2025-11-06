@@ -13,7 +13,7 @@ dotenv.config({ path: path.resolve(__dirname, '../../.env.test') });
 process.env.NODE_ENV = 'test';
 process.env.DATABASE_URL = process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/compliance_test';
 process.env.REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379/1';
-process.env.JWT_SECRET = process.env.JWT_SECRET || 'test-jwt-secret-key-12345';
+process.env.JWT_SECRET = process.env.JWT_SECRET || 'test-jwt-secret-key-for-integration-tests-32chars';
 
 // Suppress logs during tests (optional)
 if (process.env.SUPPRESS_LOGS === 'true') {
