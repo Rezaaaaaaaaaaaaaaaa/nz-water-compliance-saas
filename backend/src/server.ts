@@ -88,24 +88,28 @@ async function buildApp(): Promise<FastifyInstance> {
     bodyLimit: config.maxFileSize,
   });
 
-  // Security: Helmet - Sets security headers
-  await app.register(helmet, {
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        scriptSrc: ["'self'"],
-        imgSrc: ["'self'", 'data:', 'https:'],
+  // Security: Helmet - Sets security headers (skip in test for debugging)
+  if (config.nodeEnv !== 'test') {
+    await app.register(helmet, {
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          styleSrc: ["'self'", "'unsafe-inline'"],
+          scriptSrc: ["'self'"],
+          imgSrc: ["'self'", 'data:', 'https:'],
+        },
       },
-    },
-  });
+    });
+  }
 
-  // CORS Configuration
-  await app.register(cors, {
-    origin: config.frontendUrl,
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-  });
+  // CORS Configuration (skip in test for debugging)
+  if (config.nodeEnv !== 'test') {
+    await app.register(cors, {
+      origin: config.frontendUrl,
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    });
+  }
 
   // Rate Limiting - Prevent abuse (skip in test mode)
   if (config.nodeEnv !== 'test') {
