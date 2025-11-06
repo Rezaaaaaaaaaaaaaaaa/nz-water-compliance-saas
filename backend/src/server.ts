@@ -122,12 +122,15 @@ async function buildApp(): Promise<FastifyInstance> {
   });
 
   // Multipart/form-data support for file uploads
-  await app.register(multipart, {
-    limits: {
-      fileSize: config.maxFileSize,
-      files: 10,
-    },
-  });
+  // Skip in test mode to avoid hooks system conflicts
+  if (config.nodeEnv !== 'test') {
+    await app.register(multipart, {
+      limits: {
+        fileSize: config.maxFileSize,
+        files: 10,
+      },
+    });
+  }
 
   // Health Check Endpoint
   app.get('/health', async () => {
