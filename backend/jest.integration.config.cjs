@@ -22,8 +22,8 @@ module.exports = {
     }]
   },
 
-  // Setup files
-  setupFilesAfterEnv: ['<rootDir>/tests/integration/setup.ts'],
+  // Setup files - use setupFiles (not setupFilesAfterEnv) to run BEFORE module imports
+  setupFiles: ['<rootDir>/tests/integration/setup.ts'],
 
   // Coverage for integration tests
   collectCoverageFrom: [

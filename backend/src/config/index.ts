@@ -200,6 +200,10 @@ function loadConfig() {
     } else {
       console.error('Failed to load configuration:', error);
     }
+    // Don't exit in test environment, throw error instead
+    if (process.env.NODE_ENV === 'test') {
+      throw error;
+    }
     process.exit(1);
   }
 }

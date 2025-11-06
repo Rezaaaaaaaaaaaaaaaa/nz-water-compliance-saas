@@ -25,11 +25,3 @@ if (process.env.SUPPRESS_LOGS === 'true') {
     error: jest.fn(),
   } as any;
 }
-
-// Global test timeout
-jest.setTimeout(30000);
-
-// Clean up after all tests
-afterAll(async () => {
-  // Connection cleanup happens in individual test files
-}, 10000);
