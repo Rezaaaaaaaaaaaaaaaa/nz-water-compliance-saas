@@ -52,6 +52,7 @@ export interface LoginResponse {
     organizationId: string;
   };
   accessToken: string;
+  token?: string; // Backward compatibility alias for accessToken
   refreshToken: string;
   expiresIn: string;
 }

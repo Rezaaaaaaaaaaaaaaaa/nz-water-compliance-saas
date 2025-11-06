@@ -135,6 +135,7 @@ export function createLoginResponse(
       organizationId: user.organizationId,
     },
     accessToken,
+    token: accessToken, // Backward compatibility alias
     refreshToken,
     expiresIn: config.jwtExpiresIn,
   };

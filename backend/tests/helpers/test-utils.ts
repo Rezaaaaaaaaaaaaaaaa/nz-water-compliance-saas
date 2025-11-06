@@ -387,8 +387,17 @@ export async function waitForCondition(
   throw new Error('Condition not met within timeout');
 }
 
+/**
+ * Note: generateTestToken is defined for potential manual testing purposes,
+ * but integration tests use the login endpoint to get authentic JWT tokens,
+ * so this function is not exported or used in the test suite.
+ *
+ * JWT tokens for integration tests are obtained via:
+ * 1. Create test user with createTestUser()
+ * 2. Call login endpoint with test credentials
+ * 3. Extract token from loginResponse.body.token
+ */
 export default {
-  generateTestToken,
   createTestUser,
   createTestUsers,
   createTestAsset,
