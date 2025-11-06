@@ -7,6 +7,7 @@ import request from 'supertest';
 import { buildApp } from '../../src/server';
 import * as testUtils from '../helpers/test-utils';
 import { FastifyInstance } from 'fastify';
+import { CompliancePlanStatus } from '@prisma/client';
 
 describe('Analytics API', () => {
   let app: FastifyInstance;
@@ -32,8 +33,8 @@ describe('Analytics API', () => {
 
     // Create test data for analytics
     await testUtils.createTestAssets(organizationId, 5);
-    await testUtils.createTestDWSP(organizationId, { status: 'ACTIVE' });
-    await testUtils.createTestDWSP(organizationId, { status: 'DRAFT' });
+    await testUtils.createTestDWSP(organizationId, { status: CompliancePlanStatus.APPROVED });
+    await testUtils.createTestDWSP(organizationId, { status: CompliancePlanStatus.DRAFT });
   });
 
   afterAll(async () => {
