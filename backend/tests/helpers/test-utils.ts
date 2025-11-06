@@ -247,13 +247,14 @@ export async function seedTestData() {
 export async function cleanupTestData() {
   try {
     // Delete in order respecting foreign keys
+    // AuditLog MUST be deleted first (has FKs to User and Organization)
+    await prisma.auditLog.deleteMany({});
     await prisma.document.deleteMany({});
     await prisma.report.deleteMany({});
     await prisma.compliancePlan.deleteMany({});
     await prisma.asset.deleteMany({});
     await prisma.user.deleteMany({});
     await prisma.organization.deleteMany({});
-    await prisma.auditLog.deleteMany({});
   } catch (error) {
     console.error('Error cleaning up test data:', error);
   }
@@ -264,6 +265,8 @@ export async function cleanupTestData() {
  */
 export async function cleanupByOrganization(organizationId: string) {
   try {
+    // AuditLog MUST be deleted first (has FKs to User and Organization)
+    await prisma.auditLog.deleteMany({ where: { organizationId } });
     await prisma.document.deleteMany({ where: { organizationId } });
     await prisma.report.deleteMany({ where: { organizationId } });
     await prisma.compliancePlan.deleteMany({ where: { organizationId } });
