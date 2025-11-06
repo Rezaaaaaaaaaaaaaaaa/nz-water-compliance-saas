@@ -170,7 +170,7 @@ describe('Compliance Scoring Service', () => {
 
       const result = await calculateComplianceScore(organizationId);
 
-      expect(result.breakdown.timeliness.score).toBeLessThan(100);
+      expect(result.breakdown.timeliness.score).toBeLessThan(50); // With 10 overdue items, penalty = 80, score = 20
     });
 
     it('should generate critical recommendations for missing DWSP', async () => {
