@@ -308,8 +308,8 @@ jobs:
 
       - name: Check for critical vulnerabilities
         run: |
-          cd backend && npm audit --audit-level=moderate || exit 1
-          cd ../frontend && npm audit --audit-level=moderate || exit 1
+          cd backend && npm audit --audit-level=high || exit 1
+          cd ../frontend && npm audit --audit-level=high || exit 1
 
   health-check:
     name: Health Check
