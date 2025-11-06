@@ -15,6 +15,7 @@ describe('Authentication API', () => {
   beforeAll(async () => {
     // Initialize app
     app = await buildApp();
+    await app.ready(); // Wait for Fastify to fully initialize hooks
 
     // Clean database
     await testUtils.cleanupTestData();

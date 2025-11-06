@@ -18,6 +18,7 @@ describe('Compliance API (DWSP)', () => {
 
   beforeAll(async () => {
     app = await buildApp();
+    await app.ready(); // Wait for Fastify to fully initialize hooks
     await testUtils.cleanupTestData();
 
     testUser = await testUtils.createTestUser();

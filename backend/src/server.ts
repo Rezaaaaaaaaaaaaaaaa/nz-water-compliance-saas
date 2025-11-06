@@ -88,37 +88,31 @@ async function buildApp(): Promise<FastifyInstance> {
     bodyLimit: config.maxFileSize,
   });
 
-  // Security: Helmet - Sets security headers (skip in test for debugging)
-  if (config.nodeEnv !== 'test') {
-    await app.register(helmet, {
-      contentSecurityPolicy: {
-        directives: {
-          defaultSrc: ["'self'"],
-          styleSrc: ["'self'", "'unsafe-inline'"],
-          scriptSrc: ["'self'"],
-          imgSrc: ["'self'", 'data:', 'https:'],
-        },
+  // Security: Helmet - Sets security headers
+  await app.register(helmet, {
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        scriptSrc: ["'self'"],
+        imgSrc: ["'self'", 'data:', 'https:'],
       },
-    });
-  }
+    },
+  });
 
-  // CORS Configuration (skip in test for debugging)
-  if (config.nodeEnv !== 'test') {
-    await app.register(cors, {
-      origin: config.frontendUrl,
-      credentials: true,
-      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-    });
-  }
+  // CORS Configuration
+  await app.register(cors, {
+    origin: config.frontendUrl,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  });
 
-  // Rate Limiting - Prevent abuse (skip in test mode)
-  if (config.nodeEnv !== 'test') {
-    await app.register(rateLimit, {
-      max: config.rateLimit.max,
-      timeWindow: config.rateLimit.window,
-      redis: redis, // Use Redis client instance for distributed rate limiting
-    });
-  }
+  // Rate Limiting - Prevent abuse
+  await app.register(rateLimit, {
+    max: config.rateLimit.max,
+    timeWindow: config.rateLimit.window,
+    redis: redis, // Use Redis client instance for distributed rate limiting
+  });
 
   // JWT Authentication
   await app.register(jwt, {
@@ -126,15 +120,12 @@ async function buildApp(): Promise<FastifyInstance> {
   });
 
   // Multipart/form-data support for file uploads
-  // Skip in test mode to avoid hooks system conflicts
-  if (config.nodeEnv !== 'test') {
-    await app.register(multipart, {
-      limits: {
-        fileSize: config.maxFileSize,
-        files: 10,
-      },
-    });
-  }
+  await app.register(multipart, {
+    limits: {
+      fileSize: config.maxFileSize,
+      files: 10,
+    },
+  });
 
   // Health Check Endpoint
   app.get('/health', async () => {
