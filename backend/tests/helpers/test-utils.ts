@@ -3,8 +3,7 @@
  * Provides reusable functions for integration tests
  */
 
-import jwt from '@fastify/jwt';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, UserRole, OrganizationType, AssetType, CompliancePlanType, CompliancePlanStatus } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -26,10 +25,6 @@ export function generateTestToken(
     iat: Math.floor(Date.now() / 1000),
     exp: Math.floor(Date.now() / 1000) + expiresIn,
   };
-
-  // Note: In real tests, you'd use your actual JWT signing method
-  // For now, return a properly structured payload
-  const secret = process.env.JWT_SECRET || 'test-jwt-secret-key-12345';
 
   // Create a simple JWT-like structure for testing
   const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64');
@@ -55,9 +50,9 @@ export async function createTestUser(
   const organization = await prisma.organization.create({
     data: {
       name: `Test Org ${Date.now()}`,
-      industryType: 'WATER_UTILITY',
-      region: 'AUCKLAND',
-      tier: 'BASIC',
+      type: OrganizationType.COUNCIL,
+      region: 'Auckland',
+      contactEmail: email,
     },
   });
 
@@ -70,9 +65,8 @@ export async function createTestUser(
       firstName: 'Test',
       lastName: 'User',
       organizationId: organization.id,
-      role: 'ADMIN',
-      status: 'ACTIVE',
-      isEmailVerified: true,
+      role: UserRole.ORG_ADMIN,
+      isActive: true,
     },
   });
 
@@ -108,11 +102,9 @@ export async function createTestAsset(
     data: {
       id: uuidv4(),
       name: `Test Asset ${Date.now()}`,
-      assetType: 'TREATMENT_PLANT',
+      type: AssetType.WATER_TREATMENT_PLANT,
       location: 'Auckland, NZ',
       organizationId,
-      status: 'ACTIVE',
-      createdBy: uuidv4(),
       ...overrides,
     },
   });
@@ -126,12 +118,17 @@ export async function createTestAssets(
   count: number = 3
 ) {
   const assets = [];
-  const assetTypes = ['TREATMENT_PLANT', 'RESERVOIR', 'PUMP_STATION', 'DISTRIBUTION_MAIN'];
+  const assetTypes = [
+    AssetType.WATER_TREATMENT_PLANT,
+    AssetType.RESERVOIR,
+    AssetType.PUMP_STATION,
+    AssetType.PIPELINE
+  ];
 
   for (let i = 0; i < count; i++) {
     const asset = await createTestAsset(organizationId, {
       name: `Test Asset ${i} ${Date.now()}`,
-      assetType: assetTypes[i % assetTypes.length],
+      type: assetTypes[i % assetTypes.length],
     });
     assets.push(asset);
   }
@@ -145,15 +142,15 @@ export async function createTestDWSP(
   organizationId: string,
   overrides: any = {}
 ) {
-  return prisma.dWSP.create({
+  return prisma.compliancePlan.create({
     data: {
       id: uuidv4(),
-      name: `Test DWSP ${Date.now()}`,
+      planType: CompliancePlanType.DWSP,
+      title: `Test DWSP ${Date.now()}`,
       description: 'Test drinking water safety plan',
       organizationId,
-      status: 'DRAFT',
-      version: 1,
-      createdBy: uuidv4(),
+      status: CompliancePlanStatus.DRAFT,
+      version: '1.0',
       ...overrides,
     },
   });
@@ -188,9 +185,9 @@ export async function seedTestData() {
     data: {
       id: uuidv4(),
       name: 'Test Organization',
-      industryType: 'WATER_UTILITY',
-      region: 'AUCKLAND',
-      tier: 'PREMIUM',
+      type: OrganizationType.COUNCIL,
+      region: 'Auckland',
+      contactEmail: 'seed-org@example.com',
     },
   });
 
@@ -202,39 +199,42 @@ export async function seedTestData() {
       firstName: 'Seed',
       lastName: 'User',
       organizationId: organization.id,
-      role: 'ADMIN',
-      status: 'ACTIVE',
-      isEmailVerified: true,
+      role: UserRole.ORG_ADMIN,
+      isActive: true,
     },
   });
 
   // Create some assets
   const assets = [];
+  const assetTypesForSeed = [
+    AssetType.WATER_TREATMENT_PLANT,
+    AssetType.RESERVOIR,
+    AssetType.PUMP_STATION
+  ];
   for (let i = 0; i < 3; i++) {
     const asset = await prisma.asset.create({
       data: {
         id: uuidv4(),
         name: `Seed Asset ${i + 1}`,
-        assetType: ['TREATMENT_PLANT', 'RESERVOIR', 'PUMP_STATION'][i],
+        type: assetTypesForSeed[i],
         location: 'Auckland, NZ',
         organizationId: organization.id,
-        status: 'ACTIVE',
-        createdBy: user.id,
       },
     });
     assets.push(asset);
   }
 
   // Create a DWSP
-  const dwsp = await prisma.dWSP.create({
+  const dwsp = await prisma.compliancePlan.create({
     data: {
       id: uuidv4(),
-      name: 'Seed DWSP',
+      planType: CompliancePlanType.DWSP,
+      title: 'Seed DWSP',
       description: 'Seeded test DWSP',
       organizationId: organization.id,
-      status: 'ACTIVE',
-      version: 1,
-      createdBy: user.id,
+      status: CompliancePlanStatus.APPROVED,
+      version: '1.0',
+      createdById: user.id,
     },
   });
 
@@ -249,7 +249,7 @@ export async function cleanupTestData() {
     // Delete in order respecting foreign keys
     await prisma.document.deleteMany({});
     await prisma.report.deleteMany({});
-    await prisma.dWSP.deleteMany({});
+    await prisma.compliancePlan.deleteMany({});
     await prisma.asset.deleteMany({});
     await prisma.user.deleteMany({});
     await prisma.organization.deleteMany({});
@@ -266,7 +266,7 @@ export async function cleanupByOrganization(organizationId: string) {
   try {
     await prisma.document.deleteMany({ where: { organizationId } });
     await prisma.report.deleteMany({ where: { organizationId } });
-    await prisma.dWSP.deleteMany({ where: { organizationId } });
+    await prisma.compliancePlan.deleteMany({ where: { organizationId } });
     await prisma.asset.deleteMany({ where: { organizationId } });
     await prisma.user.deleteMany({ where: { organizationId } });
     await prisma.organization.delete({ where: { id: organizationId } });
