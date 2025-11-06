@@ -7,6 +7,7 @@ import request from 'supertest';
 import { buildApp } from '../../src/server';
 import * as testUtils from '../helpers/test-utils';
 import { FastifyInstance } from 'fastify';
+import { CompliancePlanStatus } from '@prisma/client';
 
 describe('Compliance API (DWSP)', () => {
   let app: FastifyInstance;
@@ -287,7 +288,7 @@ describe('Compliance API (DWSP)', () => {
 
     beforeEach(async () => {
       dwspForTransition = await testUtils.createTestDWSP(organizationId, {
-        status: 'DRAFT',
+        status: CompliancePlanStatus.DRAFT,
       });
     });
 
@@ -317,7 +318,7 @@ describe('Compliance API (DWSP)', () => {
         .patch(`/api/v1/compliance/dwsp/${dwspForTransition.id}`)
         .set('Authorization', `Bearer ${token}`)
         .send({
-          status: 'APPROVED',
+          status: CompliancePlanStatus.APPROVED,
         });
 
       expect(response.status).toBe(200);

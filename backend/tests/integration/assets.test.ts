@@ -155,7 +155,6 @@ describe('Assets API', () => {
           name: 'New Water Treatment Plant',
           assetType: 'TREATMENT_PLANT',
           location: 'Wellington, NZ',
-          status: 'ACTIVE',
         });
 
       expect(response.status).toBe(201);
