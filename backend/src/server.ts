@@ -166,6 +166,7 @@ async function buildApp(): Promise<FastifyInstance> {
         status: 'error',
         service: 'database',
         timestamp: new Date().toISOString(),
+        // @ts-ignore - error is caught as any for flexibility
         error: error.message || String(error),
       };
     }
@@ -203,6 +204,7 @@ async function buildApp(): Promise<FastifyInstance> {
         status: 'error',
         service: 'redis',
         timestamp: new Date().toISOString(),
+        // @ts-ignore - error is caught as any for flexibility
         error: error.message || String(error),
       };
     }

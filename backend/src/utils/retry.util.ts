@@ -65,21 +65,25 @@ function sleep(ms: number): Promise<void> {
  */
 export function isRetryableError(error: any): boolean {
   // Network errors
+  // @ts-ignore - error parameter uses any for flexibility with different error types
   if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT') {
     return true;
   }
 
   // Database connection errors
+  // @ts-ignore - error parameter uses any for flexibility with different error types
   if (error.code === 'P2024' || error.code === 'P2034') {
     return true;
   }
 
   // HTTP 5xx errors (server errors)
+  // @ts-ignore - error parameter uses any for flexibility with different error types
   if (error.statusCode >= 500 && error.statusCode < 600) {
     return true;
   }
 
   // Rate limit errors (429)
+  // @ts-ignore - error parameter uses any for flexibility with different error types
   if (error.statusCode === 429) {
     return true;
   }

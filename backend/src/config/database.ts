@@ -10,7 +10,9 @@ declare global {
   // Allow global `var` declarations
   // eslint-disable-next-line no-var
   var __prisma: PrismaClient | undefined;
+  // eslint-disable-next-line no-var
   var __prismaProd: PrismaClient | undefined;
+  // eslint-disable-next-line no-var
   var __prismaShutdownRegistered: boolean | undefined;
 }
 

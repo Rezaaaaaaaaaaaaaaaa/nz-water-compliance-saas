@@ -31,6 +31,7 @@ export async function askQuestion(
 ) {
   try {
     const { question, sessionId } = request.body;
+    // @ts-ignore - user is added by auth middleware
     const user = (request as any).user;
 
     if (!question || question.trim().length === 0) {
@@ -65,12 +66,15 @@ export async function askQuestion(
   } catch (error: any) {
     logger.error(
       {
+        // @ts-ignore - error is caught as any for flexibility
         error: error.message,
+        // @ts-ignore - user is added by auth middleware
         userId: (request as any).user?.id,
       },
       'AI question failed'
     );
 
+    // @ts-ignore - error is caught as any for flexibility
     if (error.message.includes('quota')) {
       return reply.code(429).send({
         error: error.message,
@@ -80,6 +84,7 @@ export async function askQuestion(
 
     return reply.code(500).send({
       error: 'Failed to process question',
+      // @ts-ignore - error is caught as any for flexibility
       details: error.message,
     });
   }
@@ -100,6 +105,7 @@ export async function analyzeDwspDocument(
 ) {
   try {
     const { documentContent, documentId } = request.body;
+    // @ts-ignore - user is added by auth middleware
     const user = (request as any).user;
 
     if (!documentContent || documentContent.trim().length === 0) {
@@ -130,12 +136,15 @@ export async function analyzeDwspDocument(
   } catch (error: any) {
     logger.error(
       {
+        // @ts-ignore - error is caught as any for flexibility
         error: error.message,
+        // @ts-ignore - user is added by auth middleware
         userId: (request as any).user?.id,
       },
       'DWSP analysis failed'
     );
 
+    // @ts-ignore - error is caught as any for flexibility
     if (error.message.includes('quota')) {
       return reply.code(429).send({
         error: error.message,
@@ -145,6 +154,7 @@ export async function analyzeDwspDocument(
 
     return reply.code(500).send({
       error: 'Failed to analyze document',
+      // @ts-ignore - error is caught as any for flexibility
       details: error.message,
     });
   }
@@ -165,6 +175,7 @@ export async function analyzeWaterQualityData(
 ) {
   try {
     const { componentId, testPeriodDays = 90 } = request.body;
+    // @ts-ignore - user is added by auth middleware
     const user = (request as any).user;
 
     if (!componentId) {
@@ -195,12 +206,15 @@ export async function analyzeWaterQualityData(
   } catch (error: any) {
     logger.error(
       {
+        // @ts-ignore - error is caught as any for flexibility
         error: error.message,
+        // @ts-ignore - user is added by auth middleware
         userId: (request as any).user?.id,
       },
       'Water quality analysis failed'
     );
 
+    // @ts-ignore - error is caught as any for flexibility
     if (error.message.includes('quota')) {
       return reply.code(429).send({
         error: error.message,
@@ -210,6 +224,7 @@ export async function analyzeWaterQualityData(
 
     return reply.code(500).send({
       error: 'Failed to analyze water quality',
+      // @ts-ignore - error is caught as any for flexibility
       details: error.message,
     });
   }
@@ -234,6 +249,7 @@ export async function generateSummary(
 ) {
   try {
     const { reportData } = request.body;
+    // @ts-ignore - user is added by auth middleware
     const user = (request as any).user;
 
     if (!reportData || !reportData.year) {
@@ -262,12 +278,15 @@ export async function generateSummary(
   } catch (error: any) {
     logger.error(
       {
+        // @ts-ignore - error is caught as any for flexibility
         error: error.message,
+        // @ts-ignore - user is added by auth middleware
         userId: (request as any).user?.id,
       },
       'Report summary generation failed'
     );
 
+    // @ts-ignore - error is caught as any for flexibility
     if (error.message.includes('quota')) {
       return reply.code(429).send({
         error: error.message,
@@ -277,6 +296,7 @@ export async function generateSummary(
 
     return reply.code(500).send({
       error: 'Failed to generate summary',
+      // @ts-ignore - error is caught as any for flexibility
       details: error.message,
     });
   }
@@ -288,6 +308,7 @@ export async function generateSummary(
  */
 export async function getUsageStats(request: FastifyRequest, reply: FastifyReply) {
   try {
+    // @ts-ignore - user is added by auth middleware
     const user = (request as any).user;
 
     const stats = await getAIUsageStats(user.organizationId);
@@ -296,7 +317,9 @@ export async function getUsageStats(request: FastifyRequest, reply: FastifyReply
   } catch (error: any) {
     logger.error(
       {
+        // @ts-ignore - error is caught as any for flexibility
         error: error.message,
+        // @ts-ignore - user is added by auth middleware
         userId: (request as any).user?.id,
       },
       'Failed to get usage stats'
@@ -323,6 +346,7 @@ export async function getConversations(
 ) {
   try {
     const { sessionId, limit = 50 } = request.query;
+    // @ts-ignore - user is added by auth middleware
     const user = (request as any).user;
 
     const conversations = await getConversationHistoryForUser(user.id, sessionId, limit);
@@ -331,7 +355,9 @@ export async function getConversations(
   } catch (error: any) {
     logger.error(
       {
+        // @ts-ignore - error is caught as any for flexibility
         error: error.message,
+        // @ts-ignore - user is added by auth middleware
         userId: (request as any).user?.id,
       },
       'Failed to get conversations'
@@ -357,6 +383,7 @@ export async function deleteConversationHandler(
 ) {
   try {
     const { sessionId } = request.params;
+    // @ts-ignore - user is added by auth middleware
     const user = (request as any).user;
 
     await deleteConversation(user.id, sessionId);
@@ -365,7 +392,9 @@ export async function deleteConversationHandler(
   } catch (error: any) {
     logger.error(
       {
+        // @ts-ignore - error is caught as any for flexibility
         error: error.message,
+        // @ts-ignore - user is added by auth middleware
         userId: (request as any).user?.id,
       },
       'Failed to delete conversation'
@@ -392,6 +421,7 @@ export async function updateTier(
 ) {
   try {
     const { organizationId, tier } = request.body;
+    // @ts-ignore - user is added by auth middleware
     const user = (request as any).user;
 
     // Only system admins can update tiers
@@ -416,7 +446,9 @@ export async function updateTier(
   } catch (error: any) {
     logger.error(
       {
+        // @ts-ignore - error is caught as any for flexibility
         error: error.message,
+        // @ts-ignore - user is added by auth middleware
         userId: (request as any).user?.id,
       },
       'Failed to update tier'
