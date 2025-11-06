@@ -6,6 +6,7 @@
 import { PrismaClient, UserRole, OrganizationType, AssetType, CompliancePlanType, CompliancePlanStatus } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
+import crypto from 'crypto';
 
 const prisma = new PrismaClient();
 
@@ -26,13 +27,35 @@ export function generateTestToken(
     exp: Math.floor(Date.now() / 1000) + expiresIn,
   };
 
-  // Create a simple JWT-like structure for testing
-  const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64');
-  const payloadStr = Buffer.from(JSON.stringify(payload)).toString('base64');
+  // Use the same JWT secret as the server for testing
+  const secret = process.env.JWT_SECRET || 'test-jwt-secret-key-for-integration-tests-32chars';
 
-  // For real implementation, use: jwt.sign(payload, secret)
-  // This is a placeholder that works with most test scenarios
-  const token = `${header}.${payloadStr}.signature`;
+  // Create properly signed JWT token
+  const header = { alg: 'HS256', typ: 'JWT' };
+
+  // Base64URL encode header and payload
+  const base64UrlEncode = (str: string) => {
+    return Buffer.from(str)
+      .toString('base64')
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=/g, '');
+  };
+
+  const encodedHeader = base64UrlEncode(JSON.stringify(header));
+  const encodedPayload = base64UrlEncode(JSON.stringify(payload));
+
+  // Create HMAC-SHA256 signature
+  const signatureInput = `${encodedHeader}.${encodedPayload}`;
+  const signature = crypto
+    .createHmac('sha256', secret)
+    .update(signatureInput)
+    .digest('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=/g, '');
+
+  const token = `${encodedHeader}.${encodedPayload}.${signature}`;
 
   return { token, userId, organizationId };
 }
