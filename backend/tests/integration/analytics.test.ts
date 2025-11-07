@@ -251,8 +251,8 @@ describe('Analytics API', () => {
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('success');
       expect(response.body).toHaveProperty('data');
-      expect(response.body.data).toHaveProperty('totalUsers');
-      expect(response.body.data).toHaveProperty('activeUsers');
+      expect(response.body.data).toHaveProperty('activeUsersLast30Days');
+      expect(response.body.data).toHaveProperty('topContributors');
     });
 
     it('should return valid user counts', async () => {
@@ -262,8 +262,8 @@ describe('Analytics API', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(response.body.data.totalUsers).toBeGreaterThanOrEqual(0);
-      expect(response.body.data.activeUsers).toBeGreaterThanOrEqual(0);
+      expect(response.body.data.activeUsersLast30Days).toBeGreaterThanOrEqual(0);
+      expect(Array.isArray(response.body.data.topContributors)).toBe(true);
     });
   });
 
@@ -278,24 +278,24 @@ describe('Analytics API', () => {
       expect(response.headers['content-type']).toContain('csv');
     });
 
-    it('should export compliance overview as text', async () => {
+    it('should export compliance overview as PDF', async () => {
       const response = await request(app.server)
-        .get('/api/v1/export/compliance-overview?format=text')
+        .get('/api/v1/export/compliance-overview?format=pdf')
         .set('Authorization', `Bearer ${token}`)
         .send();
 
       expect(response.status).toBe(200);
-      expect(response.headers['content-type']).toContain('text');
+      expect(response.headers['content-type']).toContain('pdf');
     });
 
-    it('should export compliance overview as JSON', async () => {
+    it('should export compliance overview as Excel', async () => {
       const response = await request(app.server)
-        .get('/api/v1/export/compliance-overview?format=json')
+        .get('/api/v1/export/compliance-overview?format=excel')
         .set('Authorization', `Bearer ${token}`)
         .send();
 
       expect(response.status).toBe(200);
-      expect(response.headers['content-type']).toContain('json');
+      expect(response.headers['content-type']).toContain('spreadsheet');
     });
 
     it('should reject invalid format', async () => {
@@ -317,7 +317,7 @@ describe('Analytics API', () => {
   });
 
   describe('GET /api/v1/export/assets', () => {
-    it('should export assets in requested format', async () => {
+    it('should export assets in CSV format', async () => {
       const response = await request(app.server)
         .get('/api/v1/export/assets?format=csv')
         .set('Authorization', `Bearer ${token}`)
@@ -327,19 +327,14 @@ describe('Analytics API', () => {
       expect(response.headers['content-type']).toContain('csv');
     });
 
-    it('should include all asset fields in export', async () => {
+    it('should export assets in Excel format', async () => {
       const response = await request(app.server)
-        .get('/api/v1/export/assets?format=json')
+        .get('/api/v1/export/assets?format=excel')
         .set('Authorization', `Bearer ${token}`)
         .send();
 
       expect(response.status).toBe(200);
-      expect(Array.isArray(response.body)).toBe(true);
-      if (response.body.length > 0) {
-        expect(response.body[0]).toHaveProperty('id');
-        expect(response.body[0]).toHaveProperty('name');
-        expect(response.body[0]).toHaveProperty('type');
-      }
+      expect(response.headers['content-type']).toContain('spreadsheet');
     });
   });
 
