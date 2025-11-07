@@ -346,7 +346,7 @@ describe('Analytics API', () => {
       if (response.body.length > 0) {
         expect(response.body[0]).toHaveProperty('id');
         expect(response.body[0]).toHaveProperty('name');
-        expect(response.body[0]).toHaveProperty('assetType');
+        expect(response.body[0]).toHaveProperty('type');
       }
     });
   });

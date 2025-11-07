@@ -75,10 +75,10 @@ describe('Assets API', () => {
     it('should filter assets by type', async () => {
       // Create multiple assets with different types
       await testUtils.createTestAsset(organizationId, {
-        assetType: 'TREATMENT_PLANT',
+        type: 'TREATMENT_PLANT',
       });
       await testUtils.createTestAsset(organizationId, {
-        assetType: 'RESERVOIR',
+        type: 'RESERVOIR',
       });
 
       const response = await request(app.server)
@@ -89,7 +89,7 @@ describe('Assets API', () => {
       expect(response.status).toBe(200);
       expect(Array.isArray(response.body)).toBe(true);
       response.body.forEach((asset: any) => {
-        expect(asset.assetType).toBe('TREATMENT_PLANT');
+        expect(asset.type).toBe('TREATMENT_PLANT');
       });
     });
 
@@ -154,14 +154,14 @@ describe('Assets API', () => {
         .set('Authorization', `Bearer ${token}`)
         .send({
           name: 'New Water Treatment Plant',
-          assetType: 'TREATMENT_PLANT',
+          type: 'TREATMENT_PLANT',
           location: 'Wellington, NZ',
         });
 
       expect(response.status).toBe(201);
       expect(response.body).toHaveProperty('id');
       expect(response.body.name).toBe('New Water Treatment Plant');
-      expect(response.body.assetType).toBe('TREATMENT_PLANT');
+      expect(response.body.type).toBe('TREATMENT_PLANT');
     });
 
     it('should reject creation without required fields', async () => {
@@ -170,19 +170,19 @@ describe('Assets API', () => {
         .set('Authorization', `Bearer ${token}`)
         .send({
           name: 'Incomplete Asset',
-          // Missing assetType, location
+          // Missing type, location
         });
 
       expect(response.status).toBe(400);
     });
 
-    it('should reject creation with invalid assetType', async () => {
+    it('should reject creation with invalid type', async () => {
       const response = await request(app.server)
         .post('/api/v1/assets')
         .set('Authorization', `Bearer ${token}`)
         .send({
           name: 'Invalid Asset',
-          assetType: 'INVALID_TYPE',
+          type: 'INVALID_TYPE',
           location: 'Wellington, NZ',
         });
 
@@ -194,7 +194,7 @@ describe('Assets API', () => {
         .post('/api/v1/assets')
         .send({
           name: 'Unauthorized Asset',
-          assetType: 'TREATMENT_PLANT',
+          type: 'TREATMENT_PLANT',
           location: 'Wellington, NZ',
         });
 
@@ -207,7 +207,7 @@ describe('Assets API', () => {
         .set('Authorization', `Bearer ${token}`)
         .send({
           name: 'Created Asset',
-          assetType: 'RESERVOIR',
+          type: 'RESERVOIR',
           location: 'Hamilton, NZ',
         });
 
@@ -358,7 +358,7 @@ describe('Assets API', () => {
         .set('Authorization', `Bearer ${token}`)
         .send({
           name: 'Audit Trail Asset',
-          assetType: 'PUMP_STATION',
+          type: 'PUMP_STATION',
           location: 'Christchurch, NZ',
         });
 
