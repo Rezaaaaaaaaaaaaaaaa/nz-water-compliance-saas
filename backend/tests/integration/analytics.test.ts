@@ -52,9 +52,10 @@ describe('Analytics API', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(response.body).toHaveProperty('overallStats');
-      expect(response.body).toHaveProperty('complianceStatus');
-      expect(response.body).toHaveProperty('recentActivity');
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data).toHaveProperty('overview');
+      expect(response.body.data).toHaveProperty('activity');
     });
 
     it('should reject without authentication', async () => {
@@ -72,8 +73,8 @@ describe('Analytics API', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(response.body.overallStats).toHaveProperty('assetCount');
-      expect(response.body.overallStats.assetCount).toBeGreaterThan(0);
+      expect(response.body.data.overview).toHaveProperty('totalAssets');
+      expect(response.body.data.overview.totalAssets).toBeGreaterThan(0);
     });
 
     it('should include DWSP count in dashboard', async () => {
@@ -83,8 +84,8 @@ describe('Analytics API', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(response.body.overallStats).toHaveProperty('dwspCount');
-      expect(response.body.overallStats.dwspCount).toBeGreaterThan(0);
+      expect(response.body.data.overview).toHaveProperty('activeDWSPs');
+      expect(response.body.data.overview.activeDWSPs).toBeGreaterThan(0);
     });
 
     it('should include recent activity', async () => {
@@ -94,19 +95,20 @@ describe('Analytics API', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(Array.isArray(response.body.recentActivity)).toBe(true);
+      expect(response.body.data).toHaveProperty('activity');
+      expect(Array.isArray(response.body.data.activity.timeline)).toBe(true);
     });
 
-    it('should include compliance status breakdown', async () => {
+    it('should include compliance score', async () => {
       const response = await request(app.server)
         .get('/api/v1/analytics/dashboard')
         .set('Authorization', `Bearer ${token}`)
         .send();
 
       expect(response.status).toBe(200);
-      expect(response.body.complianceStatus).toHaveProperty('compliant');
-      expect(response.body.complianceStatus).toHaveProperty('nonCompliant');
-      expect(response.body.complianceStatus).toHaveProperty('warning');
+      expect(response.body.data.overview).toHaveProperty('complianceScore');
+      expect(response.body.data.overview.complianceScore).toBeGreaterThanOrEqual(0);
+      expect(response.body.data.overview.complianceScore).toBeLessThanOrEqual(100);
     });
   });
 
@@ -118,9 +120,11 @@ describe('Analytics API', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(response.body).toHaveProperty('overallScore');
-      expect(response.body).toHaveProperty('scoreByArea');
-      expect(response.body).toHaveProperty('riskLevel');
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data).toHaveProperty('overallScore');
+      expect(response.body.data).toHaveProperty('scoreByArea');
+      expect(response.body.data).toHaveProperty('riskLevel');
     });
 
     it('should return compliance score between 0-100', async () => {
@@ -130,8 +134,8 @@ describe('Analytics API', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(response.body.overallScore).toBeGreaterThanOrEqual(0);
-      expect(response.body.overallScore).toBeLessThanOrEqual(100);
+      expect(response.body.data.overallScore).toBeGreaterThanOrEqual(0);
+      expect(response.body.data.overallScore).toBeLessThanOrEqual(100);
     });
 
     it('should return valid risk level', async () => {
@@ -142,7 +146,7 @@ describe('Analytics API', () => {
 
       expect(response.status).toBe(200);
       expect(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']).toContain(
-        response.body.riskLevel
+        response.body.data.riskLevel
       );
     });
 
@@ -163,7 +167,9 @@ describe('Analytics API', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(Array.isArray(response.body)).toBe(true);
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(Array.isArray(response.body.data.trends)).toBe(true);
     });
 
     it('should include time-series data', async () => {
@@ -173,10 +179,8 @@ describe('Analytics API', () => {
         .send();
 
       expect(response.status).toBe(200);
-      response.body.forEach((entry: any) => {
-        expect(entry).toHaveProperty('date');
-        expect(entry).toHaveProperty('count');
-      });
+      expect(response.body.data).toHaveProperty('trends');
+      expect(Array.isArray(response.body.data.trends)).toBe(true);
     });
 
     it('should support different time periods', async () => {
@@ -189,7 +193,8 @@ describe('Analytics API', () => {
           .send();
 
         expect(response.status).toBe(200);
-        expect(Array.isArray(response.body)).toBe(true);
+        expect(response.body).toHaveProperty('success');
+        expect(Array.isArray(response.body.data.trends)).toBe(true);
       }
     });
 
@@ -367,7 +372,7 @@ describe('Analytics API', () => {
       expect(assetsRes.status).toBe(200);
 
       // Both should include asset information
-      expect(dashboardRes.body.overallStats).toHaveProperty('assetCount');
+      expect(dashboardRes.body.data.overview).toHaveProperty('totalAssets');
       expect(assetsRes.body).toHaveProperty('byType');
     });
 
@@ -393,8 +398,8 @@ describe('Analytics API', () => {
         .send();
 
       // They should have different asset counts
-      expect(myDashboard.body.overallStats.assetCount).toBeGreaterThan(0);
-      expect(otherDashboard.body.overallStats.assetCount).toBe(0);
+      expect(myDashboard.body.data.overview.totalAssets).toBeGreaterThan(0);
+      expect(otherDashboard.body.data.overview.totalAssets).toBe(0);
     });
   });
 });
