@@ -75,21 +75,21 @@ describe('Assets API', () => {
     it('should filter assets by type', async () => {
       // Create multiple assets with different types
       await testUtils.createTestAsset(organizationId, {
-        type: 'TREATMENT_PLANT',
+        type: 'WATER_TREATMENT_PLANT',
       });
       await testUtils.createTestAsset(organizationId, {
         type: 'RESERVOIR',
       });
 
       const response = await request(app.server)
-        .get('/api/v1/assets?type=TREATMENT_PLANT')
+        .get('/api/v1/assets?type=WATER_TREATMENT_PLANT')
         .set('Authorization', `Bearer ${token}`)
         .send();
 
       expect(response.status).toBe(200);
       expect(Array.isArray(response.body)).toBe(true);
       response.body.forEach((asset: any) => {
-        expect(asset.type).toBe('TREATMENT_PLANT');
+        expect(asset.type).toBe('WATER_TREATMENT_PLANT');
       });
     });
 
@@ -154,14 +154,14 @@ describe('Assets API', () => {
         .set('Authorization', `Bearer ${token}`)
         .send({
           name: 'New Water Treatment Plant',
-          type: 'TREATMENT_PLANT',
+          type: 'WATER_TREATMENT_PLANT',
           location: 'Wellington, NZ',
         });
 
       expect(response.status).toBe(201);
       expect(response.body).toHaveProperty('id');
       expect(response.body.name).toBe('New Water Treatment Plant');
-      expect(response.body.type).toBe('TREATMENT_PLANT');
+      expect(response.body.type).toBe('WATER_TREATMENT_PLANT');
     });
 
     it('should reject creation without required fields', async () => {
@@ -194,7 +194,7 @@ describe('Assets API', () => {
         .post('/api/v1/assets')
         .send({
           name: 'Unauthorized Asset',
-          type: 'TREATMENT_PLANT',
+          type: 'WATER_TREATMENT_PLANT',
           location: 'Wellington, NZ',
         });
 
