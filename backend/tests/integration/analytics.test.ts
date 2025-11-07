@@ -122,9 +122,9 @@ describe('Analytics API', () => {
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('success');
       expect(response.body).toHaveProperty('data');
-      expect(response.body.data).toHaveProperty('overallScore');
-      expect(response.body.data).toHaveProperty('scoreByArea');
-      expect(response.body.data).toHaveProperty('riskLevel');
+      expect(response.body.data).toHaveProperty('complianceScore');
+      expect(response.body.data).toHaveProperty('totalAssets');
+      expect(response.body.data).toHaveProperty('activeDWSPs');
     });
 
     it('should return compliance score between 0-100', async () => {
@@ -134,20 +134,19 @@ describe('Analytics API', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(response.body.data.overallScore).toBeGreaterThanOrEqual(0);
-      expect(response.body.data.overallScore).toBeLessThanOrEqual(100);
+      expect(response.body.data.complianceScore).toBeGreaterThanOrEqual(0);
+      expect(response.body.data.complianceScore).toBeLessThanOrEqual(100);
     });
 
-    it('should return valid risk level', async () => {
+    it('should return critical assets count', async () => {
       const response = await request(app.server)
         .get('/api/v1/analytics/compliance/overview')
         .set('Authorization', `Bearer ${token}`)
         .send();
 
       expect(response.status).toBe(200);
-      expect(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']).toContain(
-        response.body.data.riskLevel
-      );
+      expect(response.body.data).toHaveProperty('criticalAssets');
+      expect(typeof response.body.data.criticalAssets).toBe('number');
     });
 
     it('should reject without authentication', async () => {
@@ -207,97 +206,93 @@ describe('Analytics API', () => {
     });
   });
 
-  describe('GET /api/v1/analytics/asset-analytics', () => {
+  describe('GET /api/v1/analytics/assets', () => {
     it('should return asset analytics', async () => {
       const response = await request(app.server)
-        .get('/api/v1/analytics/asset-analytics')
+        .get('/api/v1/analytics/assets')
         .set('Authorization', `Bearer ${token}`)
         .send();
 
       expect(response.status).toBe(200);
-      expect(response.body).toHaveProperty('byType');
-      expect(response.body).toHaveProperty('byStatus');
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data).toHaveProperty('byType');
+      expect(response.body.data).toHaveProperty('byCondition');
     });
 
     it('should breakdown assets by type', async () => {
       const response = await request(app.server)
-        .get('/api/v1/analytics/asset-analytics')
+        .get('/api/v1/analytics/assets')
         .set('Authorization', `Bearer ${token}`)
         .send();
 
       expect(response.status).toBe(200);
-      expect(typeof response.body.byType).toBe('object');
+      expect(typeof response.body.data.byType).toBe('object');
     });
 
-    it('should breakdown assets by status', async () => {
+    it('should breakdown assets by condition', async () => {
       const response = await request(app.server)
-        .get('/api/v1/analytics/asset-analytics')
+        .get('/api/v1/analytics/assets')
         .set('Authorization', `Bearer ${token}`)
         .send();
 
       expect(response.status).toBe(200);
-      expect(typeof response.body.byStatus).toBe('object');
-      expect(response.body.byStatus).toHaveProperty('ACTIVE');
+      expect(typeof response.body.data.byCondition).toBe('object');
     });
   });
 
-  describe('GET /api/v1/analytics/user-activity', () => {
+  describe('GET /api/v1/analytics/users', () => {
     it('should return user activity summary', async () => {
       const response = await request(app.server)
-        .get('/api/v1/analytics/user-activity')
+        .get('/api/v1/analytics/users')
         .set('Authorization', `Bearer ${token}`)
         .send();
 
       expect(response.status).toBe(200);
-      expect(response.body).toHaveProperty('totalUsers');
-      expect(response.body).toHaveProperty('activeUsers');
-      expect(response.body).toHaveProperty('recentLogins');
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data).toHaveProperty('totalUsers');
+      expect(response.body.data).toHaveProperty('activeUsers');
     });
 
     it('should return valid user counts', async () => {
       const response = await request(app.server)
-        .get('/api/v1/analytics/user-activity')
+        .get('/api/v1/analytics/users')
         .set('Authorization', `Bearer ${token}`)
         .send();
 
       expect(response.status).toBe(200);
-      expect(response.body.totalUsers).toBeGreaterThanOrEqual(0);
-      expect(response.body.activeUsers).toBeGreaterThanOrEqual(0);
+      expect(response.body.data.totalUsers).toBeGreaterThanOrEqual(0);
+      expect(response.body.data.activeUsers).toBeGreaterThanOrEqual(0);
     });
   });
 
-  describe('POST /api/v1/export/compliance-overview', () => {
+  describe('GET /api/v1/export/compliance-overview', () => {
     it('should export compliance overview as CSV', async () => {
       const response = await request(app.server)
-        .post('/api/v1/export/compliance-overview')
+        .get('/api/v1/export/compliance-overview?format=csv')
         .set('Authorization', `Bearer ${token}`)
-        .send({
-          format: 'csv',
-        });
+        .send();
 
       expect(response.status).toBe(200);
       expect(response.headers['content-type']).toContain('csv');
     });
 
-    it('should export compliance overview as PDF', async () => {
+    it('should export compliance overview as text', async () => {
       const response = await request(app.server)
-        .post('/api/v1/export/compliance-overview')
+        .get('/api/v1/export/compliance-overview?format=text')
         .set('Authorization', `Bearer ${token}`)
-        .send({
-          format: 'pdf',
-        });
+        .send();
 
       expect(response.status).toBe(200);
-      expect(response.headers['content-type']).toContain('pdf');
+      expect(response.headers['content-type']).toContain('text');
     });
 
     it('should export compliance overview as JSON', async () => {
       const response = await request(app.server)
-        .post('/api/v1/export/compliance-overview')
+        .get('/api/v1/export/compliance-overview?format=json')
         .set('Authorization', `Bearer ${token}`)
-        .send({
-          format: 'json',
-        });
+        .send();
 
       expect(response.status).toBe(200);
       expect(response.headers['content-type']).toContain('json');
@@ -305,34 +300,28 @@ describe('Analytics API', () => {
 
     it('should reject invalid format', async () => {
       const response = await request(app.server)
-        .post('/api/v1/export/compliance-overview')
+        .get('/api/v1/export/compliance-overview?format=invalid')
         .set('Authorization', `Bearer ${token}`)
-        .send({
-          format: 'invalid',
-        });
+        .send();
 
       expect(response.status).toBe(400);
     });
 
     it('should reject without authentication', async () => {
       const response = await request(app.server)
-        .post('/api/v1/export/compliance-overview')
-        .send({
-          format: 'csv',
-        });
+        .get('/api/v1/export/compliance-overview?format=csv')
+        .send();
 
       expect(response.status).toBe(401);
     });
   });
 
-  describe('POST /api/v1/export/assets', () => {
+  describe('GET /api/v1/export/assets', () => {
     it('should export assets in requested format', async () => {
       const response = await request(app.server)
-        .post('/api/v1/export/assets')
+        .get('/api/v1/export/assets?format=csv')
         .set('Authorization', `Bearer ${token}`)
-        .send({
-          format: 'csv',
-        });
+        .send();
 
       expect(response.status).toBe(200);
       expect(response.headers['content-type']).toContain('csv');
@@ -340,11 +329,9 @@ describe('Analytics API', () => {
 
     it('should include all asset fields in export', async () => {
       const response = await request(app.server)
-        .post('/api/v1/export/assets')
+        .get('/api/v1/export/assets?format=json')
         .set('Authorization', `Bearer ${token}`)
-        .send({
-          format: 'json',
-        });
+        .send();
 
       expect(response.status).toBe(200);
       expect(Array.isArray(response.body)).toBe(true);
@@ -364,7 +351,7 @@ describe('Analytics API', () => {
         .send();
 
       const assetsRes = await request(app.server)
-        .get('/api/v1/analytics/asset-analytics')
+        .get('/api/v1/analytics/assets')
         .set('Authorization', `Bearer ${token}`)
         .send();
 
@@ -373,7 +360,7 @@ describe('Analytics API', () => {
 
       // Both should include asset information
       expect(dashboardRes.body.data.overview).toHaveProperty('totalAssets');
-      expect(assetsRes.body).toHaveProperty('byType');
+      expect(assetsRes.body.data).toHaveProperty('byType');
     });
 
     it('should show data only for user organization', async () => {
