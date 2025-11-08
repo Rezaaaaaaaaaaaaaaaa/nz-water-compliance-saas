@@ -1,5 +1,6 @@
 import { DWQARReport } from './dwqar-aggregation.service.js';
 import { prisma } from '../config/database.js';
+import { logger } from '../utils/logger.js';
 
 /**
  * Validation Error (blocks export)
