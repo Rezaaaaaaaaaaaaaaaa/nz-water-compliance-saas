@@ -120,9 +120,11 @@
       "Bash(ConvertFrom-Json)",
       "Bash(ConvertTo-Json})",
       "Bash(PORT=5000 npm run dev:*)",
+      "Bash(set PORT=3001)",
       "Bash(gh run:*)",
       "Bash(npx prettier:*)",
-      "Bash(paste:*)"
+      "Bash(paste:*)",
+      "Bash(set PORT=3002)"
     ],
     "deny": [],
     "ask": []
