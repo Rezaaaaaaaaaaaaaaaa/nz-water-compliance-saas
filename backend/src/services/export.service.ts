@@ -423,14 +423,16 @@ function escapeCSV(field: string): string {
 /**
  * Helper: Format date to YYYY-MM-DD
  */
-function formatDate(date: Date): string {
+function formatDate(date: Date | null): string {
+  if (!date) return 'N/A';
   return date.toISOString().split('T')[0];
 }
 
 /**
  * Helper: Format datetime
  */
-function formatDateTime(date: Date): string {
+function formatDateTime(date: Date | null): string {
+  if (!date) return 'N/A';
   return date.toISOString().replace('T', ' ').substring(0, 19);
 }
 
