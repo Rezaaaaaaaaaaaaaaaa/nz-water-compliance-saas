@@ -32,13 +32,13 @@ export async function getCurrentStatus(
 
     const status = await dwqarAggregationService.getCurrentStatus(organizationId);
 
-    reply.send({
+    await reply.send({
       success: true,
       data: status,
     });
   } catch (error) {
     logger.error({ err: error }, 'Failed to get DWQAR status');
-    reply.status(500).send({
+    await reply.status(500).send({
       success: false,
       error: 'Failed to get DWQAR status',
     });
@@ -61,7 +61,7 @@ export async function validateReport(
     // Check user has access to organization
     const userOrgId = getUser(request).organizationId;
     if (organizationId !== userOrgId) {
-      reply.status(403).send({
+      await reply.status(403).send({
         success: false,
         error: 'Access denied to this organization',
       });
@@ -74,13 +74,13 @@ export async function validateReport(
     // Validate report
     const validation = await dwqarValidationService.validate(report);
 
-    reply.send({
+    await reply.send({
       success: true,
       data: validation,
     });
   } catch (error) {
     logger.error({ err: error }, 'Failed to validate DWQAR report');
-    reply.status(500).send({
+    await reply.status(500).send({
       success: false,
       error: 'Failed to validate DWQAR report',
     });
@@ -129,7 +129,7 @@ export async function exportExcel(
 
     if (!exportValidation.valid) {
       logger.error({ errors: exportValidation.errors }, 'Excel export validation failed');
-      reply.status(500).send({
+      await reply.status(500).send({
         success: false,
         error: 'Excel export validation failed',
         details: exportValidation.errors,
@@ -146,7 +146,7 @@ export async function exportExcel(
       .send(buffer);
   } catch (error) {
     logger.error({ err: error }, 'Failed to export DWQAR Excel');
-    reply.status(500).send({
+    await reply.status(500).send({
       success: false,
       error: 'Failed to export DWQAR Excel',
     });
@@ -199,7 +199,7 @@ export async function recordSubmission(
       },
     });
 
-    reply.send({
+    await reply.send({
       success: true,
       data: {
         reportId: report.id,
@@ -209,7 +209,7 @@ export async function recordSubmission(
     });
   } catch (error) {
     logger.error({ err: error }, 'Failed to record DWQAR submission');
-    reply.status(500).send({
+    await reply.status(500).send({
       success: false,
       error: 'Failed to record DWQAR submission',
     });
@@ -245,13 +245,13 @@ export async function getSubmissionHistory(
       },
     });
 
-    reply.send({
+    await reply.send({
       success: true,
       data: reports,
     });
   } catch (error) {
     logger.error({ err: error }, 'Failed to get DWQAR submission history');
-    reply.status(500).send({
+    await reply.status(500).send({
       success: false,
       error: 'Failed to get submission history',
     });
@@ -274,13 +274,13 @@ export async function getAggregation(
 
     const report = await dwqarAggregationService.aggregateReportingPeriod(organizationId, period);
 
-    reply.send({
+    await reply.send({
       success: true,
       data: report,
     });
   } catch (error) {
     logger.error({ err: error }, 'Failed to get DWQAR aggregation');
-    reply.status(500).send({
+    await reply.status(500).send({
       success: false,
       error: 'Failed to get aggregation data',
     });
@@ -303,7 +303,7 @@ export async function getCompleteness(
 
     const report = await dwqarAggregationService.aggregateReportingPeriod(organizationId, period);
 
-    reply.send({
+    await reply.send({
       success: true,
       data: {
         reportingPeriod: period,
@@ -315,7 +315,7 @@ export async function getCompleteness(
     });
   } catch (error) {
     logger.error({ err: error }, 'Failed to get DWQAR completeness');
-    reply.status(500).send({
+    await reply.status(500).send({
       success: false,
       error: 'Failed to get completeness data',
     });

@@ -268,7 +268,10 @@ async function getOrganizationContext(organizationId: string): Promise<Complianc
 /**
  * Get conversation history
  */
-async function getConversationHistory(sessionId: string, limit: number = 5): Promise<AIConversation[]> {
+async function getConversationHistory(
+  sessionId: string,
+  limit: number = 5
+): Promise<AIConversation[]> {
   return await prisma.aIConversation.findMany({
     where: { sessionId },
     orderBy: { createdAt: 'asc' },
