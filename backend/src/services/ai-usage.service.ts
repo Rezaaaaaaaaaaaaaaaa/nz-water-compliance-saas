@@ -5,7 +5,7 @@
  * to control costs and ensure fair usage across organizations.
  */
 
-import { AIFeature, AIUsageLog } from '@prisma/client';
+import { AIFeature, AIUsageLog, AIUsageQuota } from '@prisma/client';
 import { prisma } from '../config/database.js';
 
 /**
@@ -292,7 +292,10 @@ export function calculateCost(inputTokens: number, outputTokens: number): number
 /**
  * Get feature-specific limits
  */
-function getFeatureLimits(feature: AIFeature, quota: AIQuota): { current: number; max: number } {
+function getFeatureLimits(
+  feature: AIFeature,
+  quota: AIUsageQuota
+): { current: number; max: number } {
   const map: Record<AIFeature, { current: number; max: number }> = {
     COMPLIANCE_ASSISTANT: {
       current: quota.chatRequestCount,

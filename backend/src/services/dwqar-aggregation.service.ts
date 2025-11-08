@@ -1,6 +1,6 @@
 import { WaterQualityTest } from '@prisma/client';
 import { prisma } from '../config/database.js';
-import { logger } from '../utils/logger.js';
+import { logger } from '../config/logger.js';
 
 /**
  * DWQAR Report Structure for Annual Submission

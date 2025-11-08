@@ -6,7 +6,7 @@ import {
   RuleComplianceData,
 } from './dwqar-aggregation.service.js';
 import { prisma } from '../config/database.js';
-import { logger } from '../utils/logger.js';
+import { logger } from '../config/logger.js';
 
 /**
  * DWQAR Excel Export Service
