@@ -18,7 +18,7 @@ export async function dwqarRoutes(app: FastifyInstance) {
   const dwqarRateLimit = {
     max: 20, // 20 requests
     timeWindow: '15 minutes',
-    keyGenerator: (request: any) => request.user?.id || request.ip,
+    keyGenerator: (request: import('fastify').FastifyRequest) => (request as any).user?.id || request.ip,
   };
 
   // Validation schemas

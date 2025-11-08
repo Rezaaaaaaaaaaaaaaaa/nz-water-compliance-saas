@@ -161,7 +161,7 @@ export function validateParams<T extends ZodTypeAny>(schema: T) {
 export function sanitizeString(input: string): string {
   return input
     .replace(/[<>]/g, '') // Remove HTML tags
-    .replace(/[\x00-\x1F\x7F]/g, '') // Remove control characters
+    .replace(/[\u0000-\u001F\u007F]/g, '') // Remove control characters
     .trim();
 }
 

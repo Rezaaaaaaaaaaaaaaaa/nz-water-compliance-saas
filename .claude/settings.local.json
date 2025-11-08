@@ -124,7 +124,10 @@
       "Bash(gh run:*)",
       "Bash(npx prettier:*)",
       "Bash(paste:*)",
-      "Bash(set PORT=3002)"
+      "Bash(set PORT=3002)",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      "Bash(gh run watch:*)"
     ],
     "deny": [],
     "ask": []

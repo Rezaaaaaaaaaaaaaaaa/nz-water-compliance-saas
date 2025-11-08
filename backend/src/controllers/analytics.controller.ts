@@ -30,14 +30,14 @@ export async function getDashboard(request: FastifyRequest, reply: FastifyReply)
       cacheService.CacheTTL.MEDIUM // 5 minutes
     );
 
-    reply.send({
+    await reply.send({
       success: true,
       data: dashboard,
       cached: await cacheService.exists(cacheKey),
     });
   } catch (error) {
     logger.error({ err: error }, 'Failed to get dashboard data');
-    reply.status(500).send({
+    await reply.status(500).send({
       success: false,
       error: 'Failed to load dashboard data',
     });
@@ -56,13 +56,13 @@ export async function getComplianceOverview(
 
     const overview = await analyticsService.getComplianceOverview(organizationId);
 
-    reply.send({
+    await reply.send({
       success: true,
       data: overview,
     });
   } catch (error) {
     logger.error({ err: error }, 'Failed to get compliance overview');
-    reply.status(500).send({
+    await reply.status(500).send({
       success: false,
       error: 'Failed to load compliance overview',
     });
@@ -86,13 +86,13 @@ export async function getAssetAnalytics(
       cacheService.CacheTTL.MEDIUM
     );
 
-    reply.send({
+    await reply.send({
       success: true,
       data: analytics,
     });
   } catch (error) {
     logger.error({ err: error }, 'Failed to get asset analytics');
-    reply.status(500).send({
+    await reply.status(500).send({
       success: false,
       error: 'Failed to load asset analytics',
     });
@@ -116,13 +116,13 @@ export async function getDocumentAnalytics(
       cacheService.CacheTTL.MEDIUM
     );
 
-    reply.send({
+    await reply.send({
       success: true,
       data: analytics,
     });
   } catch (error) {
     logger.error({ err: error }, 'Failed to get document analytics');
-    reply.status(500).send({
+    await reply.status(500).send({
       success: false,
       error: 'Failed to load document analytics',
     });
@@ -144,13 +144,13 @@ export async function getActivityTimeline(
 
     const timeline = await analyticsService.getActivityTimeline(organizationId, days);
 
-    reply.send({
+    await reply.send({
       success: true,
       data: timeline,
     });
   } catch (error) {
     logger.error({ err: error }, 'Failed to get activity timeline');
-    reply.status(500).send({
+    await reply.status(500).send({
       success: false,
       error: 'Failed to load activity timeline',
     });
@@ -166,13 +166,13 @@ export async function getDWSPTrends(request: FastifyRequest, reply: FastifyReply
 
     const trends = await analyticsService.getDWSPTrends(organizationId);
 
-    reply.send({
+    await reply.send({
       success: true,
       data: trends,
     });
   } catch (error) {
     logger.error({ err: error }, 'Failed to get DWSP trends');
-    reply.status(500).send({
+    await reply.status(500).send({
       success: false,
       error: 'Failed to load DWSP trends',
     });
@@ -191,13 +191,13 @@ export async function getUserActivitySummary(
 
     const summary = await analyticsService.getUserActivitySummary(organizationId);
 
-    reply.send({
+    await reply.send({
       success: true,
       data: summary,
     });
   } catch (error) {
     logger.error({ err: error }, 'Failed to get user activity summary');
-    reply.status(500).send({
+    await reply.status(500).send({
       success: false,
       error: 'Failed to load user activity summary',
     });
@@ -223,13 +223,13 @@ export async function getSystemAnalytics(
 
     const analytics = await analyticsService.getSystemAnalytics();
 
-    reply.send({
+    await reply.send({
       success: true,
       data: analytics,
     });
   } catch (error) {
     logger.error({ err: error }, 'Failed to get system analytics');
-    reply.status(500).send({
+    await reply.status(500).send({
       success: false,
       error: 'Failed to load system analytics',
     });

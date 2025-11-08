@@ -5,7 +5,7 @@
  * to control costs and ensure fair usage across organizations.
  */
 
-import { AIFeature } from '@prisma/client';
+import { AIFeature, AIUsageLog } from '@prisma/client';
 import { prisma } from '../config/database.js';
 
 /**
@@ -205,7 +205,7 @@ export async function logAIUsage(data: {
   latencyMs?: number;
   ipAddress?: string;
   userAgent?: string;
-}) {
+}): Promise<AIUsageLog> {
   const totalTokens = data.inputTokens + data.outputTokens;
   const estimatedCost = calculateCost(data.inputTokens, data.outputTokens);
 

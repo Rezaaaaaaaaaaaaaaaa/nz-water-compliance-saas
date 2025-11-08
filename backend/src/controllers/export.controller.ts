@@ -27,24 +27,33 @@ export async function exportAssets(
     const organizationId = getUser(request).organizationId;
     const format = exportService.getExportFormat(request.query.format);
 
-    if (format !== 'csv') {
-      reply.status(400).send({
-        success: false,
-        error: 'Only CSV format is currently supported for assets export',
-      });
-      return;
-    }
+    let content: string | Buffer;
+    let filename: string;
 
-    const csv = await exportService.exportAssetsToCSV(organizationId);
-    const filename = `assets_export_${new Date().toISOString().split('T')[0]}.csv`;
+    switch (format) {
+      case 'csv':
+        content = await exportService.exportAssetsToCSV(organizationId);
+        filename = `assets_export_${new Date().toISOString().split('T')[0]}.csv`;
+        break;
+      case 'excel':
+        content = await exportService.exportAssetsToExcel(organizationId);
+        filename = `assets_export_${new Date().toISOString().split('T')[0]}.xlsx`;
+        break;
+      default:
+        reply.status(400).send({
+          success: false,
+          error: 'Only CSV and Excel formats are currently supported for assets export',
+        });
+        return;
+    }
 
     reply
       .header('Content-Type', exportService.getMimeType(format))
       .header('Content-Disposition', `attachment; filename="${filename}"`)
-      .send(csv);
+      .send(content);
   } catch (error) {
     logger.error({ err: error }, 'Failed to export assets');
-    reply.status(500).send({
+    await reply.status(500).send({
       success: false,
       error: 'Failed to export assets',
     });
@@ -182,24 +191,36 @@ export async function exportComplianceOverview(
     const organizationId = getUser(request).organizationId;
     const format = exportService.getExportFormat(request.query.format);
 
-    if (format !== 'text') {
-      reply.status(400).send({
-        success: false,
-        error: 'Only TEXT format is currently supported for compliance overview export',
-      });
-      return;
-    }
+    let content: string | Buffer;
+    let filename: string;
 
-    const report = await exportService.exportComplianceOverviewReport(organizationId);
-    const filename = `compliance_overview_${new Date().toISOString().split('T')[0]}.txt`;
+    switch (format) {
+      case 'csv':
+        content = await exportService.exportComplianceOverviewToCSV(organizationId);
+        filename = `compliance_overview_${new Date().toISOString().split('T')[0]}.csv`;
+        break;
+      case 'pdf':
+        content = await exportService.exportComplianceOverviewToPDF(organizationId);
+        filename = `compliance_overview_${new Date().toISOString().split('T')[0]}.pdf`;
+        break;
+      case 'excel':
+        content = await exportService.exportComplianceOverviewToExcel(organizationId);
+        filename = `compliance_overview_${new Date().toISOString().split('T')[0]}.xlsx`;
+        break;
+      case 'text':
+      default:
+        content = await exportService.exportComplianceOverviewReport(organizationId);
+        filename = `compliance_overview_${new Date().toISOString().split('T')[0]}.txt`;
+        break;
+    }
 
     reply
       .header('Content-Type', exportService.getMimeType(format))
       .header('Content-Disposition', `attachment; filename="${filename}"`)
-      .send(report);
+      .send(content);
   } catch (error) {
     logger.error({ err: error }, 'Failed to export compliance overview');
-    reply.status(500).send({
+    await reply.status(500).send({
       success: false,
       error: 'Failed to export compliance overview',
     });

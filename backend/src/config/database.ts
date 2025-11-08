@@ -45,10 +45,12 @@ export const prisma = getPrismaClient();
 // Disconnect on shutdown
 if (!global.__prismaShutdownRegistered) {
   global.__prismaShutdownRegistered = true;
-  process.on('beforeExit', async () => {
-    const client = process.env.NODE_ENV === 'production' ? global.__prismaProd : global.__prisma;
-    if (client) {
-      await client.$disconnect();
-    }
+  process.on('beforeExit', () => {
+    void (async () => {
+      const client = process.env.NODE_ENV === 'production' ? global.__prismaProd : global.__prisma;
+      if (client) {
+        await client.$disconnect();
+      }
+    })();
   });
 }

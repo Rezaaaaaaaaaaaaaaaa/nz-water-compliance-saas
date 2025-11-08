@@ -6,7 +6,7 @@
  */
 
 import Anthropic from '@anthropic-ai/sdk';
-import { AIFeature } from '@prisma/client';
+import { AIFeature, AIConversation, Prisma } from '@prisma/client';
 import { checkAIQuota, logAIUsage } from './ai-usage.service.js';
 import { logger } from '../config/logger.js';
 import { config } from '../config/index.js';
@@ -268,7 +268,7 @@ async function getOrganizationContext(organizationId: string): Promise<Complianc
 /**
  * Get conversation history
  */
-async function getConversationHistory(sessionId: string, limit: number = 5) {
+async function getConversationHistory(sessionId: string, limit: number = 5): Promise<AIConversation[]> {
   return await prisma.aIConversation.findMany({
     where: { sessionId },
     orderBy: { createdAt: 'asc' },
@@ -331,8 +331,8 @@ export async function getConversationHistoryForUser(
   userId: string,
   sessionId?: string,
   limit: number = 50
-) {
-  const where: any = { userId };
+): Promise<AIConversation[]> {
+  const where: Prisma.AIConversationWhereInput = { userId };
   if (sessionId) {
     where.sessionId = sessionId;
   }

@@ -77,6 +77,16 @@ export async function exportAssetsToCSV(organizationId: string): Promise<string>
 }
 
 /**
+ * Export assets to Excel format (stub - returns CSV for now)
+ */
+export async function exportAssetsToExcel(organizationId: string): Promise<Buffer> {
+  // For now, return CSV as Buffer - in production, use an Excel library
+  const csvContent = await exportAssetsToCSV(organizationId);
+  logger.info({ organizationId }, 'Assets exported to Excel');
+  return Buffer.from(csvContent, 'utf-8');
+}
+
+/**
  * Export documents to CSV format
  */
 export async function exportDocumentsToCSV(organizationId: string): Promise<string> {
@@ -499,6 +509,77 @@ function generateRecommendationsText(
   }
 
   return recommendations.map((r, i) => `${i + 1}. ${r}`).join('\n');
+}
+
+/**
+ * Export compliance overview as CSV
+ */
+export async function exportComplianceOverviewToCSV(organizationId: string): Promise<string> {
+  const [org, assets, documents, plans] = await Promise.all([
+    prisma.organization.findUnique({
+      where: { id: organizationId },
+    }),
+    prisma.asset.findMany({
+      where: { organizationId, deletedAt: null },
+    }),
+    prisma.document.count({
+      where: { organizationId, deletedAt: null },
+    }),
+    prisma.compliancePlan.findMany({
+      where: { organizationId, deletedAt: null },
+    }),
+  ]);
+
+  const dwsps = plans.filter((p) => p.planType === 'DWSP');
+  const approvedDWSPs = dwsps.filter((p) => p.status === 'APPROVED');
+  const reports = plans.filter((p) => p.planType === 'DWSP');
+  const criticalAssets = assets.filter((a) => a.isCritical || a.riskLevel === 'CRITICAL');
+
+  const headers = ['Metric', 'Value'];
+  let csv = headers.join(',') + '\n';
+
+  const rows = [
+    ['Organization', org?.name || 'Unknown'],
+    ['Report Date', formatDate(new Date())],
+    ['Total Assets', assets.length.toString()],
+    ['Critical Assets', `${criticalAssets.length} (${((criticalAssets.length / Math.max(assets.length, 1)) * 100).toFixed(1)}%)`],
+    ['Total Documents', documents.toString()],
+    ['Active DWSPs', approvedDWSPs.length.toString()],
+    ['Total Compliance Plans', plans.length.toString()],
+    ['Reports Submitted', reports.length.toString()],
+    ['Total DWSPs', dwsps.length.toString()],
+    ['Approved DWSPs', dwsps.filter((p) => p.status === 'APPROVED').length.toString()],
+    ['In Review DWSPs', dwsps.filter((p) => p.status === 'IN_REVIEW').length.toString()],
+    ['Draft DWSPs', dwsps.filter((p) => p.status === 'DRAFT').length.toString()],
+    ['Rejected DWSPs', dwsps.filter((p) => p.status === 'REJECTED').length.toString()],
+  ];
+
+  for (const row of rows) {
+    csv += row.map((v) => escapeCSV(v)).join(',') + '\n';
+  }
+
+  logger.info({ organizationId }, 'Compliance overview exported to CSV');
+  return csv.trimEnd();
+}
+
+/**
+ * Export compliance overview as PDF (stub - returns simple text representation)
+ */
+export async function exportComplianceOverviewToPDF(organizationId: string): Promise<Buffer> {
+  // For now, return text as Buffer - in production, use a PDF library
+  const textContent = await exportComplianceOverviewReport(organizationId);
+  logger.info({ organizationId }, 'Compliance overview exported to PDF');
+  return Buffer.from(textContent, 'utf-8');
+}
+
+/**
+ * Export compliance overview as Excel (stub - returns CSV for now)
+ */
+export async function exportComplianceOverviewToExcel(organizationId: string): Promise<Buffer> {
+  // For now, return CSV as Buffer - in production, use an Excel library
+  const csvContent = await exportComplianceOverviewToCSV(organizationId);
+  logger.info({ organizationId }, 'Compliance overview exported to Excel');
+  return Buffer.from(csvContent, 'utf-8');
 }
 
 /**

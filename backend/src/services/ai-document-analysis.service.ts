@@ -18,6 +18,12 @@ const anthropic = new Anthropic({
 const MODEL = config.ai.model;
 const MAX_TOKENS = 4096; // Higher for document analysis
 
+interface UsageInfo {
+  inputTokens: number;
+  outputTokens: number;
+  estimatedCost: number;
+}
+
 interface DWSPAnalysisResult {
   completenessScore: number; // 0-100
   missingElements: string[];
@@ -30,11 +36,7 @@ interface DWSPAnalysisResult {
   strengths: string[];
   complianceRisks: string[];
   summary: string;
-  usage: {
-    inputTokens: number;
-    outputTokens: number;
-    estimatedCost: number;
-  };
+  usage: UsageInfo;
 }
 
 /**
@@ -231,7 +233,7 @@ export async function generateReportSummary(
   keyAchievements: string[];
   issuesAddressed: string[];
   improvementActions: string[];
-  usage: any;
+  usage: UsageInfo;
 }> {
   const startTime = Date.now();
 
