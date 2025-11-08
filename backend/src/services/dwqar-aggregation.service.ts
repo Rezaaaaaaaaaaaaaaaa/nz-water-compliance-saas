@@ -58,7 +58,7 @@ export class DWQARAggregationService {
    * @returns Complete DWQAR report structure
    */
   async aggregateReportingPeriod(organizationId: string, period: string): Promise<DWQARReport> {
-    console.log(`[DWQAR] Aggregating data for ${organizationId}, period: ${period}`);
+    logger.info({ organizationId, period }, 'Aggregating DWQAR data');
 
     // Parse reporting period
     const { startDate, endDate } = this.parseReportingPeriod(period);
@@ -66,7 +66,7 @@ export class DWQARAggregationService {
     // Get all water quality tests for period
     const tests = await this.getWaterQualityTests(organizationId, startDate, endDate);
 
-    console.log(`[DWQAR] Found ${tests.length} water quality tests`);
+    logger.info({ count: tests.length }, 'Water quality tests retrieved');
 
     // Transform to samples data
     const samplesData: WaterQualityTestData[] = tests.map((test) => ({
@@ -86,8 +86,9 @@ export class DWQARAggregationService {
     // Group by rule + component and calculate compliance
     const reportsData = await this.calculateRuleCompliance(tests, organizationId, period);
 
-    console.log(
-      `[DWQAR] Calculated compliance for ${reportsData.length} rule-component combinations`
+    logger.info(
+      { count: reportsData.length },
+      'Calculated compliance for rule-component combinations'
     );
 
     // Calculate completeness

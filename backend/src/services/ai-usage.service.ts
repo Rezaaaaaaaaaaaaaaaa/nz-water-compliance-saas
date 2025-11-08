@@ -292,8 +292,8 @@ export function calculateCost(inputTokens: number, outputTokens: number): number
 /**
  * Get feature-specific limits
  */
-function getFeatureLimits(feature: AIFeature, quota: any): { current: number; max: number } {
-  const map = {
+function getFeatureLimits(feature: AIFeature, quota: AIQuota): { current: number; max: number } {
+  const map: Record<AIFeature, { current: number; max: number }> = {
     COMPLIANCE_ASSISTANT: {
       current: quota.chatRequestCount,
       max: quota.maxChatRequests,
@@ -320,14 +320,14 @@ function getFeatureLimits(feature: AIFeature, quota: any): { current: number; ma
     },
   };
 
-  return map[feature] || { current: 0, max: 0 };
+  return map[feature] ?? { current: 0, max: 0 };
 }
 
 /**
  * Get Prisma field name for feature count
  */
 function getFeatureCountField(feature: AIFeature): string {
-  const map = {
+  const map: Record<AIFeature, string> = {
     COMPLIANCE_ASSISTANT: 'chatRequestCount',
     DWSP_ANALYSIS: 'documentAnalysisCount',
     WATER_QUALITY_ANALYSIS: 'waterQualityAnalysisCount',
@@ -336,7 +336,7 @@ function getFeatureCountField(feature: AIFeature): string {
     RISK_ASSESSMENT: 'documentAnalysisCount',
   };
 
-  return map[feature] || 'chatRequestCount';
+  return map[feature] ?? 'chatRequestCount';
 }
 
 /**

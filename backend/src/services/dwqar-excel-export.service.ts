@@ -18,7 +18,7 @@ export class DWQARExcelExportService {
    * @returns Excel file buffer
    */
   async generateExcel(report: DWQARReport): Promise<Buffer> {
-    console.log(`[DWQAR Excel] Generating Excel for ${report.reportingPeriod}`);
+    logger.info({ reportingPeriod: report.reportingPeriod }, 'Generating DWQAR Excel');
 
     const workbook = new ExcelJS.Workbook();
 

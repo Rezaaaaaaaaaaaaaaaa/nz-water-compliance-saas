@@ -66,7 +66,7 @@ export function validateQuery<T extends ZodTypeAny>(schema: T) {
 
       if (!result.success) {
         logger.warn({ errors: result.error.errors }, 'Query validation failed');
-        reply.status(400).send({
+        await reply.status(400).send({
           success: false,
           error: 'Invalid query parameters',
           details: result.error.errors.map((e) => ({
@@ -81,7 +81,7 @@ export function validateQuery<T extends ZodTypeAny>(schema: T) {
       request.query = result.data;
     } catch (error) {
       logger.error({ err: error }, 'Query validation error');
-      reply.status(500).send({
+      await reply.status(500).send({
         success: false,
         error: 'Validation error',
       });
@@ -99,7 +99,7 @@ export function validateBody<T extends ZodTypeAny>(schema: T) {
 
       if (!result.success) {
         logger.warn({ errors: result.error.errors }, 'Body validation failed');
-        reply.status(400).send({
+        await reply.status(400).send({
           success: false,
           error: 'Invalid request body',
           details: result.error.errors.map((e) => ({
@@ -114,7 +114,7 @@ export function validateBody<T extends ZodTypeAny>(schema: T) {
       request.body = result.data;
     } catch (error) {
       logger.error({ err: error }, 'Body validation error');
-      reply.status(500).send({
+      await reply.status(500).send({
         success: false,
         error: 'Validation error',
       });
@@ -132,7 +132,7 @@ export function validateParams<T extends ZodTypeAny>(schema: T) {
 
       if (!result.success) {
         logger.warn({ errors: result.error.errors }, 'Params validation failed');
-        reply.status(400).send({
+        await reply.status(400).send({
           success: false,
           error: 'Invalid route parameters',
           details: result.error.errors.map((e) => ({
@@ -147,7 +147,7 @@ export function validateParams<T extends ZodTypeAny>(schema: T) {
       request.params = result.data;
     } catch (error) {
       logger.error({ err: error }, 'Params validation error');
-      reply.status(500).send({
+      await reply.status(500).send({
         success: false,
         error: 'Validation error',
       });
@@ -161,6 +161,7 @@ export function validateParams<T extends ZodTypeAny>(schema: T) {
 export function sanitizeString(input: string): string {
   return input
     .replace(/[<>]/g, '') // Remove HTML tags
+    // eslint-disable-next-line no-control-regex
     .replace(/[\u0000-\u001F\u007F]/g, '') // Remove control characters
     .trim();
 }
