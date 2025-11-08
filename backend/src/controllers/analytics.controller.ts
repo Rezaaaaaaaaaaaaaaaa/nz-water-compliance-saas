@@ -214,7 +214,7 @@ export async function getSystemAnalytics(
   try {
     // Check if user is System Admin
     if (getUser(request).role !== 'SYSTEM_ADMIN') {
-      reply.status(403).send({
+      await reply.status(403).send({
         success: false,
         error: 'Only System Admins can access system-wide analytics',
       });

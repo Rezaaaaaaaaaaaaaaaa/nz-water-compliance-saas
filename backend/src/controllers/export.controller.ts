@@ -40,14 +40,14 @@ export async function exportAssets(
         filename = `assets_export_${new Date().toISOString().split('T')[0]}.xlsx`;
         break;
       default:
-        reply.status(400).send({
+        await reply.status(400).send({
           success: false,
           error: 'Only CSV and Excel formats are currently supported for assets export',
         });
         return;
     }
 
-    reply
+    await reply
       .header('Content-Type', exportService.getMimeType(format))
       .header('Content-Disposition', `attachment; filename="${filename}"`)
       .send(content);
@@ -74,7 +74,7 @@ export async function exportDocuments(
     const format = exportService.getExportFormat(request.query.format);
 
     if (format !== 'csv') {
-      reply.status(400).send({
+      await reply.status(400).send({
         success: false,
         error: 'Only CSV format is currently supported for documents export',
       });
@@ -84,13 +84,13 @@ export async function exportDocuments(
     const csv = await exportService.exportDocumentsToCSV(organizationId);
     const filename = `documents_export_${new Date().toISOString().split('T')[0]}.csv`;
 
-    reply
+    await reply
       .header('Content-Type', exportService.getMimeType(format))
       .header('Content-Disposition', `attachment; filename="${filename}"`)
       .send(csv);
   } catch (error) {
     logger.error({ err: error }, 'Failed to export documents');
-    reply.status(500).send({
+    await reply.status(500).send({
       success: false,
       error: 'Failed to export documents',
     });
@@ -111,7 +111,7 @@ export async function exportCompliancePlans(
     const format = exportService.getExportFormat(request.query.format);
 
     if (format !== 'csv') {
-      reply.status(400).send({
+      await reply.status(400).send({
         success: false,
         error: 'Only CSV format is currently supported for compliance plans export',
       });
@@ -121,13 +121,13 @@ export async function exportCompliancePlans(
     const csv = await exportService.exportCompliancePlansToCSV(organizationId);
     const filename = `compliance_plans_export_${new Date().toISOString().split('T')[0]}.csv`;
 
-    reply
+    await reply
       .header('Content-Type', exportService.getMimeType(format))
       .header('Content-Disposition', `attachment; filename="${filename}"`)
       .send(csv);
   } catch (error) {
     logger.error({ err: error }, 'Failed to export compliance plans');
-    reply.status(500).send({
+    await reply.status(500).send({
       success: false,
       error: 'Failed to export compliance plans',
     });
@@ -152,7 +152,7 @@ export async function exportAuditLogs(
     const format = exportService.getExportFormat(request.query.format);
 
     if (format !== 'csv') {
-      reply.status(400).send({
+      await reply.status(400).send({
         success: false,
         error: 'Only CSV format is currently supported for audit logs export',
       });
@@ -165,13 +165,13 @@ export async function exportAuditLogs(
     const csv = await exportService.exportAuditLogsToCSV(organizationId, startDate, endDate);
     const filename = `audit_logs_export_${new Date().toISOString().split('T')[0]}.csv`;
 
-    reply
+    await reply
       .header('Content-Type', exportService.getMimeType(format))
       .header('Content-Disposition', `attachment; filename="${filename}"`)
       .send(csv);
   } catch (error) {
     logger.error({ err: error }, 'Failed to export audit logs');
-    reply.status(500).send({
+    await reply.status(500).send({
       success: false,
       error: 'Failed to export audit logs',
     });
@@ -214,7 +214,7 @@ export async function exportComplianceOverview(
         break;
     }
 
-    reply
+    await reply
       .header('Content-Type', exportService.getMimeType(format))
       .header('Content-Disposition', `attachment; filename="${filename}"`)
       .send(content);

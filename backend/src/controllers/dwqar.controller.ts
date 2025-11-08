@@ -110,7 +110,7 @@ export async function exportExcel(
     const validation = await dwqarValidationService.validate(report);
 
     if (!validation.canExport) {
-      reply.status(400).send({
+      await reply.status(400).send({
         success: false,
         error: 'Report validation failed - cannot export',
         validation: {
@@ -140,7 +140,7 @@ export async function exportExcel(
     // Send file
     const filename = `DWQAR_${period}_${organizationId}_${new Date().toISOString().split('T')[0]}.xlsx`;
 
-    reply
+    await reply
       .header('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
       .header('Content-Disposition', `attachment; filename="${filename}"`)
       .send(buffer);

@@ -19,7 +19,8 @@ export async function exportRoutes(app: FastifyInstance) {
     max: 10, // 10 requests
     timeWindow: '15 minutes',
     keyGenerator: (request: import('fastify').FastifyRequest) =>
-      (request as import('fastify').FastifyRequest & { user?: { id: string } }).user?.id || request.ip,
+      (request as import('fastify').FastifyRequest & { user?: { id: string } }).user?.id ||
+      request.ip,
   };
 
   // Validation schemas
