@@ -255,7 +255,7 @@ export function createRegulationReviewWorker() {
   logger.info('Regulation review worker started');
 
   // Schedule next review on startup
-  scheduleNextQuarterlyReview();
+  void scheduleNextQuarterlyReview();
 
   return worker;
 }

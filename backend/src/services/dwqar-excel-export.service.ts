@@ -45,8 +45,13 @@ export class DWQARExcelExportService {
 
     // Generate buffer
     const buffer = await workbook.xlsx.writeBuffer();
-    console.log(
-      `[DWQAR Excel] Generated ${buffer.byteLength} bytes for ${report.samplesData.length} samples, ${report.reportsData.length} rules`
+    logger.info(
+      {
+        byteLength: buffer.byteLength,
+        samplesCount: report.samplesData.length,
+        rulesCount: report.reportsData.length,
+      },
+      'DWQAR Excel generated'
     );
 
     return Buffer.from(buffer);
@@ -273,7 +278,7 @@ export class DWQARExcelExportService {
     sheet.getColumn(8).width = 15;
 
     // Protect sheet (read-only)
-    sheet.protect('', {
+    await sheet.protect('', {
       selectLockedCells: true,
       selectUnlockedCells: true,
     });

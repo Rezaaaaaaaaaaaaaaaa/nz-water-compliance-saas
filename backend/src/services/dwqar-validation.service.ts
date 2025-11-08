@@ -45,7 +45,7 @@ export class DWQARValidationService {
    * @returns Validation result with errors and warnings
    */
   async validate(report: DWQARReport): Promise<ValidationResult> {
-    console.log(`[DWQAR Validation] Starting validation for ${report.reportingPeriod}`);
+    logger.info({ reportingPeriod: report.reportingPeriod }, 'Starting DWQAR validation');
 
     const errors: ValidationError[] = [];
     const warnings: ValidationWarning[] = [];
@@ -202,7 +202,10 @@ export class DWQARValidationService {
     const summary = `${errors.length} errors, ${warnings.length} warnings`;
     const canExport = errors.length === 0;
 
-    console.log(`[DWQAR Validation] ${summary} - ${canExport ? 'PASSED' : 'FAILED'}`);
+    logger.info(
+      { errors: errors.length, warnings: warnings.length, canExport },
+      `DWQAR validation ${canExport ? 'passed' : 'failed'}`
+    );
 
     return {
       valid: errors.length === 0 && warnings.length === 0,

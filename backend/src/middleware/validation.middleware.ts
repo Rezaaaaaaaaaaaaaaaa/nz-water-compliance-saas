@@ -159,11 +159,13 @@ export function validateParams<T extends ZodTypeAny>(schema: T) {
  * Sanitize string input (prevent injection)
  */
 export function sanitizeString(input: string): string {
-  return input
-    .replace(/[<>]/g, '') // Remove HTML tags
-    // eslint-disable-next-line no-control-regex
-    .replace(/[\u0000-\u001F\u007F]/g, '') // Remove control characters
-    .trim();
+  return (
+    input
+      .replace(/[<>]/g, '') // Remove HTML tags
+      // eslint-disable-next-line no-control-regex
+      .replace(/[\u0000-\u001F\u007F]/g, '') // Remove control characters
+      .trim()
+  );
 }
 
 /**
