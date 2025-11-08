@@ -1,7 +1,7 @@
 {
   "name": "nz-water-compliance-saas",
   "version": "1.0.0",
-  "description": "NZ Water Utility Compliance Management SaaS",
+  "description": "NZ Water Utility Compliance Management SaaS - Testing GitHub Actions",
   "private": true,
   "scripts": {
     "start": "node tools/local-start.js",
