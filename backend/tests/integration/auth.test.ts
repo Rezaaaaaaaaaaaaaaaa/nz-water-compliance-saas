@@ -46,9 +46,11 @@ describe('Authentication API', () => {
         });
 
       expect(response.status).toBe(201);
-      expect(response.body).toHaveProperty('token');
-      expect(response.body).toHaveProperty('user');
-      expect(response.body.user).toHaveProperty('email');
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data).toHaveProperty('token');
+      expect(response.body.data).toHaveProperty('user');
+      expect(response.body.data.user).toHaveProperty('email');
     });
 
     it('should reject registration with invalid email', async () => {
@@ -115,9 +117,11 @@ describe('Authentication API', () => {
         });
 
       expect(response.status).toBe(200);
-      expect(response.body).toHaveProperty('token');
-      expect(response.body).toHaveProperty('user');
-      expect(response.body.user.email).toBe(testUser.user.email);
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data).toHaveProperty('token');
+      expect(response.body.data).toHaveProperty('user');
+      expect(response.body.data.user.email).toBe(testUser.user.email);
     });
 
     it('should reject login with incorrect password', async () => {
@@ -164,10 +168,10 @@ describe('Authentication API', () => {
         });
 
       expect(response.status).toBe(200);
-      expect(response.body.user).toHaveProperty('id');
-      expect(response.body.user).toHaveProperty('email');
-      expect(response.body.user).toHaveProperty('organizationId');
-      expect(response.body.user).toHaveProperty('role');
+      expect(response.body.data.user).toHaveProperty('id');
+      expect(response.body.data.user).toHaveProperty('email');
+      expect(response.body.data.user).toHaveProperty('organizationId');
+      expect(response.body.data.user).toHaveProperty('role');
     });
   });
 
@@ -181,7 +185,7 @@ describe('Authentication API', () => {
           password: testUser.password,
         });
 
-      const { token } = loginResponse.body;
+      const { token } = loginResponse.body.data;
 
       // Then refresh it
       const refreshResponse = await request(app.server)
@@ -190,8 +194,10 @@ describe('Authentication API', () => {
         .send();
 
       expect(refreshResponse.status).toBe(200);
-      expect(refreshResponse.body).toHaveProperty('token');
-      expect(refreshResponse.body.token).not.toBe(token); // Should be different
+      expect(refreshResponse.body).toHaveProperty('success');
+      expect(refreshResponse.body).toHaveProperty('data');
+      expect(refreshResponse.body.data).toHaveProperty('token');
+      expect(refreshResponse.body.data.token).not.toBe(token); // Should be different
     });
 
     it('should reject refresh with invalid token', async () => {
@@ -222,7 +228,7 @@ describe('Authentication API', () => {
           password: testUser.password,
         });
 
-      const { token } = loginResponse.body;
+      const { token } = loginResponse.body.data;
 
       // Logout
       const logoutResponse = await request(app.server)
@@ -259,7 +265,7 @@ describe('Authentication API', () => {
         });
 
       expect(registerRes.status).toBe(201);
-      const { token: registerToken } = registerRes.body;
+      const { token: registerToken } = registerRes.body.data;
 
       // 2. Verify token works (use in protected endpoint)
       const healthRes = await request(app.server)
@@ -305,7 +311,7 @@ describe('Authentication API', () => {
           password: testUser.password,
         });
 
-      const { token } = loginResponse.body;
+      const { token } = loginResponse.body.data;
 
       // Test with a protected endpoint (e.g., get own profile)
       const profileRes = await request(app.server)
@@ -314,8 +320,10 @@ describe('Authentication API', () => {
         .send();
 
       expect(profileRes.status).toBe(200);
-      expect(profileRes.body).toHaveProperty('id');
-      expect(profileRes.body.email).toBe(testUser.user.email);
+      expect(profileRes.body).toHaveProperty('success');
+      expect(profileRes.body).toHaveProperty('data');
+      expect(profileRes.body.data).toHaveProperty('id');
+      expect(profileRes.body.data.email).toBe(testUser.user.email);
     });
   });
 });

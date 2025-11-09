@@ -255,8 +255,11 @@ export async function refresh(
     }
 
     return reply.code(200).send({
-      accessToken: tokens.accessToken,
-      refreshToken: tokens.refreshToken,
+      success: true,
+      data: {
+        token: tokens.accessToken,
+        refreshToken: tokens.refreshToken,
+      },
     });
   } catch (error) {
     request.log.error({ err: error }, 'Token refresh error');
@@ -284,7 +287,10 @@ export async function logout(request: FastifyRequest, reply: FastifyReply) {
     // - Clear any server-side sessions
 
     return reply.code(200).send({
-      message: 'Logged out successfully',
+      success: true,
+      data: {
+        message: 'Logged out successfully',
+      },
     });
   } catch (error) {
     request.log.error({ err: error }, 'Logout error');
@@ -335,7 +341,8 @@ export async function getCurrentUser(request: FastifyRequest, reply: FastifyRepl
     }
 
     return reply.code(200).send({
-      user: fullUser,
+      success: true,
+      data: fullUser,
     });
   } catch (error) {
     request.log.error({ err: error }, 'Get current user error');

@@ -30,7 +30,7 @@ describe('Documents API', () => {
         password: testUser.password,
       });
 
-    token = loginResponse.body.token;
+    token = loginResponse.body.data.token;
     testDocument = await testUtils.createTestDocument(organizationId);
   });
 
@@ -48,7 +48,9 @@ describe('Documents API', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(Array.isArray(response.body)).toBe(true);
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(Array.isArray(response.body.data)).toBe(true);
     });
 
     it('should reject without authentication', async () => {
@@ -66,7 +68,9 @@ describe('Documents API', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(Array.isArray(response.body)).toBe(true);
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(Array.isArray(response.body.data)).toBe(true);
     });
 
     it('should filter by document type', async () => {
@@ -76,7 +80,7 @@ describe('Documents API', () => {
         .send();
 
       expect(response.status).toBe(200);
-      response.body.forEach((doc: any) => {
+      response.body.data.forEach((doc: any) => {
         expect(doc.fileType).toBe('application/pdf');
       });
     });
@@ -90,10 +94,12 @@ describe('Documents API', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(response.body.id).toBe(testDocument.id);
-      expect(response.body.name).toBe(testDocument.name);
-      expect(response.body).toHaveProperty('fileSize');
-      expect(response.body).toHaveProperty('uploadedAt');
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data.id).toBe(testDocument.id);
+      expect(response.body.data.name).toBe(testDocument.name);
+      expect(response.body.data).toHaveProperty('fileSize');
+      expect(response.body.data).toHaveProperty('uploadedAt');
     });
 
     it('should return 404 for non-existent document', async () => {
@@ -124,8 +130,8 @@ describe('Documents API', () => {
         .attach('file', Buffer.from('test content'), 'test.pdf');
 
       expect(response.status).toBe(201);
-      expect(response.body).toHaveProperty('id');
-      expect(response.body.name).toBe('Test Document');
+      expect(response.body.data).toHaveProperty('id');
+      expect(response.body.data.name).toBe('Test Document');
       expect(response.body).toHaveProperty('s3Key');
       expect(response.body).toHaveProperty('s3Url');
     });
@@ -218,7 +224,7 @@ describe('Documents API', () => {
         });
 
       expect(response.status).toBe(200);
-      expect(response.body.name).toBe('Updated Document Name');
+      expect(response.body.data.name).toBe('Updated Document Name');
       expect(response.body.description).toBe('Updated description');
     });
 
@@ -231,7 +237,7 @@ describe('Documents API', () => {
         });
 
       expect(response.status).toBe(200);
-      expect(response.body.name).toBe(docToUpdate.name); // Unchanged
+      expect(response.body.data.name).toBe(docToUpdate.name); // Unchanged
       expect(response.body.description).toBe('Only description changed');
     });
 
@@ -321,7 +327,7 @@ describe('Documents API', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(response.body).toHaveProperty('uploadedAt');
+      expect(response.body.data).toHaveProperty('uploadedAt');
       expect(new Date(response.body.uploadedAt)).toBeInstanceOf(Date);
     });
   });
@@ -335,7 +341,9 @@ describe('Documents API', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(Array.isArray(response.body)).toBe(true);
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(Array.isArray(response.body.data)).toBe(true);
       expect(
         response.body.some((doc: any) =>
           doc.name.toLowerCase().includes(searchTerm.toLowerCase())
