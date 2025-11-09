@@ -122,7 +122,7 @@ export async function getReport(
 
     if (!report) {
       return reply.code(404).send({
-      success: false,
+        success: false,
         error: 'Report not found',
       });
     }
@@ -208,7 +208,7 @@ export async function generateMonthlyReport(
 
     if (!year || !month || month < 1 || month > 12) {
       return reply.code(400).send({
-      success: false,
+        success: false,
         error: 'Invalid year or month',
       });
     }
@@ -248,7 +248,7 @@ export async function generateQuarterlyReport(
 
     if (!year || !quarter || quarter < 1 || quarter > 4) {
       return reply.code(400).send({
-      success: false,
+        success: false,
         error: 'Invalid year or quarter',
       });
     }
@@ -290,7 +290,7 @@ export async function generateAnnualReport(
 
     if (!year) {
       return reply.code(400).send({
-      success: false,
+        success: false,
         error: 'Invalid year',
       });
     }

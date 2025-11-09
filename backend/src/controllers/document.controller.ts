@@ -125,7 +125,7 @@ export async function getDocument(
 
     if (!document) {
       return reply.code(404).send({
-      success: false,
+        success: false,
         error: 'Document not found',
       });
     }

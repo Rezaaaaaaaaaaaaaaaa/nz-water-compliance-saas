@@ -1,0 +1,16 @@
+# Build output
+dist/
+build/
+
+# Dependencies
+node_modules/
+
+# Old/duplicate test files (actual tests are in /tests directory)
+src/__tests__/
+
+# Coverage
+coverage/
+
+# Environment files
+.env
+.env.*

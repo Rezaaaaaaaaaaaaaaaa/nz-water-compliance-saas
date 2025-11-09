@@ -41,7 +41,7 @@ async function processDailyComplianceCheck(_job: Job) {
     },
   });
 
-  let remindersCreated = 0;
+  const remindersCreated = 0;
 
   for (const _plan of plans) {
     const _now = new Date();

@@ -127,7 +127,9 @@
       "Bash(set PORT=3002)",
       "Bash(gh run list:*)",
       "Bash(gh run view:*)",
-      "Bash(gh run watch:*)"
+      "Bash(gh run watch:*)",
+      "Bash(echo:*)",
+      "Bash(npx eslint:*)"
     ],
     "deny": [],
     "ask": []

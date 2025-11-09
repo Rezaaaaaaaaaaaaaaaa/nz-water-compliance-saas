@@ -70,7 +70,7 @@ async function sendViaSES(options: EmailOptions): Promise<void> {
         },
       });
 
-      await sesClient!.send(command);
+      await sesClient.send(command);
       logger.info({ to: options.to, subject: options.subject }, 'Email sent via SES');
     },
     {

@@ -89,7 +89,7 @@ export async function getDWSP(
 
     if (!dwsp) {
       return reply.code(404).send({
-      success: false,
+        success: false,
         error: 'DWSP not found',
       });
     }
@@ -243,7 +243,7 @@ export async function validateDWSP(
 
     if (!dwsp) {
       return reply.code(404).send({
-      success: false,
+        success: false,
         error: 'DWSP not found',
       });
     }

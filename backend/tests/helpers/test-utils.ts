@@ -191,13 +191,13 @@ export async function createTestDocument(
     data: {
       id: uuidv4(),
       title: `Test Document ${timestamp}`,
-      name: `Test Document ${timestamp}.pdf`,
+      fileName: `Test Document ${timestamp}.pdf`,
       fileType: 'application/pdf',
       fileSize: 102400,
-      s3Key: `test-documents/${uuidv4()}.pdf`,
+      fileKey: `test-documents/${uuidv4()}.pdf`,
       documentType: 'COMPLIANCE_REPORT',
       organizationId,
-      uploadedBy: uuidv4(),
+      createdById: uuidv4(),
       ...overrides,
     },
   });

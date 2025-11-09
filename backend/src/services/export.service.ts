@@ -131,7 +131,7 @@ export async function exportDocumentsToCSV(organizationId: string): Promise<stri
       (doc.fileSize / (1024 * 1024)).toFixed(2),
       (doc as any).mimeType || doc.fileType || '', // MIME type
       doc.version,
-      escapeCSV(Array.isArray(doc.tags) ? (doc.tags as string[]).join('; ') : ''),
+      escapeCSV(Array.isArray(doc.tags) ? doc.tags.join('; ') : ''),
       escapeCSV(doc.uploadedBy ? `${doc.uploadedBy.firstName} ${doc.uploadedBy.lastName}` : ''),
       doc.uploadedAt ? formatDate(doc.uploadedAt) : formatDate(doc.createdAt),
       doc.retentionUntil ? formatDate(doc.retentionUntil) : '',
@@ -349,7 +349,7 @@ Draft:                    ${dwsps.filter((p) => p.status === 'DRAFT').length}
 Rejected:                 ${dwsps.filter((p) => p.status === 'REJECTED').length}
 
 ${approvedDWSPs.length > 0 ? 'Latest Approved DWSP:' : 'No approved DWSPs found'}
-${approvedDWSPs.length > 0 ? approvedDWSPs.map((d) => `  - ${d.title} (Approved: ${formatDate(d.approvedAt!)})`).join('\n') : ''}
+${approvedDWSPs.length > 0 ? approvedDWSPs.map((d) => `  - ${d.title} (Approved: ${formatDate(d.approvedAt)})`).join('\n') : ''}
 
 ===============================================================================
                         ASSET MANAGEMENT
@@ -544,7 +544,10 @@ export async function exportComplianceOverviewToCSV(organizationId: string): Pro
     ['Organization', org?.name || 'Unknown'],
     ['Report Date', formatDate(new Date())],
     ['Total Assets', assets.length.toString()],
-    ['Critical Assets', `${criticalAssets.length} (${((criticalAssets.length / Math.max(assets.length, 1)) * 100).toFixed(1)}%)`],
+    [
+      'Critical Assets',
+      `${criticalAssets.length} (${((criticalAssets.length / Math.max(assets.length, 1)) * 100).toFixed(1)}%)`,
+    ],
     ['Total Documents', documents.toString()],
     ['Active DWSPs', approvedDWSPs.length.toString()],
     ['Total Compliance Plans', plans.length.toString()],

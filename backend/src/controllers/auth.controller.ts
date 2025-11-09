@@ -34,7 +34,7 @@ export async function login(request: FastifyRequest<{ Body: LoginRequest }>, rep
     // Validate input
     if (!email || !password) {
       return reply.code(400).send({
-      success: false,
+        success: false,
         error: 'Email and password are required',
       });
     }
@@ -55,7 +55,7 @@ export async function login(request: FastifyRequest<{ Body: LoginRequest }>, rep
       });
 
       return reply.code(401).send({
-      success: false,
+        success: false,
         error: 'Invalid credentials',
       });
     }
@@ -132,7 +132,7 @@ export async function register(
     // Validate input
     if (!email || !password || !firstName || !lastName || !organizationName || !organizationType) {
       return reply.code(400).send({
-      success: false,
+        success: false,
         error: 'All fields are required',
       });
     }
@@ -144,7 +144,7 @@ export async function register(
 
     if (existingUser) {
       return reply.code(409).send({
-      success: false,
+        success: false,
         error: 'Email already in use',
       });
     }
@@ -239,7 +239,7 @@ export async function refresh(
   try {
     if (!refreshToken) {
       return reply.code(401).send({
-      success: false,
+        success: false,
         error: 'Refresh token is required',
       });
     }
@@ -249,7 +249,7 @@ export async function refresh(
 
     if (!tokens) {
       return reply.code(401).send({
-      success: false,
+        success: false,
         error: 'Invalid refresh token',
       });
     }
@@ -329,7 +329,7 @@ export async function getCurrentUser(request: FastifyRequest, reply: FastifyRepl
 
     if (!fullUser) {
       return reply.code(404).send({
-      success: false,
+        success: false,
         error: 'User not found',
       });
     }
