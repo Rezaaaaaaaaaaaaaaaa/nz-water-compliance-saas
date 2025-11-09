@@ -186,10 +186,12 @@ export async function createTestDocument(
   organizationId: string,
   overrides: any = {}
 ) {
+  const timestamp = Date.now();
   return prisma.document.create({
     data: {
       id: uuidv4(),
-      name: `Test Document ${Date.now()}.pdf`,
+      title: `Test Document ${timestamp}`,
+      name: `Test Document ${timestamp}.pdf`,
       fileType: 'application/pdf',
       fileSize: 102400,
       s3Key: `test-documents/${uuidv4()}.pdf`,
