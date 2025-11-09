@@ -51,8 +51,10 @@ describe('Assets API', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(Array.isArray(response.body)).toBe(true);
-      expect(response.body.length).toBeGreaterThan(0);
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(Array.isArray(response.body.data)).toBe(true);
+      expect(response.body.data.length).toBeGreaterThan(0);
     });
 
     it('should reject request without token', async () => {
@@ -87,8 +89,10 @@ describe('Assets API', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(Array.isArray(response.body)).toBe(true);
-      response.body.forEach((asset: any) => {
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(Array.isArray(response.body.data)).toBe(true);
+      response.body.data.forEach((asset: any) => {
         expect(asset.type).toBe('WATER_TREATMENT_PLANT');
       });
     });
@@ -100,7 +104,9 @@ describe('Assets API', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(Array.isArray(response.body)).toBe(true);
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(Array.isArray(response.body.data)).toBe(true);
     });
 
     it('should filter assets by status', async () => {
@@ -110,7 +116,9 @@ describe('Assets API', () => {
         .send();
 
       expect(response.status).toBe(200);
-      response.body.forEach((asset: any) => {
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      response.body.data.forEach((asset: any) => {
         expect(asset.status).toBe('ACTIVE');
       });
     });
@@ -124,8 +132,10 @@ describe('Assets API', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(response.body.id).toBe(testAsset.id);
-      expect(response.body.name).toBe(testAsset.name);
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data.id).toBe(testAsset.id);
+      expect(response.body.data.name).toBe(testAsset.name);
     });
 
     it('should return 404 for non-existent asset', async () => {
@@ -159,9 +169,11 @@ describe('Assets API', () => {
         });
 
       expect(response.status).toBe(201);
-      expect(response.body).toHaveProperty('id');
-      expect(response.body.name).toBe('New Water Treatment Plant');
-      expect(response.body.type).toBe('WATER_TREATMENT_PLANT');
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data).toHaveProperty('id');
+      expect(response.body.data.name).toBe('New Water Treatment Plant');
+      expect(response.body.data.type).toBe('WATER_TREATMENT_PLANT');
     });
 
     it('should reject creation without required fields', async () => {
@@ -212,7 +224,9 @@ describe('Assets API', () => {
         });
 
       expect(response.status).toBe(201);
-      expect(response.body.createdBy).toBe(testUser.user.id);
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data.createdBy).toBe(testUser.user.id);
     });
   });
 
@@ -233,8 +247,10 @@ describe('Assets API', () => {
         });
 
       expect(response.status).toBe(200);
-      expect(response.body.name).toBe('Updated Asset Name');
-      expect(response.body.location).toBe('Updated Location');
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data.name).toBe('Updated Asset Name');
+      expect(response.body.data.location).toBe('Updated Location');
     });
 
     it('should allow partial updates', async () => {
@@ -246,8 +262,10 @@ describe('Assets API', () => {
         });
 
       expect(response.status).toBe(200);
-      expect(response.body.name).toBe('Partially Updated Asset');
-      expect(response.body.location).toBe(assetToUpdate.location); // Unchanged
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data.name).toBe('Partially Updated Asset');
+      expect(response.body.data.location).toBe(assetToUpdate.location); // Unchanged
     });
 
     it('should update asset status', async () => {
@@ -259,7 +277,9 @@ describe('Assets API', () => {
         });
 
       expect(response.status).toBe(200);
-      expect(response.body.status).toBe('INACTIVE');
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data.status).toBe('INACTIVE');
     });
 
     it('should return 404 for non-existent asset', async () => {
@@ -362,16 +382,18 @@ describe('Assets API', () => {
           location: 'Christchurch, NZ',
         });
 
-      const assetId = createResponse.body.id;
+      const assetId = createResponse.body.data.id;
 
       const getResponse = await request(app.server)
         .get(`/api/v1/assets/${assetId}`)
         .set('Authorization', `Bearer ${token}`)
         .send();
 
-      expect(getResponse.body).toHaveProperty('createdAt');
-      expect(getResponse.body).toHaveProperty('createdBy');
-      expect(getResponse.body.createdBy).toBe(testUser.user.id);
+      expect(getResponse.body).toHaveProperty('success');
+      expect(getResponse.body).toHaveProperty('data');
+      expect(getResponse.body.data).toHaveProperty('createdAt');
+      expect(getResponse.body.data).toHaveProperty('createdBy');
+      expect(getResponse.body.data.createdBy).toBe(testUser.user.id);
     });
   });
 });

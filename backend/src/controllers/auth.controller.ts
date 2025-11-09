@@ -23,6 +23,7 @@ export async function login(request: FastifyRequest<{ Body: LoginRequest }>, rep
   // Safely handle missing body
   if (!request.body) {
     return reply.code(400).send({
+      success: false,
       error: 'Email and password are required',
     });
   }
@@ -33,6 +34,7 @@ export async function login(request: FastifyRequest<{ Body: LoginRequest }>, rep
     // Validate input
     if (!email || !password) {
       return reply.code(400).send({
+      success: false,
         error: 'Email and password are required',
       });
     }
@@ -53,6 +55,7 @@ export async function login(request: FastifyRequest<{ Body: LoginRequest }>, rep
       });
 
       return reply.code(401).send({
+      success: false,
         error: 'Invalid credentials',
       });
     }
@@ -66,7 +69,10 @@ export async function login(request: FastifyRequest<{ Body: LoginRequest }>, rep
     // Log successful login
     await auditService.auditLogin(user.id, user.organizationId, request);
 
-    return reply.code(200).send(response);
+    return reply.code(200).send({
+      success: true,
+      data: response,
+    });
   } catch (error) {
     request.log.error({ err: error }, 'Login error');
 
@@ -78,6 +84,7 @@ export async function login(request: FastifyRequest<{ Body: LoginRequest }>, rep
     });
 
     return reply.code(500).send({
+      success: false,
       error: 'Login failed',
       message: error instanceof Error ? error.message : 'Unknown error',
     });
@@ -105,6 +112,7 @@ export async function register(
 ) {
   if (!request.body) {
     return reply.code(400).send({
+      success: false,
       error: 'Registration data is required',
     });
   }
@@ -124,6 +132,7 @@ export async function register(
     // Validate input
     if (!email || !password || !firstName || !lastName || !organizationName || !organizationType) {
       return reply.code(400).send({
+      success: false,
         error: 'All fields are required',
       });
     }
@@ -135,6 +144,7 @@ export async function register(
 
     if (existingUser) {
       return reply.code(409).send({
+      success: false,
         error: 'Email already in use',
       });
     }
@@ -186,7 +196,10 @@ export async function register(
       metadata: { email, organizationId: user.organizationId },
     });
 
-    return reply.code(201).send(response);
+    return reply.code(201).send({
+      success: true,
+      data: response,
+    });
   } catch (error) {
     request.log.error({ err: error }, 'Registration error');
 
@@ -198,6 +211,7 @@ export async function register(
     });
 
     return reply.code(500).send({
+      success: false,
       error: 'Registration failed',
       message: error instanceof Error ? error.message : 'Unknown error',
     });
@@ -215,6 +229,7 @@ export async function refresh(
   // Safely handle missing body
   if (!request.body) {
     return reply.code(401).send({
+      success: false,
       error: 'Refresh token is required',
     });
   }
@@ -224,6 +239,7 @@ export async function refresh(
   try {
     if (!refreshToken) {
       return reply.code(401).send({
+      success: false,
         error: 'Refresh token is required',
       });
     }
@@ -233,6 +249,7 @@ export async function refresh(
 
     if (!tokens) {
       return reply.code(401).send({
+      success: false,
         error: 'Invalid refresh token',
       });
     }
@@ -244,6 +261,7 @@ export async function refresh(
   } catch (error) {
     request.log.error({ err: error }, 'Token refresh error');
     return reply.code(401).send({
+      success: false,
       error: 'Token refresh failed',
     });
   }
@@ -271,6 +289,7 @@ export async function logout(request: FastifyRequest, reply: FastifyReply) {
   } catch (error) {
     request.log.error({ err: error }, 'Logout error');
     return reply.code(500).send({
+      success: false,
       error: 'Logout failed',
     });
   }
@@ -310,6 +329,7 @@ export async function getCurrentUser(request: FastifyRequest, reply: FastifyRepl
 
     if (!fullUser) {
       return reply.code(404).send({
+      success: false,
         error: 'User not found',
       });
     }
@@ -320,6 +340,7 @@ export async function getCurrentUser(request: FastifyRequest, reply: FastifyRepl
   } catch (error) {
     request.log.error({ err: error }, 'Get current user error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to get user information',
     });
   }

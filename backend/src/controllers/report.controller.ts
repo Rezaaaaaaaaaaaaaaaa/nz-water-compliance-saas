@@ -28,6 +28,7 @@ export async function createReport(
   } catch (error) {
     request.log.error({ err: error }, 'Create report error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to create report',
       message: error instanceof Error ? error.message : 'Unknown error',
     });
@@ -51,12 +52,14 @@ export async function updateReport(
 
     // TODO: Implement full update logic
     return reply.code(501).send({
+      success: false,
       error: 'Not implemented',
       message: 'Report update functionality is not yet implemented',
     });
   } catch (error) {
     request.log.error({ err: error }, 'Update report error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to update report',
       message: error instanceof Error ? error.message : 'Unknown error',
     });
@@ -92,10 +95,14 @@ export async function listReports(
       offset: request.query.offset ? parseInt(request.query.offset) : undefined,
     });
 
-    return reply.code(200).send(result);
+    return reply.code(200).send({
+      success: true,
+      data: result,
+    });
   } catch (error) {
     request.log.error({ err: error }, 'List reports error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to list reports',
     });
   }
@@ -115,6 +122,7 @@ export async function getReport(
 
     if (!report) {
       return reply.code(404).send({
+      success: false,
         error: 'Report not found',
       });
     }
@@ -123,6 +131,7 @@ export async function getReport(
   } catch (error) {
     request.log.error({ err: error }, 'Get report error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to get report',
     });
   }
@@ -147,6 +156,7 @@ export async function submitReport(
   } catch (error) {
     request.log.error({ err: error }, 'Submit report error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to submit report',
       message: error instanceof Error ? error.message : 'Unknown error',
     });
@@ -171,6 +181,7 @@ export async function deleteReport(
   } catch (error) {
     request.log.error({ err: error }, 'Delete report error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to delete report',
       message: error instanceof Error ? error.message : 'Unknown error',
     });
@@ -197,6 +208,7 @@ export async function generateMonthlyReport(
 
     if (!year || !month || month < 1 || month > 12) {
       return reply.code(400).send({
+      success: false,
         error: 'Invalid year or month',
       });
     }
@@ -210,6 +222,7 @@ export async function generateMonthlyReport(
   } catch (error) {
     request.log.error({ err: error }, 'Generate monthly report error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to generate monthly report',
     });
   }
@@ -235,6 +248,7 @@ export async function generateQuarterlyReport(
 
     if (!year || !quarter || quarter < 1 || quarter > 4) {
       return reply.code(400).send({
+      success: false,
         error: 'Invalid year or quarter',
       });
     }
@@ -252,6 +266,7 @@ export async function generateQuarterlyReport(
   } catch (error) {
     request.log.error({ err: error }, 'Generate quarterly report error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to generate quarterly report',
     });
   }
@@ -275,6 +290,7 @@ export async function generateAnnualReport(
 
     if (!year) {
       return reply.code(400).send({
+      success: false,
         error: 'Invalid year',
       });
     }
@@ -288,6 +304,7 @@ export async function generateAnnualReport(
   } catch (error) {
     request.log.error({ err: error }, 'Generate annual report error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to generate annual report',
     });
   }

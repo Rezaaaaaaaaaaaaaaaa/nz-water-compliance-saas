@@ -22,12 +22,13 @@ export async function createAsset(
     const asset = await assetService.createAsset(user, request.body, request);
 
     return reply.code(201).send({
-      asset,
-      message: 'Asset created successfully',
+      success: true,
+      data: asset,
     });
   } catch (error) {
     request.log.error({ err: error }, 'Create asset error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to create asset',
       message: error instanceof Error ? error.message : 'Unknown error',
     });
@@ -66,10 +67,14 @@ export async function listAssets(
       offset: request.query.offset ? parseInt(request.query.offset) : undefined,
     });
 
-    return reply.code(200).send(result);
+    return reply.code(200).send({
+      success: true,
+      data: result,
+    });
   } catch (error) {
     request.log.error({ err: error }, 'List assets error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to list assets',
     });
   }
@@ -84,10 +89,14 @@ export async function getAssetStatistics(request: FastifyRequest, reply: Fastify
     const user = requireUser(request);
     const stats = await assetService.getAssetStatistics(user);
 
-    return reply.code(200).send(stats);
+    return reply.code(200).send({
+      success: true,
+      data: stats,
+    });
   } catch (error) {
     request.log.error({ err: error }, 'Get asset statistics error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to get asset statistics',
     });
   }
@@ -107,14 +116,19 @@ export async function getAsset(
 
     if (!asset) {
       return reply.code(404).send({
+        success: false,
         error: 'Asset not found',
       });
     }
 
-    return reply.code(200).send({ asset });
+    return reply.code(200).send({
+      success: true,
+      data: asset,
+    });
   } catch (error) {
     request.log.error({ err: error }, 'Get asset error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to get asset',
     });
   }
@@ -136,12 +150,13 @@ export async function updateAsset(
     const asset = await assetService.updateAsset(request.params.id, user, request.body, request);
 
     return reply.code(200).send({
-      asset,
-      message: 'Asset updated successfully',
+      success: true,
+      data: asset,
     });
   } catch (error) {
     request.log.error({ err: error }, 'Update asset error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to update asset',
       message: error instanceof Error ? error.message : 'Unknown error',
     });
@@ -161,11 +176,15 @@ export async function deleteAsset(
     await assetService.deleteAsset(request.params.id, user, request);
 
     return reply.code(200).send({
-      message: 'Asset deleted successfully',
+      success: true,
+      data: {
+        message: 'Asset deleted successfully',
+      },
     });
   } catch (error) {
     request.log.error({ err: error }, 'Delete asset error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to delete asset',
       message: error instanceof Error ? error.message : 'Unknown error',
     });
@@ -185,6 +204,7 @@ export async function bulkImportAssets(
 
     if (!request.body.assets || !Array.isArray(request.body.assets)) {
       return reply.code(400).send({
+        success: false,
         error: 'Invalid request',
         message: 'Assets array is required',
       });
@@ -193,13 +213,17 @@ export async function bulkImportAssets(
     const result = await assetService.bulkImportAssets(user, request.body.assets, request);
 
     return reply.code(200).send({
-      message: `Imported ${result.created} assets`,
-      created: result.created,
-      errors: result.errors,
+      success: true,
+      data: {
+        message: `Imported ${result.created} assets`,
+        created: result.created,
+        errors: result.errors,
+      },
     });
   } catch (error) {
     request.log.error({ err: error }, 'Bulk import assets error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to import assets',
       message: error instanceof Error ? error.message : 'Unknown error',
     });

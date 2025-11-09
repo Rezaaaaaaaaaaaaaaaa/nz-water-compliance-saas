@@ -32,6 +32,7 @@ export async function createDWSP(
   } catch (error) {
     request.log.error({ err: error }, 'Create DWSP error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to create DWSP',
       message: error instanceof Error ? error.message : 'Unknown error',
     });
@@ -61,10 +62,14 @@ export async function listDWSPs(
       offset: request.query.offset ? parseInt(request.query.offset) : undefined,
     });
 
-    return reply.code(200).send(result);
+    return reply.code(200).send({
+      success: true,
+      data: result,
+    });
   } catch (error) {
     request.log.error({ err: error }, 'List DWSPs error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to list DWSPs',
     });
   }
@@ -84,6 +89,7 @@ export async function getDWSP(
 
     if (!dwsp) {
       return reply.code(404).send({
+      success: false,
         error: 'DWSP not found',
       });
     }
@@ -98,6 +104,7 @@ export async function getDWSP(
   } catch (error) {
     request.log.error({ err: error }, 'Get DWSP error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to get DWSP',
     });
   }
@@ -125,6 +132,7 @@ export async function updateDWSP(
   } catch (error) {
     request.log.error({ err: error }, 'Update DWSP error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to update DWSP',
       message: error instanceof Error ? error.message : 'Unknown error',
     });
@@ -155,6 +163,7 @@ export async function submitDWSP(
   } catch (error) {
     request.log.error({ err: error }, 'Submit DWSP error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to submit DWSP',
       message: error instanceof Error ? error.message : 'Unknown error',
     });
@@ -188,6 +197,7 @@ export async function approveDWSP(
   } catch (error) {
     request.log.error({ err: error }, 'Approve DWSP error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to approve DWSP',
       message: error instanceof Error ? error.message : 'Unknown error',
     });
@@ -212,6 +222,7 @@ export async function deleteDWSP(
   } catch (error) {
     request.log.error({ err: error }, 'Delete DWSP error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to delete DWSP',
       message: error instanceof Error ? error.message : 'Unknown error',
     });
@@ -232,16 +243,21 @@ export async function validateDWSP(
 
     if (!dwsp) {
       return reply.code(404).send({
+      success: false,
         error: 'DWSP not found',
       });
     }
 
     const validation = dwspService.validateDWSP(dwsp);
 
-    return reply.code(200).send(validation);
+    return reply.code(200).send({
+      success: true,
+      data: validation,
+    });
   } catch (error) {
     request.log.error({ err: error }, 'Validate DWSP error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to validate DWSP',
     });
   }

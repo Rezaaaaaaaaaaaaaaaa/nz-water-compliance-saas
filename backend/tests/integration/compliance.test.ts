@@ -49,7 +49,9 @@ describe('Compliance API (DWSP)', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(Array.isArray(response.body)).toBe(true);
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(Array.isArray(response.body.data)).toBe(true);
     });
 
     it('should reject without authentication', async () => {
@@ -67,7 +69,9 @@ describe('Compliance API (DWSP)', () => {
         .send();
 
       expect(response.status).toBe(200);
-      response.body.forEach((dwsp: any) => {
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      response.body.data.forEach((dwsp: any) => {
         expect(dwsp.status).toBe('DRAFT');
       });
     });
@@ -84,10 +88,12 @@ describe('Compliance API (DWSP)', () => {
         });
 
       expect(response.status).toBe(201);
-      expect(response.body).toHaveProperty('id');
-      expect(response.body.name).toBe('New DWSP Plan');
-      expect(response.body.status).toBe('DRAFT');
-      expect(response.body.version).toBe(1);
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data).toHaveProperty('id');
+      expect(response.body.data.name).toBe('New DWSP Plan');
+      expect(response.body.data.status).toBe('DRAFT');
+      expect(response.body.data.version).toBe(1);
     });
 
     it('should reject creation without required fields', async () => {
@@ -123,7 +129,9 @@ describe('Compliance API (DWSP)', () => {
         });
 
       expect(response.status).toBe(201);
-      expect(response.body.status).toBe('DRAFT');
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data.status).toBe('DRAFT');
     });
   });
 
@@ -135,8 +143,10 @@ describe('Compliance API (DWSP)', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(response.body.id).toBe(testDWSP.id);
-      expect(response.body.name).toBe(testDWSP.name);
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data.id).toBe(testDWSP.id);
+      expect(response.body.data.name).toBe(testDWSP.name);
     });
 
     it('should return 404 for non-existent DWSP', async () => {
@@ -174,8 +184,10 @@ describe('Compliance API (DWSP)', () => {
         });
 
       expect(response.status).toBe(200);
-      expect(response.body.name).toBe('Updated DWSP Plan');
-      expect(response.body.description).toBe('Updated description');
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data.name).toBe('Updated DWSP Plan');
+      expect(response.body.data.description).toBe('Updated description');
     });
 
     it('should update DWSP status', async () => {
@@ -187,7 +199,9 @@ describe('Compliance API (DWSP)', () => {
         });
 
       expect(response.status).toBe(200);
-      expect(response.body.status).toBe('SUBMITTED');
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data.status).toBe('SUBMITTED');
     });
 
     it('should increment version on update', async () => {
@@ -199,7 +213,9 @@ describe('Compliance API (DWSP)', () => {
         });
 
       expect(updateResponse.status).toBe(200);
-      expect(updateResponse.body.version).toBeGreaterThan(dwspToUpdate.version);
+      expect(updateResponse.body).toHaveProperty('success');
+      expect(updateResponse.body).toHaveProperty('data');
+      expect(updateResponse.body.data.version).toBeGreaterThan(dwspToUpdate.version);
     });
 
     it('should allow partial updates', async () => {
@@ -212,8 +228,10 @@ describe('Compliance API (DWSP)', () => {
         });
 
       expect(response.status).toBe(200);
-      expect(response.body.name).toBe(originalName);
-      expect(response.body.description).toBe('Only updating description');
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data.name).toBe(originalName);
+      expect(response.body.data.description).toBe('Only updating description');
     });
 
     it('should reject update without authentication', async () => {
@@ -268,9 +286,11 @@ describe('Compliance API (DWSP)', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(response.body).toHaveProperty('completenessScore');
-      expect(response.body.completenessScore).toBeGreaterThanOrEqual(0);
-      expect(response.body.completenessScore).toBeLessThanOrEqual(100);
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data).toHaveProperty('completenessScore');
+      expect(response.body.data.completenessScore).toBeGreaterThanOrEqual(0);
+      expect(response.body.data.completenessScore).toBeLessThanOrEqual(100);
     });
 
     it('should get DWSP audit history', async () => {
@@ -280,7 +300,9 @@ describe('Compliance API (DWSP)', () => {
         .send();
 
       expect(response.status).toBe(200);
-      expect(Array.isArray(response.body)).toBe(true);
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(Array.isArray(response.body.data)).toBe(true);
     });
   });
 
@@ -302,7 +324,9 @@ describe('Compliance API (DWSP)', () => {
         });
 
       expect(response.status).toBe(200);
-      expect(response.body.status).toBe('SUBMITTED');
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data.status).toBe('SUBMITTED');
     });
 
     it('should transition from SUBMITTED to APPROVED', async () => {
@@ -323,7 +347,9 @@ describe('Compliance API (DWSP)', () => {
         });
 
       expect(response.status).toBe(200);
-      expect(response.body.status).toBe('APPROVED');
+      expect(response.body).toHaveProperty('success');
+      expect(response.body).toHaveProperty('data');
+      expect(response.body.data.status).toBe('APPROVED');
     });
   });
 });

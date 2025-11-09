@@ -35,6 +35,7 @@ export async function requestUploadUrl(
   } catch (error) {
     request.log.error({ err: error }, 'Request upload URL error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to generate upload URL',
       message: error instanceof Error ? error.message : 'Unknown error',
     });
@@ -60,6 +61,7 @@ export async function createDocument(
   } catch (error) {
     request.log.error({ err: error }, 'Create document error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to create document',
       message: error instanceof Error ? error.message : 'Unknown error',
     });
@@ -96,10 +98,14 @@ export async function listDocuments(
       offset: request.query.offset ? parseInt(request.query.offset) : undefined,
     });
 
-    return reply.code(200).send(result);
+    return reply.code(200).send({
+      success: true,
+      data: result,
+    });
   } catch (error) {
     request.log.error({ err: error }, 'List documents error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to list documents',
     });
   }
@@ -119,6 +125,7 @@ export async function getDocument(
 
     if (!document) {
       return reply.code(404).send({
+      success: false,
         error: 'Document not found',
       });
     }
@@ -127,6 +134,7 @@ export async function getDocument(
   } catch (error) {
     request.log.error({ err: error }, 'Get document error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to get document',
     });
   }
@@ -151,6 +159,7 @@ export async function getDownloadUrl(
   } catch (error) {
     request.log.error({ err: error }, 'Get download URL error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to generate download URL',
       message: error instanceof Error ? error.message : 'Unknown error',
     });
@@ -175,6 +184,7 @@ export async function deleteDocument(
   } catch (error) {
     request.log.error({ err: error }, 'Delete document error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to delete document',
       message: error instanceof Error ? error.message : 'Unknown error',
     });
@@ -202,6 +212,7 @@ export async function linkToAsset(
   } catch (error) {
     request.log.error({ err: error }, 'Link document to asset error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to link document to asset',
       message: error instanceof Error ? error.message : 'Unknown error',
     });
@@ -232,6 +243,7 @@ export async function linkToCompliancePlan(
   } catch (error) {
     request.log.error({ err: error }, 'Link document to compliance plan error');
     return reply.code(500).send({
+      success: false,
       error: 'Failed to link document to compliance plan',
       message: error instanceof Error ? error.message : 'Unknown error',
     });

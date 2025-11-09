@@ -195,6 +195,7 @@ export async function createTestDocument(
       fileType: 'application/pdf',
       fileSize: 102400,
       s3Key: `test-documents/${uuidv4()}.pdf`,
+      documentType: 'COMPLIANCE_REPORT',
       organizationId,
       uploadedBy: uuidv4(),
       ...overrides,
