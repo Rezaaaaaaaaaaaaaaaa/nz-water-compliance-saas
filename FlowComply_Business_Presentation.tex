@@ -1,0 +1,603 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2cm,headheight=15pt]{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{tikz}
+
+% Define FlowComply brand colors
+\definecolor{primaryblue}{RGB}{0,102,255}
+\definecolor{accentblue}{RGB}{0,217,255}
+\definecolor{accentred}{RGB}{255,107,107}
+\definecolor{lightgray}{RGB}{245,245,245}
+\definecolor{darkgray}{RGB}{68,68,68}
+
+% FlowComply Monogram Logo (TikZ) - Professional Design
+\newcommand{\flowcomplylogo}[1][0.5cm]{%
+\begin{tikzpicture}[scale=#1/0.5cm, transform shape, line cap=round, line join=round]
+    % Modern hexagonal frame
+    \draw[primaryblue, line width=0.8pt, opacity=0.2]
+        (0,0.5) -- (0.43,0.25) -- (0.43,-0.25) -- (0,-0.5) -- (-0.43,-0.25) -- (-0.43,0.25) -- cycle;
+
+    % Water drop/flow symbol
+    \fill[primaryblue!90]
+        (-0.15,0.35) .. controls (-0.15,0.15) and (-0.25,0.05) .. (-0.25,-0.15)
+        .. controls (-0.25,-0.25) and (-0.18,-0.32) .. (-0.05,-0.32)
+        .. controls (0.08,-0.32) and (0.15,-0.25) .. (0.15,-0.15)
+        .. controls (0.15,0.05) and (0.05,0.15) .. (0.05,0.35)
+        .. controls (0.05,0.42) and (-0.05,0.42) .. (-0.15,0.35);
+
+    % Checkmark/compliance symbol
+    \draw[accentblue, line width=1.5pt]
+        (0.05,-0.05) -- (0.15,0.05) -- (0.32,0.18);
+
+    % Flow accent line
+    \draw[primaryblue!60, line width=0.5pt]
+        (-0.35,-0.38) .. controls (-0.2,-0.42) and (0.1,-0.42) .. (0.25,-0.38);
+\end{tikzpicture}%
+}
+
+% Configure hyperlinks
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primaryblue,
+    filecolor=primaryblue,
+    urlcolor=primaryblue,
+    pdftitle={FlowComply - Water Intelligence Platform},
+    pdfauthor={FlowComply},
+}
+
+% Configure headers and footers
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textcolor{primaryblue}{\bfseries FlowComply}}
+\fancyhead[R]{\textcolor{darkgray}{\small Water Intelligence Platform}}
+\fancyfoot[L]{\textcolor{darkgray}{\tiny Water Compliance Platform}}
+\fancyfoot[C]{\thepage}
+\fancyfoot[R]{\textcolor{darkgray}{\tiny \href{mailto:che.eng@live.com}{che.eng@live.com}}}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{primaryblue}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\footrule}{\hbox to\headwidth{\color{primaryblue!30}\leaders\hrule height \footrulewidth\hfill}}
+
+% Title formatting
+\titleformat{\section}{\Large\bfseries\color{primaryblue}}{\thesection}{1em}{}[\titlerule]
+\titleformat{\subsection}{\large\bfseries\color{primaryblue}}{\thesubsection}{1em}{}
+
+% Custom boxes
+\newtcolorbox{highlightbox}{
+    colback=white,
+    colframe=primaryblue,
+    arc=2mm,
+    boxrule=2pt,
+    leftrule=5pt
+}
+
+\begin{document}
+
+% ===== TITLE PAGE =====
+\begin{titlepage}
+    \centering
+    \vspace*{3cm}
+
+    {\Huge\bfseries\textcolor{darkgray}{Flow}\textcolor{primaryblue}{Comply}\par}
+    \vspace{0.5cm}
+    {\Large\textcolor{darkgray}{WATER COMPLIANCE PLATFORM}\par}
+
+    \vspace{2cm}
+
+    {\LARGE\bfseries AI-Powered Water Quality \& Compliance Platform\par}
+    \vspace{0.5cm}
+    {\large Real-Time Monitoring $\bullet$ Automated Reporting $\bullet$ Intelligent Analytics\par}
+    \vspace{2.5cm}
+
+    \begin{highlightbox}
+        \centering
+        \large
+        \textbf{Transforming Water Safety Through Intelligence}\\[0.5cm]
+        Wastewater Surveillance $\bullet$ AMR Monitoring\\
+        Contaminant Tracking $\bullet$ Predictive Analytics\\
+        Multi-Parameter Analysis $\bullet$ Regulatory Compliance
+    \end{highlightbox}
+
+    \vfill
+
+    {\large
+    \textbf{Prepared for:}\\
+    Professor Karina Gin\\
+    National University of Singapore\\[0.5cm]
+    \textbf{Contact:}\\
+    Reza Moghaddam\\
+    \href{mailto:che.eng@live.com}{che.eng@live.com}\\[0.5cm]
+    \today
+    \par}
+
+\end{titlepage}
+
+% ===== EXECUTIVE OVERVIEW =====
+\section{Executive Overview}
+
+FlowComply is an AI-powered water intelligence platform that transforms water quality data into actionable insights. Originally developed for regulatory compliance, the platform's advanced capabilities make it ideal for research applications including wastewater surveillance, antimicrobial resistance monitoring, and contaminant fate studies.
+
+\subsection{Core Value Proposition}
+
+\begin{highlightbox}
+\textbf{80\% reduction in manual analysis} through automated monitoring, AI-powered anomaly detection, and intelligent reporting—while improving detection accuracy and response times.
+\end{highlightbox}
+
+\subsection{Key Capabilities}
+
+\begin{itemize}[leftmargin=*, itemsep=0.2em]
+    \item \textbf{AI-Powered Analysis:} Claude 3.5 Sonnet integration for intelligent interpretation
+    \item \textbf{Real-Time Monitoring:} Multi-parameter tracking with automated alerts
+    \item \textbf{Anomaly Detection:} Statistical and ML-based quality excursion identification
+    \item \textbf{Predictive Analytics:} Trend analysis and early warning systems
+    \item \textbf{Research-Ready:} Unlimited historical storage, comprehensive API access
+    \item \textbf{Regulatory Intelligence:} 381+ compliance rules, automated reporting
+\end{itemize}
+
+\subsection{Technology Stack}
+
+\begin{table}[H]
+\small
+\begin{tabular}{ll}
+\toprule
+\textbf{Component} & \textbf{Technology} \\
+\midrule
+AI Engine & Anthropic Claude 3.5 Sonnet \\
+Backend & Node.js, TypeScript, Fastify \\
+Database & PostgreSQL (7+ year retention) \\
+Analytics & Redis caching (40x performance) \\
+API & 60+ RESTful endpoints \\
+Frontend & Next.js 14, React, TailwindCSS \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ===== AI FEATURES =====
+\section{AI-Powered Intelligence}
+
+\subsection{1. Water Quality Anomaly Detection}
+
+Automatically analyzes test results to identify:
+\begin{itemize}[itemsep=0.2em]
+    \item Statistical anomalies beyond historical norms
+    \item Trend changes (gradual degradation/improvement)
+    \item Multi-parameter correlations
+    \item Seasonal patterns and treatment efficacy
+\end{itemize}
+
+\textbf{Monitored Parameters:} E. coli, protozoa, pH, turbidity, chlorine, nitrates, heavy metals, organic compounds
+
+\subsection{2. Intelligent Compliance Assistant}
+
+24/7 conversational AI providing instant answers on:
+\begin{itemize}[itemsep=0.2em]
+    \item Regulatory requirements and standards
+    \item Treatment optimization recommendations
+    \item Incident response procedures
+    \item Best practice guidance
+\end{itemize}
+
+\subsection{3. Automated Report Generation}
+
+AI-generated summaries including:
+\begin{itemize}[itemsep=0.2em]
+    \item Executive compliance performance overviews
+    \item Trend analysis over custom periods
+    \item Predictive insights for future performance
+    \item Regulatory-ready exports (PDF, Excel, CSV)
+\end{itemize}
+
+\subsection{4. Document Analysis}
+
+Analyzes water safety plans to:
+\begin{itemize}[itemsep=0.2em]
+    \item Identify missing mandatory elements
+    \item Assess regulatory completeness (0-100 score)
+    \item Provide severity-ranked recommendations
+    \item Generate gap analysis reports
+\end{itemize}
+
+% ===== SECTOR APPLICATIONS =====
+\section{Applications Across Sectors}
+
+\subsection{Research \& Academia}
+
+\textbf{Wastewater Surveillance \& Public Health:}
+\begin{itemize}[itemsep=0.2em]
+    \item SARS-CoV-2 and pathogen monitoring programs
+    \item AMR gene tracking across treatment facilities
+    \item Illicit drug consumption monitoring
+    \item Chemical biomarker surveillance
+    \item Multi-site epidemiological studies
+\end{itemize}
+
+\textbf{Environmental Research:}
+\begin{itemize}[itemsep=0.2em]
+    \item Contaminant fate and transport modeling
+    \item Climate change impact studies
+    \item Treatment process optimization research
+    \item Multi-barrier efficacy validation
+\end{itemize}
+
+\subsection{Municipal \& Utilities}
+
+\textbf{Water Supply Management:}
+\begin{itemize}[itemsep=0.2em]
+    \item Drinking water quality compliance (WHO, EPA, local standards)
+    \item Distribution system integrity monitoring
+    \item Real-time contamination detection
+    \item Automated regulatory reporting
+    \item Asset management and maintenance scheduling
+\end{itemize}
+
+\textbf{Wastewater Treatment:}
+\begin{itemize}[itemsep=0.2em]
+    \item Effluent quality monitoring and compliance
+    \item Treatment process optimization
+    \item Energy efficiency tracking
+    \item Discharge permit compliance
+\end{itemize}
+
+\subsection{Food \& Beverage Industry}
+
+\textbf{Process Water Management:}
+\begin{itemize}[itemsep=0.2em]
+    \item Ingredient water quality verification
+    \item Production line water monitoring
+    \item CIP (Clean-In-Place) system validation
+    \item HACCP compliance documentation
+    \item Supplier water quality audits
+\end{itemize}
+
+\subsection{Pharmaceutical \& Healthcare}
+
+\textbf{Water Quality Assurance:}
+\begin{itemize}[itemsep=0.2em]
+    \item Purified water (PW) and Water for Injection (WFI) monitoring
+    \item USP compliance tracking (USP <1231>, <643>)
+    \item Microbial contamination detection (bacterial endotoxins)
+    \item Legionella surveillance in cooling towers
+    \item Dialysis water quality monitoring
+\end{itemize}
+
+\subsection{Industrial Operations}
+
+\textbf{Process Monitoring:}
+\begin{itemize}[itemsep=0.2em]
+    \item Cooling water quality management
+    \item Boiler feedwater monitoring
+    \item Process wastewater treatment compliance
+    \item Zero Liquid Discharge (ZLD) system optimization
+    \item Environmental discharge permit tracking
+\end{itemize}
+
+\subsection{Smart Cities \& IoT Integration}
+
+\textbf{Urban Water Management:}
+\begin{itemize}[itemsep=0.2em]
+    \item Real-time water quality dashboards for citizens
+    \item Smart sensor network integration
+    \item Predictive maintenance for water infrastructure
+    \item Climate resilience monitoring
+    \item Public transparency portals
+\end{itemize}
+
+\subsection{Agriculture \& Aquaculture}
+
+\textbf{Water Resource Management:}
+\begin{itemize}[itemsep=0.2em]
+    \item Irrigation water quality monitoring
+    \item Aquaculture system health tracking
+    \item Nutrient runoff monitoring
+    \item Groundwater quality surveillance
+    \item Pesticide/fertilizer impact assessment
+\end{itemize}
+
+% ===== DATA MANAGEMENT =====
+\section{Data Management \& Integration}
+
+\subsection{Database Architecture}
+
+\begin{itemize}[itemsep=0.2em]
+    \item \textbf{Database:} PostgreSQL 15 (ACID-compliant)
+    \item \textbf{Retention:} 7+ years minimum (unlimited capacity)
+    \item \textbf{Security:} AES-256 encryption, TLS 1.3
+    \item \textbf{Backup:} Automated snapshots, point-in-time recovery
+    \item \textbf{Access:} Role-based permissions with audit logging
+\end{itemize}
+
+\subsection{API Integration}
+
+\textbf{RESTful API with 60+ endpoints:}
+\begin{itemize}[itemsep=0.2em]
+    \item Authentication: JWT tokens (OAuth 2.0 compatible)
+    \item Documentation: OpenAPI/Swagger specification
+    \item Rate limiting: Configurable (default: 100 req/15min)
+    \item Data export: CSV, JSON, Excel, PDF formats
+\end{itemize}
+
+\textbf{Integration Scenarios:}
+\begin{enumerate}[itemsep=0.2em]
+    \item \textbf{LIMS:} Automated test result upload
+    \item \textbf{SCADA:} Real-time operational data streaming
+    \item \textbf{R/Python:} Direct API queries from analysis scripts
+    \item \textbf{GIS:} Spatial data export and visualization
+\end{enumerate}
+
+\subsection{Performance Metrics}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{p{5cm}p{5cm}}
+\toprule
+\textbf{Metric} & \textbf{Performance} \\
+\midrule
+API Response Time & < 100ms (cached) \\
+Dashboard Load & 50ms vs 2000ms (40x improvement) \\
+Cache Hit Rate & 70\%+ \\
+Concurrent Users & 1000+ simultaneous \\
+AI Processing & 5-10 seconds per analysis \\
+Data Retention & Unlimited (7+ years minimum) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ===== USE CASE EXAMPLES =====
+\section{Sector-Specific Use Cases}
+
+\subsection{Public Health Research (NUS/Aquashield)}
+
+\textbf{Wastewater-Based Epidemiology:}
+\begin{itemize}[itemsep=0.2em]
+    \item Singapore-wide pathogen surveillance network
+    \item Integration with qPCR/ddPCR laboratory workflows
+    \item AMR gene tracking and risk assessment
+    \item Real-time outbreak prediction (7-day lead time)
+    \item Policy recommendation generation
+\end{itemize}
+
+\subsection{Pharmaceutical Manufacturing}
+
+\textbf{GMP Water Systems:}
+\begin{itemize}[itemsep=0.2em]
+    \item Continuous USP <1231> compliance monitoring
+    \item Automated alert generation for excursions
+    \item Batch release documentation
+    \item Electronic audit trails for FDA inspections
+    \item Trend analysis for preventive maintenance
+\end{itemize}
+
+\subsection{Beverage Production}
+
+\textbf{Quality Assurance:}
+\begin{itemize}[itemsep=0.2em]
+    \item Incoming water quality verification (source water)
+    \item In-process monitoring (carbonation, blending)
+    \item Post-treatment validation (UV, ozone)
+    \item Multi-site consistency tracking
+    \item Supplier performance dashboards
+\end{itemize}
+
+\subsection{Smart City Initiative}
+
+\textbf{Urban Water Intelligence:}
+\begin{itemize}[itemsep=0.2em]
+    \item Real-time public water quality portal
+    \item Sensor network integration (IoT devices)
+    \item Predictive maintenance for aging infrastructure
+    \item Citizen science data collection
+    \item Climate resilience monitoring
+\end{itemize}
+
+\subsection{Hospital Water Safety}
+
+\textbf{Legionella Risk Management:}
+\begin{itemize}[itemsep=0.2em]
+    \item Cooling tower and hot water monitoring
+    \item Automated sampling schedule management
+    \item Temperature and disinfectant tracking
+    \item Risk zone identification
+    \item Regulatory compliance documentation
+\end{itemize}
+
+\subsection{Agricultural Operations}
+
+\textbf{Irrigation Water Management:}
+\begin{itemize}[itemsep=0.2em]
+    \item Groundwater quality monitoring
+    \item Nutrient and pesticide tracking
+    \item Salinity and pH trend analysis
+    \item Crop yield correlation studies
+    \item Sustainable water use verification
+\end{itemize}
+
+% ===== IMPLEMENTATION =====
+\section{Implementation \& Deployment}
+
+\subsection{Deployment Options}
+
+\textbf{1. Cloud Hosting (Recommended)}
+\begin{itemize}[itemsep=0.2em]
+    \item AWS Asia-Pacific region (Singapore)
+    \item 99.9\% uptime SLA
+    \item Automatic scaling
+    \item Zero-downtime updates
+    \item 24/7 monitoring and support
+    \item \textbf{Academic discount: 50\% for research institutions}
+\end{itemize}
+
+\textbf{2. On-Premises}
+\begin{itemize}[itemsep=0.2em]
+    \item Full data sovereignty
+    \item Air-gapped deployment possible
+    \item Integration with existing IT infrastructure
+    \item Installation and configuration support included
+\end{itemize}
+
+\textbf{3. Hybrid}
+\begin{itemize}[itemsep=0.2em]
+    \item On-premises for sensitive data
+    \item Cloud for AI processing and analytics
+    \item Secure encrypted synchronization
+\end{itemize}
+
+\subsection{Pilot Program}
+
+\textbf{Proposed Pilot for NUS/Aquashield:}
+\begin{enumerate}[itemsep=0.3em]
+    \item \textbf{Duration:} 3-6 months
+    \item \textbf{Scope:} 2-3 research sites/projects
+    \item \textbf{Customization:} Adapt for specific research needs
+    \item \textbf{Support:} Full technical support during pilot
+    \item \textbf{Training:} 2-3 key users
+    \item \textbf{Outcome:} Joint publication opportunity
+    \item \textbf{Cost:} No-cost deployment for pilot duration
+\end{enumerate}
+
+\subsection{Timeline}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{p{3cm}p{7cm}}
+\toprule
+\textbf{Phase} & \textbf{Activities} \\
+\midrule
+Week 1-2 & Requirements gathering, system setup, data import \\
+Week 3-4 & User training, pilot operations, workflow testing \\
+Week 5+ & Full deployment, ongoing support, optimization \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ===== CASE STUDY =====
+\section{Research Case Study Example}
+
+\subsection{Hypothetical NUS Deployment}
+
+\textbf{Scenario:} Monitor wastewater at 3 treatment plants over 12 months
+
+\textbf{Data Collection:}
+\begin{itemize}[itemsep=0.2em]
+    \item Weekly qPCR for SARS-CoV-2 N1/N2 genes
+    \item Monthly AMR gene screening (bla$_{\text{CTX-M}}$, qnrS, ermB)
+    \item Daily physical-chemical parameters
+    \item Treatment process data (SRT, HRT, MLSS)
+\end{itemize}
+
+\textbf{FlowComply Capabilities:}
+\begin{itemize}[itemsep=0.2em]
+    \item Correlation: Viral loads vs. community COVID-19 cases
+    \item AMR gene removal efficiency analysis
+    \item Impact of temperature/rainfall on pathogen concentrations
+    \item AI-powered outbreak prediction (7-day lead time)
+    \item Cost-benefit analysis of treatment options
+\end{itemize}
+
+\textbf{Expected Outputs:}
+\begin{itemize}[itemsep=0.2em]
+    \item 3-5 high-impact journal articles
+    \item Interactive dashboard for public health authorities
+    \item Policy recommendations for Singapore
+    \item Exportable model for other Asian cities
+\end{itemize}
+
+% ===== SECURITY =====
+\section{Security \& Compliance}
+
+\subsection{Data Protection}
+
+\begin{itemize}[itemsep=0.2em]
+    \item \textbf{Encryption:} AES-256 at rest, TLS 1.3 in transit
+    \item \textbf{Authentication:} JWT tokens, MFA support
+    \item \textbf{Authorization:} Role-based access control (RBAC)
+    \item \textbf{Audit Trail:} Immutable logs with 7+ year retention
+    \item \textbf{Compliance:} GDPR, PDPA (Singapore), ISO 27001 ready
+\end{itemize}
+
+\subsection{Research Data Privacy}
+
+\begin{itemize}[itemsep=0.2em]
+    \item No data used for AI model training
+    \item Regional data storage (Singapore)
+    \item Right to deletion (GDPR Article 17)
+    \item Full dataset export capability
+    \item Secure collaboration portals
+\end{itemize}
+
+% ===== NEXT STEPS =====
+\section{Next Steps}
+
+\subsection{Proposed Actions}
+
+\begin{enumerate}[leftmargin=*, itemsep=0.3em]
+    \item \textbf{Live Demonstration}
+    \begin{itemize}
+        \item 60-90 minute walkthrough of all features
+        \item Customized demo with wastewater data examples
+        \item Q\&A with technical team
+    \end{itemize}
+
+    \item \textbf{Pilot Project Proposal}
+    \begin{itemize}
+        \item Focus: AMR tracking or wastewater surveillance
+        \item Duration: 3-6 months
+        \item No-cost deployment
+        \item Joint publication opportunity
+    \end{itemize}
+
+    \item \textbf{Technical Discussion}
+    \begin{itemize}
+        \item Integration requirements with NUS systems
+        \item Customization for specific research needs
+        \item Potential funding opportunities
+        \item Aquashield collaboration possibilities
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Contact Information}
+
+\begin{center}
+\large
+
+\vspace{0.5cm}
+
+\begin{tabular}{rl}
+\textbf{Contact:} & Reza Moghaddam \\
+\textbf{Email:} & \href{mailto:che.eng@live.com}{che.eng@live.com} \\
+\textbf{Website:} & \url{https://flowcomply.co.nz} \\
+\end{tabular}
+
+\vspace{1cm}
+
+\begin{highlightbox}
+    \centering
+    \large
+    \textbf{Let's Explore Collaboration}\\[0.3cm]
+    We're excited to discuss how FlowComply can support\\
+    your organization's water quality and compliance needs
+\end{highlightbox}
+
+\end{center}
+
+\vfill
+
+\begin{center}
+\footnotesize
+\textcopyright{} 2025 FlowComply. All rights reserved.\\
+Confidential business information prepared for Prof. Karina Gin, NUS\\
+\today
+\end{center}
+
+\end{document}
