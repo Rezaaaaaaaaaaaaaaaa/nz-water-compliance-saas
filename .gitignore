@@ -73,3 +73,12 @@ dump.rdb
 
 # TypeScript
 *.tsbuildinfo
+
+# LaTeX
+*.aux
+*.out
+*.toc
+*.log
+*.synctex.gz
+*.fls
+*.fdb_latexmk
