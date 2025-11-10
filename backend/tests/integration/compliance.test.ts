@@ -31,7 +31,7 @@ describe('Compliance API (DWSP)', () => {
         password: testUser.password,
       });
 
-    token = loginResponse.body.token;
+    token = loginResponse.body.data.token;
     testDWSP = await testUtils.createTestDWSP(organizationId);
   });
 

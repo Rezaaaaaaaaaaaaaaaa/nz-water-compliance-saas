@@ -31,7 +31,7 @@ describe('Assets API', () => {
         password: testUser.password,
       });
 
-    token = loginResponse.body.token;
+    token = loginResponse.body.data.token;
 
     // Create test asset
     testAsset = await testUtils.createTestAsset(organizationId);
