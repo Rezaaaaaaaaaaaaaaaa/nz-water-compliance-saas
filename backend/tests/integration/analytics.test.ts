@@ -30,7 +30,7 @@ describe('Analytics API', () => {
         password: testUser.password,
       });
 
-    token = loginResponse.body.token;
+    token = loginResponse.body.data.token;
 
     // Create test data for analytics
     await testUtils.createTestAssets(organizationId, 5);
