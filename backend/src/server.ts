@@ -159,7 +159,7 @@ async function buildApp(): Promise<FastifyInstance> {
       };
     } catch (error: any) {
       logger.error('Database health check failed', error);
-      reply.code(503);
+      void reply.code(503);
       return {
         status: 'error',
         service: 'database',
@@ -197,7 +197,7 @@ async function buildApp(): Promise<FastifyInstance> {
       };
     } catch (error: any) {
       logger.error('Redis health check failed', error);
-      reply.code(503);
+      void reply.code(503);
       return {
         status: 'error',
         service: 'redis',
@@ -299,25 +299,27 @@ async function start() {
     // Graceful shutdown
     const signals = ['SIGINT', 'SIGTERM'];
     signals.forEach((signal) => {
-      process.on(signal, async () => {
-        app.log.info(`Received ${signal}, shutting down gracefully...`);
+      process.on(signal, () => {
+        void (async () => {
+          app.log.info(`Received ${signal}, shutting down gracefully...`);
 
-        // Stop background workers
-        await stopWorkers();
+          // Stop background workers
+          await stopWorkers();
 
-        // Close database connections
-        await prisma.$disconnect();
+          // Close database connections
+          await prisma.$disconnect();
         app.log.info('Database connection closed');
 
         // Close Redis connection
         await redis.quit();
         app.log.info('Redis connection closed');
 
-        // Close Fastify server
-        await app.close();
-        app.log.info('Server closed successfully');
+          // Close Fastify server
+          await app.close();
+          app.log.info('Server closed successfully');
 
-        process.exit(0);
+          process.exit(0);
+        })();
       });
     });
   } catch (error) {

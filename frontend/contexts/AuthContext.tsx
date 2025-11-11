@@ -60,7 +60,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const token = localStorage.getItem('auth_token');
       if (token) {
         const response = await authApi.getCurrentUser();
-        setUser(response.user);
+        // Handle {success, data} format
+        const userData = response.data?.user || response.user;
+        setUser(userData);
       }
     } catch (error) {
       console.error('Auth check failed:', error);
@@ -75,10 +77,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string) => {
     try {
       const response = await authApi.login(email, password);
+      // Handle {success, data} format
+      const accessToken = response.data?.accessToken || response.accessToken;
+      const userData = response.data?.user || response.user;
+
       if (typeof window !== 'undefined') {
-        localStorage.setItem('auth_token', response.accessToken);
+        localStorage.setItem('auth_token', accessToken);
       }
-      setUser(response.user);
+      setUser(userData);
     } catch (error) {
       throw error;
     }
@@ -94,10 +100,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }) => {
     try {
       const response = await authApi.register(data);
+      // Handle {success, data} format
+      const accessToken = response.data?.accessToken || response.accessToken;
+      const userData = response.data?.user || response.user;
+
       if (typeof window !== 'undefined') {
-        localStorage.setItem('auth_token', response.accessToken);
+        localStorage.setItem('auth_token', accessToken);
       }
-      setUser(response.user);
+      setUser(userData);
     } catch (error) {
       throw error;
     }
@@ -120,7 +130,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const refreshUser = async () => {
     try {
       const response = await authApi.getCurrentUser();
-      setUser(response.user);
+      // Handle {success, data} format
+      const userData = response.data?.user || response.user;
+      setUser(userData);
     } catch (error) {
       console.error('Refresh user failed:', error);
     }
