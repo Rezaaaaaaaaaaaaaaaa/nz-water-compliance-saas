@@ -171,7 +171,7 @@ Focus on:
       : {
           anomalies: [],
           trends: [],
-          compliance: { overallStatus: 'unknown', exceedances: [] },
+          compliance: { overallStatus: 'non-compliant' as const, exceedances: [] },
           summary: 'Analysis failed',
           recommendedActions: [],
         };

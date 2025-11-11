@@ -45,7 +45,7 @@ async function generateReportData(
     includeIncidents?: boolean;
     includeTestResults?: boolean;
   }
-) {
+): Promise<any> {
   const reportData: any = {
     period: {
       start: startDate.toISOString(),
@@ -235,6 +235,7 @@ async function generateReportData(
   reportData.summary.overallComplianceRate =
     totalItems > 0 ? Math.round((compliantItems / totalItems) * 100) : 0;
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return reportData;
 }
 
@@ -451,7 +452,11 @@ export async function deleteReport(id: string, user: AuthenticatedUser, request:
 /**
  * Generate monthly compliance report
  */
-export async function generateMonthlyReport(organizationId: string, year: number, month: number) {
+export async function generateMonthlyReport(
+  organizationId: string,
+  year: number,
+  month: number
+): Promise<any> {
   const startDate = new Date(year, month - 1, 1);
   const endDate = new Date(year, month, 0, 23, 59, 59);
 
@@ -462,6 +467,7 @@ export async function generateMonthlyReport(organizationId: string, year: number
     includeTestResults: true,
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return reportData;
 }
 
@@ -472,7 +478,7 @@ export async function generateQuarterlyReport(
   organizationId: string,
   year: number,
   quarter: number
-) {
+): Promise<any> {
   const startMonth = (quarter - 1) * 3;
   const startDate = new Date(year, startMonth, 1);
   const endDate = new Date(year, startMonth + 3, 0, 23, 59, 59);
@@ -484,13 +490,14 @@ export async function generateQuarterlyReport(
     includeTestResults: true,
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return reportData;
 }
 
 /**
  * Generate annual compliance report
  */
-export async function generateAnnualReport(organizationId: string, year: number) {
+export async function generateAnnualReport(organizationId: string, year: number): Promise<any> {
   const startDate = new Date(year, 0, 1);
   const endDate = new Date(year, 11, 31, 23, 59, 59);
 
@@ -501,5 +508,6 @@ export async function generateAnnualReport(organizationId: string, year: number)
     includeTestResults: true,
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return reportData;
 }

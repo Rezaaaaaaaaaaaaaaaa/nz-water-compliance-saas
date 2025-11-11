@@ -6,7 +6,8 @@
       "Bash(dir /b *.config.*)",
       "Bash(npx @next/codemod@canary next-lint-to-eslint-cli:*)",
       "Bash(test:*)",
-      "Bash(del .eslintrc.json)"
+      "Bash(del .eslintrc.json)",
+      "Bash(npx prettier:*)"
     ],
     "deny": [],
     "ask": []

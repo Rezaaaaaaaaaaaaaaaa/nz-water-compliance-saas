@@ -398,7 +398,9 @@ export class DWQARExcelExportService {
         errors,
       };
     } catch (error) {
-      errors.push(`Excel validation error: ${error instanceof Error ? error.message : String(error)}`);
+      errors.push(
+        `Excel validation error: ${error instanceof Error ? error.message : String(error)}`
+      );
       return { valid: false, errors };
     }
   }

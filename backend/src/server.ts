@@ -308,11 +308,11 @@ async function start() {
 
           // Close database connections
           await prisma.$disconnect();
-        app.log.info('Database connection closed');
+          app.log.info('Database connection closed');
 
-        // Close Redis connection
-        await redis.quit();
-        app.log.info('Redis connection closed');
+          // Close Redis connection
+          await redis.quit();
+          app.log.info('Redis connection closed');
 
           // Close Fastify server
           await app.close();

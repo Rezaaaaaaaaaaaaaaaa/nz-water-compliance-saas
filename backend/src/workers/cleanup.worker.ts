@@ -80,7 +80,7 @@ async function processCleanup(job: Job<CleanupJob>) {
       // This is handled automatically by S3 presigned URL expiration
       return { expired: 0 };
     default:
-      throw new Error(`Unknown cleanup task: ${task}`);
+      throw new Error(`Unknown cleanup task: ${String(task)}`);
   }
 }
 
