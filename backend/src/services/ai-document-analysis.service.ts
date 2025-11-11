@@ -132,8 +132,8 @@ Focus on:
 
     // Parse JSON response
     const jsonMatch = answerText.match(/\{[\s\S]*\}/);
-    const analysis = jsonMatch
-      ? JSON.parse(jsonMatch[0])
+    const analysis: Omit<DWSPAnalysisResult, 'usage'> = jsonMatch
+      ? (JSON.parse(jsonMatch[0]) as Omit<DWSPAnalysisResult, 'usage'>)
       : {
           completenessScore: 0,
           missingElements: [],
@@ -268,7 +268,24 @@ Create a professional summary suitable for submission to Taumata Arowai in JSON 
 
     const answerText = response.content[0].type === 'text' ? response.content[0].text : '{}';
     const jsonMatch = answerText.match(/\{[\s\S]*\}/);
-    const result = jsonMatch ? JSON.parse(jsonMatch[0]) : {};
+    const result: {
+      summary: string;
+      keyAchievements: string[];
+      issuesAddressed: string[];
+      improvementActions: string[];
+    } = jsonMatch
+      ? (JSON.parse(jsonMatch[0]) as {
+          summary: string;
+          keyAchievements: string[];
+          issuesAddressed: string[];
+          improvementActions: string[];
+        })
+      : {
+          summary: '',
+          keyAchievements: [],
+          issuesAddressed: [],
+          improvementActions: [],
+        };
 
     const latencyMs = Date.now() - startTime;
 

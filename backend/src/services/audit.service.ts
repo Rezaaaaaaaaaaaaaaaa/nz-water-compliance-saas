@@ -72,7 +72,7 @@ export async function createAuditLog(params: {
     if (process.env.NODE_ENV !== 'test') {
       throw error;
     }
-    return null as any; // Return null in test environment
+    return null; // Return null in test environment
   }
 }
 

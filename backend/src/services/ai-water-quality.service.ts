@@ -166,8 +166,8 @@ Focus on:
 
     const answerText = response.content[0].type === 'text' ? response.content[0].text : '{}';
     const jsonMatch = answerText.match(/\{[\s\S]*\}/);
-    const analysis = jsonMatch
-      ? JSON.parse(jsonMatch[0])
+    const analysis: Omit<WaterQualityAnalysisResult, 'usage'> = jsonMatch
+      ? (JSON.parse(jsonMatch[0]) as Omit<WaterQualityAnalysisResult, 'usage'>)
       : {
           anomalies: [],
           trends: [],
@@ -251,7 +251,7 @@ function convertTestsToCSV(tests: WaterQualityTest[]): string {
   const header = 'Date,Parameter,Value,Unit,Complies,Notes';
   const rows = tests.map((test) => {
     const date = test.sampleDate.toISOString().split('T')[0];
-    const value = `${test.valuePrefix || ''}${test.value}`;
+    const value = `${test.valuePrefix || ''}${test.value.toString()}`;
     const complies = test.compliesWithRule ? 'Yes' : 'No';
     const notes = test.notes || '';
     return `${date},${test.parameter},${value},${test.unit},${complies},"${notes}"`;

@@ -359,7 +359,7 @@ export class DWQARExcelExportService {
           const cell = headerRow.getCell(i + 1);
           if (cell.value !== expectedHeaders[i]) {
             errors.push(
-              `Reports sheet header mismatch at column ${i + 1}: expected "${expectedHeaders[i]}", got "${cell.value}"`
+              `Reports sheet header mismatch at column ${i + 1}: expected "${expectedHeaders[i]}", got "${String(cell.value)}"`
             );
           }
         }
@@ -387,7 +387,7 @@ export class DWQARExcelExportService {
           const cell = headerRow.getCell(i + 1);
           if (cell.value !== expectedHeaders[i]) {
             errors.push(
-              `Samples sheet header mismatch at column ${i + 1}: expected "${expectedHeaders[i]}", got "${cell.value}"`
+              `Samples sheet header mismatch at column ${i + 1}: expected "${expectedHeaders[i]}", got "${String(cell.value)}"`
             );
           }
         }
@@ -398,7 +398,7 @@ export class DWQARExcelExportService {
         errors,
       };
     } catch (error) {
-      errors.push(`Excel validation error: ${error}`);
+      errors.push(`Excel validation error: ${error instanceof Error ? error.message : String(error)}`);
       return { valid: false, errors };
     }
   }
