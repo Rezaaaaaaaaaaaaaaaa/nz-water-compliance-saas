@@ -4,7 +4,9 @@
       "Bash(git commit:*)",
       "Bash(npm install:*)",
       "Bash(dir /b *.config.*)",
-      "Bash(npx @next/codemod@canary next-lint-to-eslint-cli:*)"
+      "Bash(npx @next/codemod@canary next-lint-to-eslint-cli:*)",
+      "Bash(test:*)",
+      "Bash(del .eslintrc.json)"
     ],
     "deny": [],
     "ask": []
