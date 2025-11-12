@@ -30,10 +30,19 @@ export default [
         HTMLInputElement: "readonly",
         HTMLSelectElement: "readonly",
         HTMLTextAreaElement: "readonly",
+        HTMLButtonElement: "readonly",
+        HTMLFormElement: "readonly",
+        HTMLLabelElement: "readonly",
+        HTMLDivElement: "readonly",
         Blob: "readonly",
         File: "readonly",
+        FileReader: "readonly",
         setInterval: "readonly",
         clearInterval: "readonly",
+        setTimeout: "readonly",
+        fetch: "readonly",
+        localStorage: "readonly",
+        KeyboardEvent: "readonly",
       },
     },
     plugins: {
@@ -49,6 +58,8 @@ export default [
       "react/prop-types": "off",
       "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
       "no-unused-vars": "off",
+      "@typescript-eslint/no-explicit-any": "warn",
+      "react/no-unescaped-entities": "warn",
     },
     settings: {
       react: {
