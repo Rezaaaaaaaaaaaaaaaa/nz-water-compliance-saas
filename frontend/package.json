@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "check-ports": "node ../scripts/check-ports.js 3000",
     "dev": "next dev",
+    "dev:safe": "npm run check-ports && npm run dev",
     "build": "next build",
     "start": "next start",
+    "start:safe": "npm run check-ports && npm start",
     "lint": "eslint ."
   },
   "dependencies": {
