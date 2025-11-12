@@ -231,7 +231,7 @@ async function buildApp(): Promise<FastifyInstance> {
 
   // Global Error Handler
   app.setErrorHandler((error, request, reply) => {
-    const statusCode = error.statusCode || 500;
+    const statusCode = (error as { statusCode?: number }).statusCode || 500;
 
     // Log error with request context
     request.log.error({
@@ -246,7 +246,7 @@ async function buildApp(): Promise<FastifyInstance> {
     const message =
       config.nodeEnv === 'production' && statusCode === 500
         ? 'Internal Server Error'
-        : error.message;
+        : (error as Error).message;
 
     void reply.status(statusCode).send({
       error: {
