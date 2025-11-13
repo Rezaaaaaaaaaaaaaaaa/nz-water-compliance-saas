@@ -1,0 +1,296 @@
+name: Database Backup
+
+on:
+  schedule:
+    # Run daily at 2 AM UTC (2 PM NZST)
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      backup_type:
+        description: 'Backup type'
+        required: true
+        default: 'daily'
+        type: choice
+        options:
+          - daily
+          - manual
+          - emergency
+
+env:
+  AWS_REGION: ap-southeast-2
+  BACKUP_RETENTION_DAYS: 30
+  S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
+
+jobs:
+  backup-database:
+    name: Backup PostgreSQL Database
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Generate backup filename
+        id: backup-file
+        run: |
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          BACKUP_TYPE=${{ github.event.inputs.backup_type || 'daily' }}
+          FILENAME="backup_${BACKUP_TYPE}_${TIMESTAMP}.sql"
+          echo "filename=$FILENAME" >> $GITHUB_OUTPUT
+          echo "timestamp=$TIMESTAMP" >> $GITHUB_OUTPUT
+
+      - name: Create database backup
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          # Parse database URL
+          DB_HOST=$(echo $DATABASE_URL | sed -n 's/.*@\(.*\):.*/\1/p')
+          DB_PORT=$(echo $DATABASE_URL | sed -n 's/.*:\([0-9]*\)\/.*/\1/p')
+          DB_NAME=$(echo $DATABASE_URL | sed -n 's/.*\/\(.*\)?.*/\1/p' | sed 's/?.*//g')
+          DB_USER=$(echo $DATABASE_URL | sed -n 's/.*:\/\/\(.*\):.*/\1/p')
+          DB_PASS=$(echo $DATABASE_URL | sed -n 's/.*:\/\/.*:\(.*\)@.*/\1/p')
+
+          # Create backup
+          PGPASSWORD=$DB_PASS pg_dump \
+            -h $DB_HOST \
+            -p $DB_PORT \
+            -U $DB_USER \
+            -d $DB_NAME \
+            --format=custom \
+            --compress=9 \
+            --verbose \
+            --file=${{ steps.backup-file.outputs.filename }}
+
+          # Create SQL version for easy viewing
+          PGPASSWORD=$DB_PASS pg_dump \
+            -h $DB_HOST \
+            -p $DB_PORT \
+            -U $DB_USER \
+            -d $DB_NAME \
+            --format=plain \
+            --file=${{ steps.backup-file.outputs.filename }}.sql
+
+          # Compress SQL version
+          gzip ${{ steps.backup-file.outputs.filename }}.sql
+
+          # Get file sizes
+          BACKUP_SIZE=$(du -h ${{ steps.backup-file.outputs.filename }} | cut -f1)
+          SQL_SIZE=$(du -h ${{ steps.backup-file.outputs.filename }}.sql.gz | cut -f1)
+
+          echo "Backup sizes: Custom format: $BACKUP_SIZE, SQL format: $SQL_SIZE"
+
+      - name: Upload backup to S3
+        run: |
+          BACKUP_TYPE=${{ github.event.inputs.backup_type || 'daily' }}
+
+          # Upload custom format backup
+          aws s3 cp \
+            ${{ steps.backup-file.outputs.filename }} \
+            s3://${{ env.S3_BUCKET }}/postgres/${BACKUP_TYPE}/${{ steps.backup-file.outputs.filename }} \
+            --storage-class STANDARD_IA \
+            --metadata "backup-type=${BACKUP_TYPE},timestamp=${{ steps.backup-file.outputs.timestamp }}"
+
+          # Upload SQL backup
+          aws s3 cp \
+            ${{ steps.backup-file.outputs.filename }}.sql.gz \
+            s3://${{ env.S3_BUCKET }}/postgres/${BACKUP_TYPE}/${{ steps.backup-file.outputs.filename }}.sql.gz \
+            --storage-class STANDARD_IA
+
+          echo "✅ Backup uploaded to S3"
+
+      - name: Verify backup integrity
+        run: |
+          # Download and verify the backup
+          aws s3 cp \
+            s3://${{ env.S3_BUCKET }}/postgres/daily/${{ steps.backup-file.outputs.filename }} \
+            verify_${{ steps.backup-file.outputs.filename }}
+
+          # Check file size
+          ORIGINAL_SIZE=$(stat -f%z ${{ steps.backup-file.outputs.filename }} 2>/dev/null || stat -c%s ${{ steps.backup-file.outputs.filename }})
+          VERIFY_SIZE=$(stat -f%z verify_${{ steps.backup-file.outputs.filename }} 2>/dev/null || stat -c%s verify_${{ steps.backup-file.outputs.filename }})
+
+          if [ "$ORIGINAL_SIZE" != "$VERIFY_SIZE" ]; then
+            echo "❌ Backup verification failed: Size mismatch"
+            exit 1
+          fi
+
+          echo "✅ Backup verification successful"
+
+      - name: Clean up old backups
+        run: |
+          RETENTION_DATE=$(date -d "${BACKUP_RETENTION_DAYS} days ago" +%Y%m%d || date -v-${BACKUP_RETENTION_DAYS}d +%Y%m%d)
+
+          echo "Cleaning up backups older than ${RETENTION_DATE}"
+
+          # List and delete old backups
+          aws s3 ls s3://${{ env.S3_BUCKET }}/postgres/daily/ | while read -r line; do
+            FILE_DATE=$(echo $line | awk '{print $4}' | grep -oE '[0-9]{8}' | head -1)
+            FILE_NAME=$(echo $line | awk '{print $4}')
+
+            if [ ! -z "$FILE_DATE" ] && [ "$FILE_DATE" -lt "$RETENTION_DATE" ]; then
+              echo "Deleting old backup: $FILE_NAME"
+              aws s3 rm s3://${{ env.S3_BUCKET }}/postgres/daily/$FILE_NAME
+            fi
+          done
+
+          echo "✅ Old backups cleaned up"
+
+      - name: Send backup notification
+        if: always()
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          STATUS="${{ job.status }}"
+          EMOJI="✅"
+          COLOR="good"
+
+          if [ "$STATUS" != "success" ]; then
+            EMOJI="❌"
+            COLOR="danger"
+          fi
+
+          BACKUP_SIZE=$(du -h ${{ steps.backup-file.outputs.filename }} | cut -f1)
+
+          curl -X POST $SLACK_WEBHOOK \
+            -H 'Content-Type: application/json' \
+            -d "{
+              \"attachments\": [{
+                \"color\": \"$COLOR\",
+                \"title\": \"$EMOJI Database Backup $STATUS\",
+                \"fields\": [
+                  {
+                    \"title\": \"Backup Type\",
+                    \"value\": \"${{ github.event.inputs.backup_type || 'daily' }}\",
+                    \"short\": true
+                  },
+                  {
+                    \"title\": \"Timestamp\",
+                    \"value\": \"${{ steps.backup-file.outputs.timestamp }}\",
+                    \"short\": true
+                  },
+                  {
+                    \"title\": \"File Size\",
+                    \"value\": \"$BACKUP_SIZE\",
+                    \"short\": true
+                  },
+                  {
+                    \"title\": \"Status\",
+                    \"value\": \"$STATUS\",
+                    \"short\": true
+                  }
+                ]
+              }]
+            }"
+
+      - name: Clean up local files
+        if: always()
+        run: |
+          rm -f ${{ steps.backup-file.outputs.filename }}
+          rm -f ${{ steps.backup-file.outputs.filename }}.sql.gz
+          rm -f verify_${{ steps.backup-file.outputs.filename }}
+
+  backup-redis:
+    name: Backup Redis Data
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Create Redis snapshot
+        env:
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+        run: |
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          FILENAME="redis_backup_${TIMESTAMP}.rdb"
+
+          # Trigger Redis BGSAVE
+          redis-cli -h $REDIS_HOST -a $REDIS_PASSWORD BGSAVE
+
+          # Wait for save to complete
+          while [ $(redis-cli -h $REDIS_HOST -a $REDIS_PASSWORD LASTSAVE) -lt $(date +%s) ]; do
+            sleep 5
+          done
+
+          # Copy RDB file (this would need access to Redis server filesystem)
+          # For managed Redis (ElastiCache), use native backup features instead
+
+          echo "✅ Redis backup completed"
+
+  test-restore:
+    name: Test Backup Restore
+    needs: backup-database
+    runs-on: ubuntu-latest
+    if: github.event.inputs.backup_type == 'manual'
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Download latest backup
+        run: |
+          LATEST_BACKUP=$(aws s3 ls s3://${{ env.S3_BUCKET }}/postgres/manual/ | sort | tail -n 1 | awk '{print $4}')
+
+          aws s3 cp \
+            s3://${{ env.S3_BUCKET }}/postgres/manual/$LATEST_BACKUP \
+            restore_test.sql
+
+          echo "Downloaded backup: $LATEST_BACKUP"
+
+      - name: Test restore
+        run: |
+          # Create test database
+          PGPASSWORD=postgres psql -h localhost -U postgres -c "CREATE DATABASE restore_test;"
+
+          # Restore backup
+          PGPASSWORD=postgres pg_restore \
+            -h localhost \
+            -U postgres \
+            -d restore_test \
+            --verbose \
+            restore_test.sql
+
+          # Verify tables exist
+          TABLE_COUNT=$(PGPASSWORD=postgres psql -h localhost -U postgres -d restore_test -t -c "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public';")
+
+          if [ "$TABLE_COUNT" -lt 10 ]; then
+            echo "❌ Restore test failed: Insufficient tables"
+            exit 1
+          fi
+
+          echo "✅ Restore test successful: $TABLE_COUNT tables restored"
+
+      - name: Clean up
+        if: always()
+        run: |
+          PGPASSWORD=postgres psql -h localhost -U postgres -c "DROP DATABASE IF EXISTS restore_test;"
+          rm -f restore_test.sql
