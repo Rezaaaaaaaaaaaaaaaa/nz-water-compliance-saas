@@ -83,17 +83,21 @@ describe('Compliance API (DWSP)', () => {
         .post('/api/v1/compliance/dwsp')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          name: 'New DWSP Plan',
+          title: 'New DWSP Plan',
           description: 'A comprehensive drinking water safety plan',
+          waterSupplyName: 'Test Water Supply',
+          supplyPopulation: 5000,
+          sourceTypes: ['Surface Water'],
+          treatmentProcesses: ['Filtration', 'Chlorination'],
         });
 
       expect(response.status).toBe(201);
       expect(response.body).toHaveProperty('success');
       expect(response.body).toHaveProperty('data');
       expect(response.body.data).toHaveProperty('id');
-      expect(response.body.data.name).toBe('New DWSP Plan');
+      expect(response.body.data.title).toBe('New DWSP Plan');
       expect(response.body.data.status).toBe('DRAFT');
-      expect(response.body.data.version).toBe(1);
+      expect(response.body.data.version).toBe('1.0');
     });
 
     it('should reject creation without required fields', async () => {
@@ -101,7 +105,7 @@ describe('Compliance API (DWSP)', () => {
         .post('/api/v1/compliance/dwsp')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          // Missing name
+          // Missing title and required fields
           description: 'Incomplete DWSP',
         });
 
@@ -112,8 +116,12 @@ describe('Compliance API (DWSP)', () => {
       const response = await request(app.server)
         .post('/api/v1/compliance/dwsp')
         .send({
-          name: 'Unauthorized DWSP',
+          title: 'Unauthorized DWSP',
           description: 'Should fail',
+          waterSupplyName: 'Test Water Supply',
+          supplyPopulation: 5000,
+          sourceTypes: ['Surface Water'],
+          treatmentProcesses: ['Filtration'],
         });
 
       expect(response.status).toBe(401);
@@ -124,8 +132,12 @@ describe('Compliance API (DWSP)', () => {
         .post('/api/v1/compliance/dwsp')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          name: 'Draft DWSP',
+          title: 'Draft DWSP',
           description: 'Should be draft',
+          waterSupplyName: 'Test Water Supply',
+          supplyPopulation: 5000,
+          sourceTypes: ['Surface Water'],
+          treatmentProcesses: ['Filtration'],
         });
 
       expect(response.status).toBe(201);
@@ -146,7 +158,7 @@ describe('Compliance API (DWSP)', () => {
       expect(response.body).toHaveProperty('success');
       expect(response.body).toHaveProperty('data');
       expect(response.body.data.id).toBe(testDWSP.id);
-      expect(response.body.data.name).toBe(testDWSP.name);
+      expect(response.body.data.title).toBe(testDWSP.title);
     });
 
     it('should return 404 for non-existent DWSP', async () => {
@@ -179,14 +191,14 @@ describe('Compliance API (DWSP)', () => {
         .patch(`/api/v1/compliance/dwsp/${dwspToUpdate.id}`)
         .set('Authorization', `Bearer ${token}`)
         .send({
-          name: 'Updated DWSP Plan',
+          title: 'Updated DWSP Plan',
           description: 'Updated description',
         });
 
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('success');
       expect(response.body).toHaveProperty('data');
-      expect(response.body.data.name).toBe('Updated DWSP Plan');
+      expect(response.body.data.title).toBe('Updated DWSP Plan');
       expect(response.body.data.description).toBe('Updated description');
     });
 
@@ -209,7 +221,7 @@ describe('Compliance API (DWSP)', () => {
         .patch(`/api/v1/compliance/dwsp/${dwspToUpdate.id}`)
         .set('Authorization', `Bearer ${token}`)
         .send({
-          name: 'Version Increment Test',
+          title: 'Version Increment Test',
         });
 
       expect(updateResponse.status).toBe(200);
@@ -230,7 +242,7 @@ describe('Compliance API (DWSP)', () => {
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('success');
       expect(response.body).toHaveProperty('data');
-      expect(response.body.data.name).toBe(originalName);
+      expect(response.body.data.title).toBe(originalName);
       expect(response.body.data.description).toBe('Only updating description');
     });
 
@@ -238,7 +250,7 @@ describe('Compliance API (DWSP)', () => {
       const response = await request(app.server)
         .patch(`/api/v1/compliance/dwsp/${dwspToUpdate.id}`)
         .send({
-          name: 'Unauthorized Update',
+          title: 'Unauthorized Update',
         });
 
       expect(response.status).toBe(401);

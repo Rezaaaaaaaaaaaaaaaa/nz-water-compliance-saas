@@ -386,8 +386,17 @@ export async function submitDWSP(id: string, user: AuthenticatedUser, request: a
     'Submitted to Taumata Arowai via Hinekōrako platform'
   );
 
-  // TODO: Integration with Hinekōrako platform (Taumata Arowai's submission system)
-  // This would involve API call to submit the DWSP
+  // Hinekōrako platform integration (Taumata Arowai's submission system)
+  try {
+    await submitDWSPToHinekorako(submitted, dwsp, user);
+  } catch (error) {
+    // Log the error but don't fail the submission
+    // The DWSP is marked as submitted in our system
+    request.log.error(
+      { err: error, dwspId: id },
+      'Hinekōrako DWSP submission failed - DWSP saved locally'
+    );
+  }
 
   return submitted;
 }
@@ -455,4 +464,83 @@ export async function deleteDWSP(id: string, user: AuthenticatedUser, request: a
   await auditService.auditDelete(user, 'CompliancePlan', id, dwsp, request, 'DWSP soft deleted');
 
   return deleted;
+}
+
+/**
+ * Submit DWSP to Hinekōrako platform (Taumata Arowai's submission system)
+ * PLACEHOLDER: Integration pending with Taumata Arowai
+ *
+ * @param submitted - The submitted compliance plan record
+ * @param dwsp - The full DWSP data
+ * @param user - The user submitting the DWSP
+ * @throws Error if submission fails
+ */
+async function submitDWSPToHinekorako(
+  submitted: any,
+  dwsp: any,
+  user: AuthenticatedUser
+): Promise<void> {
+  // This is a placeholder for the actual Hinekōrako API integration
+  // When implemented, this would:
+  // 1. Authenticate with Hinekōrako API using organization credentials
+  // 2. Transform DWSP data to Hinekōrako format (12 required elements)
+  // 3. Validate completeness against Taumata Arowai requirements
+  // 4. Submit via HTTPS POST to Hinekōrako endpoint
+  // 5. Store submission ID and acknowledgment in the compliance plan
+  // 6. Handle response and update status accordingly
+
+  // Prepare submission data for future implementation
+  // This data structure is ready for Hinekōrako API integration
+  const submissionData = {
+    dwspId: submitted.id,
+    organizationId: dwsp.organization.id,
+    organizationName: dwsp.organization.name,
+    waterSupplyName: dwsp.waterSupplyName,
+    supplyPopulation: dwsp.supplyPopulation,
+    submittedBy: user.email,
+    submittedAt: submitted.submittedAt,
+    version: dwsp.version,
+    elements: {
+      waterSupplyDescription: dwsp.waterSupplyName,
+      hazards: dwsp.hazards,
+      riskAssessments: dwsp.riskAssessments,
+      preventiveMeasures: dwsp.preventiveMeasures,
+      operationalMonitoring: dwsp.operationalMonitoring,
+      verificationMonitoring: dwsp.verificationMonitoring,
+      correctiveActions: dwsp.correctiveActions,
+      managementProcedures: dwsp.managementProcedures,
+      communicationPlan: dwsp.communicationPlan,
+    },
+  };
+
+  // Simulate API call (will be replaced with actual implementation)
+  throw new Error(
+    `Hinekōrako DWSP integration not yet implemented. Submission data prepared: ${JSON.stringify(submissionData)}`
+  );
+
+  // Future implementation example:
+  // const hinekorakoResponse = await fetch('https://api.hinekorako.govt.nz/dwsp/submit', {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'Authorization': `Bearer ${config.hinekorako.apiKey}`,
+  //     'X-Organization-Id': dwsp.organization.id,
+  //   },
+  //   body: JSON.stringify(submissionData),
+  // });
+  //
+  // if (!hinekorakoResponse.ok) {
+  //   throw new Error(`Hinekōrako DWSP submission failed: ${hinekorakoResponse.statusText}`);
+  // }
+  //
+  // const result = await hinekorakoResponse.json();
+  //
+  // // Update the compliance plan with submission details
+  // await prisma.compliancePlan.update({
+  //   where: { id: submitted.id },
+  //   data: {
+  //     acknowledgmentReceived: new Date(),
+  //     regulatorFeedback: result.acknowledgmentMessage,
+  //   },
+  // });
 }
