@@ -24,14 +24,17 @@
     "lint": "npm run lint --workspace=backend && npm run lint --workspace=frontend",
     "format": "npm run format --workspace=backend && npm run format --workspace=frontend",
     "clean": "rm -rf backend/dist backend/node_modules frontend/.next frontend/node_modules",
-    "install:all": "npm ci && cd backend && npm ci && cd ../frontend && npm ci"
+    "install:all": "npm ci && cd backend && npm ci && cd ../frontend && npm ci",
+    "prepare": "husky"
   },
   "workspaces": [
     "backend",
     "frontend"
   ],
   "devDependencies": {
-    "@playwright/test": "^1.40.0"
+    "@playwright/test": "^1.40.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6"
   },
   "engines": {
     "node": ">=20.0.0",
