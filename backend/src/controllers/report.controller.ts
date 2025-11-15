@@ -37,7 +37,7 @@ export async function createReport(
 
 /**
  * PATCH /api/v1/reports/:id
- * Update report (placeholder - full implementation pending)
+ * Update report
  */
 export async function updateReport(
   request: FastifyRequest<{
@@ -47,14 +47,14 @@ export async function updateReport(
   reply: FastifyReply
 ) {
   try {
-    requireUser(request);
-    // const { id } = request.params; // TODO: Use this when implementing
+    const user = requireUser(request);
+    const { id } = request.params;
 
-    // TODO: Implement full update logic
-    return reply.code(501).send({
-      success: false,
-      error: 'Not implemented',
-      message: 'Report update functionality is not yet implemented',
+    const report = await reportService.updateReport(id, user, request.body, request);
+
+    return reply.code(200).send({
+      report,
+      message: 'Report updated successfully',
     });
   } catch (error) {
     request.log.error({ err: error }, 'Update report error');

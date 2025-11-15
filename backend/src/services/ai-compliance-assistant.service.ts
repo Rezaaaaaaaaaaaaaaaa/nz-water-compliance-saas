@@ -254,6 +254,10 @@ async function getOrganizationContext(organizationId: string): Promise<Complianc
     },
   });
 
+  // Calculate overdue items
+  const now = new Date();
+  const overdueItems = await calculateOverdueItems(organizationId, now);
+
   return {
     organizationName: org?.name || 'Unknown',
     complianceScore: complianceScore?.overallScore,
@@ -261,8 +265,68 @@ async function getOrganizationContext(organizationId: string): Promise<Complianc
     assetCount: assets,
     recentReports: reports,
     criticalAssets,
-    overdueItems: 0, // TODO: Calculate from deadlines
+    overdueItems,
   };
+}
+
+/**
+ * Calculate number of overdue items for an organization
+ */
+async function calculateOverdueItems(organizationId: string, now: Date): Promise<number> {
+  let overdueCount = 0;
+
+  // Check overdue compliance plan target dates
+  const overduePlans = await prisma.compliancePlan.count({
+    where: {
+      organizationId,
+      deletedAt: null,
+      status: {
+        in: ['DRAFT', 'IN_REVIEW'],
+      },
+      targetDate: {
+        lt: now,
+      },
+    },
+  });
+  overdueCount += overduePlans;
+
+  // Check overdue compliance plan reviews
+  const overdueReviews = await prisma.compliancePlan.count({
+    where: {
+      organizationId,
+      deletedAt: null,
+      status: {
+        in: ['APPROVED', 'ACCEPTED'],
+      },
+      OR: [
+        {
+          nextReviewDate: {
+            lt: now,
+          },
+        },
+        {
+          reviewDate: {
+            lt: now,
+          },
+        },
+      ],
+    },
+  });
+  overdueCount += overdueReviews;
+
+  // Check overdue asset inspections
+  const overdueInspections = await prisma.asset.count({
+    where: {
+      organizationId,
+      deletedAt: null,
+      nextInspectionDate: {
+        lt: now,
+      },
+    },
+  });
+  overdueCount += overdueInspections;
+
+  return overdueCount;
 }
 
 /**

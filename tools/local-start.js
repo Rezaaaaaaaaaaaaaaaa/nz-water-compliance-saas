@@ -122,7 +122,7 @@ async function main() {
   printHeader('STEP 2: Port Conflict Detection');
 
   const requiredPorts = {
-    backend: 5000,
+    backend: 3001,
     frontend: 3000,
     postgres: 5432,
     redis: 6379
@@ -154,19 +154,19 @@ async function main() {
   try {
     // Update backend .env
     let envContent = fs.readFileSync('backend/.env', 'utf8');
-    if (!envContent.includes('PORT=5000')) {
-      envContent = envContent.replace(/PORT=3000/g, 'PORT=5000');
+    if (!envContent.includes('PORT=3001')) {
+      envContent = envContent.replace(/PORT=\d+/g, 'PORT=3001');
       fs.writeFileSync('backend/.env', envContent);
-      print('  ✓ Updated backend port to 5000', colors.green);
-      fixes.push('Updated backend/.env PORT to 5000');
+      print('  ✓ Updated backend port to 3001', colors.green);
+      fixes.push('Updated backend/.env PORT to 3001');
     } else {
-      print('  ✓ Backend configured for port 5000', colors.green);
+      print('  ✓ Backend configured for port 3001', colors.green);
     }
 
     // Create/update frontend .env.local
-    const frontendEnv = `NEXT_PUBLIC_API_URL=http://localhost:5000/api/v1\n`;
+    const frontendEnv = `NEXT_PUBLIC_API_URL=http://localhost:3001/api/v1\nNODE_ENV=development\n`;
     fs.writeFileSync('frontend/.env.local', frontendEnv);
-    print('  ✓ Updated frontend API URL to port 5000', colors.green);
+    print('  ✓ Updated frontend API URL to port 3001', colors.green);
     fixes.push('Created frontend/.env.local');
   } catch (error) {
     print(`  ✗ Configuration update failed: ${error.message}`, colors.red);
@@ -213,7 +213,7 @@ async function main() {
   // STEP 6: Start backend
   printHeader('STEP 6: Starting Backend Server');
 
-  print('  → Starting backend on port 5000...', colors.cyan);
+  print('  → Starting backend on port 3001...', colors.cyan);
   const backendProcess = spawn('npm', ['run', 'dev'], {
     cwd: 'backend',
     shell: true,
@@ -227,7 +227,7 @@ async function main() {
   });
 
   print('  ⏳ Waiting for backend to be ready', colors.cyan);
-  const backendReady = await waitForService('http://localhost:5000/health');
+  const backendReady = await waitForService('http://localhost:3001/health');
   console.log('');
 
   if (backendReady) {
@@ -241,7 +241,7 @@ async function main() {
   printHeader('STEP 7: Backend API Testing');
 
   print('  → Testing health endpoint...', colors.cyan);
-  const healthTest = await testEndpoint('http://localhost:5000/health');
+  const healthTest = await testEndpoint('http://localhost:3001/health');
   if (healthTest.success) {
     print(`  ✓ Health endpoint OK (${healthTest.status})`, colors.green);
   } else {
@@ -258,7 +258,7 @@ async function main() {
 
     const options = {
       hostname: 'localhost',
-      port: 5000,
+      port: 3001,
       path: '/api/v1/auth/login',
       method: 'POST',
       headers: {
@@ -342,8 +342,12 @@ async function main() {
   print('\n🎉 Application Started!', colors.green);
   print('\n📍 Access URLs:', colors.cyan);
   print('   Frontend:  http://localhost:3000', colors.cyan);
-  print('   Backend:   http://localhost:5000', colors.cyan);
-  print('   API Docs:  http://localhost:5000/api/v1/docs', colors.cyan);
+  print('   Backend:   http://localhost:3001', colors.cyan);
+  print('   API Docs:  http://localhost:3001/api/v1/docs', colors.cyan);
+  print('\n📊 Port Allocation:', colors.cyan);
+  print('   This app (Compliance): Frontend 3000, Backend 3001', colors.cyan);
+  print('   Digital Twin: Frontend 3002, Backend 3003', colors.cyan);
+  print('   Asset Intelligence: Frontend 3004, Backend 3005', colors.cyan);
 
   print('\n🔑 Test Credentials:', colors.cyan);
   print('   Email:     admin@compliance-saas.co.nz', colors.cyan);

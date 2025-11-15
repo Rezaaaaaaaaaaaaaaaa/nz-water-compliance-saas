@@ -41,7 +41,15 @@ jobs:
 
       - name: Run unit tests
         working-directory: frontend
-        run: npm test -- --coverage || echo "No tests configured"
+        run: npm run test:ci
+
+      - name: Upload coverage reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: frontend/coverage
+          retention-days: 7
 
   e2e:
     name: E2E Tests
