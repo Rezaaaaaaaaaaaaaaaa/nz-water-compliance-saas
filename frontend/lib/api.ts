@@ -311,3 +311,151 @@ export const monitoringApi = {
     return response.data;
   },
 };
+
+// Analytics API
+export const analyticsApi = {
+  getDashboard: async (params?: { startDate?: string; endDate?: string }) => {
+    const response = await apiClient.get('/analytics/dashboard', { params });
+    return response.data;
+  },
+  getComplianceOverview: async (params?: any) => {
+    const response = await apiClient.get('/analytics/compliance/overview', { params });
+    return response.data;
+  },
+  getAssetAnalytics: async (params?: any) => {
+    const response = await apiClient.get('/analytics/assets', { params });
+    return response.data;
+  },
+  getDocumentAnalytics: async (params?: any) => {
+    const response = await apiClient.get('/analytics/documents', { params });
+    return response.data;
+  },
+  getActivityTimeline: async (params?: { limit?: number; offset?: number }) => {
+    const response = await apiClient.get('/analytics/activity', { params });
+    return response.data;
+  },
+  getDwspTrends: async (params?: { startDate?: string; endDate?: string }) => {
+    const response = await apiClient.get('/analytics/dwsp-trends', { params });
+    return response.data;
+  },
+  getUserActivity: async (params?: any) => {
+    const response = await apiClient.get('/analytics/users', { params });
+    return response.data;
+  },
+  getSystemAnalytics: async () => {
+    const response = await apiClient.get('/analytics/system');
+    return response.data;
+  },
+};
+
+// Export API
+export const exportApi = {
+  exportAssets: async (format: 'csv' | 'excel' | 'pdf' = 'csv', params?: any) => {
+    const response = await apiClient.get('/export/assets', {
+      params: { format, ...params },
+      responseType: 'blob'
+    });
+    return response.data;
+  },
+  exportDocuments: async (format: 'csv' | 'excel' | 'pdf' = 'csv', params?: any) => {
+    const response = await apiClient.get('/export/documents', {
+      params: { format, ...params },
+      responseType: 'blob'
+    });
+    return response.data;
+  },
+  exportCompliancePlans: async (format: 'csv' | 'excel' | 'pdf' = 'csv', params?: any) => {
+    const response = await apiClient.get('/export/compliance-plans', {
+      params: { format, ...params },
+      responseType: 'blob'
+    });
+    return response.data;
+  },
+  exportAuditLogs: async (format: 'csv' | 'excel' | 'pdf' = 'csv', params?: any) => {
+    const response = await apiClient.get('/export/audit-logs', {
+      params: { format, ...params },
+      responseType: 'blob'
+    });
+    return response.data;
+  },
+  exportComplianceOverview: async (format: 'text' | 'pdf' = 'text') => {
+    const response = await apiClient.get('/export/compliance-overview', {
+      params: { format },
+      responseType: format === 'text' ? 'text' : 'blob'
+    });
+    return response.data;
+  },
+};
+
+// AI API
+export const aiApi = {
+  ask: async (question: string, context?: string) => {
+    const response = await apiClient.post('/ai/ask', { question, context });
+    return response.data;
+  },
+  analyzeDwsp: async (content: string, documentId?: string) => {
+    const response = await apiClient.post('/ai/analyze-dwsp', { content, documentId });
+    return response.data;
+  },
+  analyzeWaterQuality: async (data: any) => {
+    const response = await apiClient.post('/ai/analyze-water-quality', data);
+    return response.data;
+  },
+  generateSummary: async (reportId: string, type: string) => {
+    const response = await apiClient.post('/ai/generate-summary', { reportId, type });
+    return response.data;
+  },
+  getUsage: async (params?: { startDate?: string; endDate?: string }) => {
+    const response = await apiClient.get('/ai/usage', { params });
+    return response.data;
+  },
+  getConversations: async (limit?: number) => {
+    const response = await apiClient.get('/ai/conversations', { params: { limit } });
+    return response.data;
+  },
+  deleteConversation: async (sessionId: string) => {
+    const response = await apiClient.delete(`/ai/conversations/${sessionId}`);
+    return response.data;
+  },
+  updateTier: async (tier: 'basic' | 'professional' | 'enterprise') => {
+    const response = await apiClient.put('/ai/tier', { tier });
+    return response.data;
+  },
+};
+
+// DWQAR API (Drinking Water Quality Assurance Reporting)
+export const dwqarApi = {
+  getCurrentStatus: async () => {
+    const response = await apiClient.get('/dwqar/current');
+    return response.data;
+  },
+  validateReport: async (data: any) => {
+    const response = await apiClient.post('/dwqar/validate', data);
+    return response.data;
+  },
+  exportToExcel: async (period: string) => {
+    const response = await apiClient.get('/dwqar/export', {
+      params: { period },
+      responseType: 'blob'
+    });
+    return response.data;
+  },
+  submitReport: async (data: any) => {
+    const response = await apiClient.post('/dwqar/submit', data);
+    return response.data;
+  },
+  getHistory: async (params?: { limit?: number; offset?: number }) => {
+    const response = await apiClient.get('/dwqar/history', { params });
+    return response.data;
+  },
+  getAggregation: async (period: 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'annual') => {
+    const response = await apiClient.get(`/dwqar/aggregation/${period}`);
+    return response.data;
+  },
+  getCompleteness: async (startDate?: string, endDate?: string) => {
+    const response = await apiClient.get('/dwqar/completeness', {
+      params: { startDate, endDate }
+    });
+    return response.data;
+  },
+};
