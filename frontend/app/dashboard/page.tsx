@@ -6,7 +6,7 @@
  * Overview of compliance status and key metrics
  */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Building2,
   FileText,
@@ -19,79 +19,70 @@ import {
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { useAuth } from '@/contexts/AuthContext';
-import { assetsApi, dwspApi, documentsApi, reportsApi } from '@/lib/api';
-
-interface DashboardStats {
-  assets: {
-    total: number;
-    critical: number;
-    needingInspection: number;
-  };
-  compliance: {
-    total: number;
-    approved: number;
-    pending: number;
-  };
-  documents: {
-    total: number;
-  };
-  reports: {
-    total: number;
-    submitted: number;
-  };
-}
+import { useAssetStatistics } from '@/hooks/api/useAssets';
+import { useDwsps } from '@/hooks/api/useDwsp';
+import { useDocuments } from '@/hooks/api/useDocuments';
+import { useReports } from '@/hooks/api/useReports';
 
 export default function DashboardPage() {
   const { user } = useAuth();
-  const [stats, setStats] = useState<DashboardStats | null>(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadDashboardData();
-  }, []);
+  // Fetch data using React Query hooks
+  const {
+    data: assetStats,
+    isLoading: assetsLoading,
+    error: assetsError,
+  } = useAssetStatistics();
 
-  const loadDashboardData = async () => {
-    try {
-      const [assetsData, complianceData, documentsData, reportsData] =
-        await Promise.all([
-          assetsApi.statistics(),
-          dwspApi.list({ limit: 1000 }),
-          documentsApi.list({ limit: 1 }),
-          reportsApi.list({ limit: 1 }),
-        ]);
+  const {
+    data: complianceData,
+    isLoading: complianceLoading,
+    error: complianceError,
+  } = useDwsps({ limit: 1000 });
 
-      setStats({
-        assets: {
-          total: assetsData.total || 0,
-          critical: assetsData.critical || 0,
-          needingInspection: assetsData.needingInspection || 0,
-        },
-        compliance: {
-          total: complianceData.total || 0,
-          approved:
-            complianceData.compliancePlans?.filter(
-              (p: any) => p.status === 'APPROVED'
-            ).length || 0,
-          pending:
-            complianceData.compliancePlans?.filter(
-              (p: any) => p.status === 'DRAFT' || p.status === 'IN_REVIEW'
-            ).length || 0,
-        },
-        documents: {
-          total: documentsData.total || 0,
-        },
-        reports: {
-          total: reportsData.total || 0,
-          submitted:
-            reportsData.reports?.filter((r: any) => r.status === 'SUBMITTED')
-              .length || 0,
-        },
-      });
-    } catch (error) {
-      console.error('Failed to load dashboard data:', error);
-    } finally {
-      setLoading(false);
-    }
+  const {
+    data: documentsData,
+    isLoading: documentsLoading,
+    error: documentsError,
+  } = useDocuments({ limit: 1 });
+
+  const {
+    data: reportsData,
+    isLoading: reportsLoading,
+    error: reportsError,
+  } = useReports({ limit: 1 });
+
+  // Combine loading states
+  const loading =
+    assetsLoading || complianceLoading || documentsLoading || reportsLoading;
+
+  // Calculate stats from the fetched data
+  const stats = {
+    assets: {
+      total: assetStats?.total || 0,
+      critical: assetStats?.critical || 0,
+      needingInspection: assetStats?.needingInspection || 0,
+    },
+    compliance: {
+      total: complianceData?.total || 0,
+      approved:
+        complianceData?.compliancePlans?.filter(
+          (p: any) => p.status === 'APPROVED'
+        ).length || 0,
+      pending:
+        complianceData?.compliancePlans?.filter(
+          (p: any) => p.status === 'DRAFT' || p.status === 'IN_REVIEW'
+        ).length || 0,
+    },
+    documents: {
+      total: documentsData?.total || 0,
+    },
+    reports: {
+      total: reportsData?.total || 0,
+      submitted:
+        reportsData?.reports?.filter((r: any) => r.status === 'SUBMITTED')
+          .length || 0,
+    },
   };
 
   if (loading) {
@@ -130,14 +121,14 @@ export default function DashboardPage() {
                 <Building2 className="w-6 h-6 text-blue-600" />
               </div>
               <div className="text-3xl font-bold text-gray-900 mb-2">
-                {stats?.assets.total || 0}
+                {stats.assets.total}
               </div>
               <div className="space-y-1 text-sm">
                 <p className="text-orange-600">
-                  {stats?.assets.critical || 0} Critical
+                  {stats.assets.critical} Critical
                 </p>
                 <p className="text-yellow-600">
-                  {stats?.assets.needingInspection || 0} Need Inspection
+                  {stats.assets.needingInspection} Need Inspection
                 </p>
               </div>
             </div>
@@ -151,14 +142,14 @@ export default function DashboardPage() {
                 <FileText className="w-6 h-6 text-green-600" />
               </div>
               <div className="text-3xl font-bold text-gray-900 mb-2">
-                {stats?.compliance.total || 0}
+                {stats.compliance.total}
               </div>
               <div className="space-y-1 text-sm">
                 <p className="text-green-600">
-                  {stats?.compliance.approved || 0} Approved
+                  {stats.compliance.approved} Approved
                 </p>
                 <p className="text-yellow-600">
-                  {stats?.compliance.pending || 0} Pending
+                  {stats.compliance.pending} Pending
                 </p>
               </div>
             </div>
@@ -170,7 +161,7 @@ export default function DashboardPage() {
                 <FileText className="w-6 h-6 text-purple-600" />
               </div>
               <div className="text-3xl font-bold text-gray-900 mb-2">
-                {stats?.documents.total || 0}
+                {stats.documents.total}
               </div>
               <div className="space-y-1 text-sm">
                 <p className="text-gray-600">
@@ -186,11 +177,11 @@ export default function DashboardPage() {
                 <BarChart3 className="w-6 h-6 text-orange-600" />
               </div>
               <div className="text-3xl font-bold text-gray-900 mb-2">
-                {stats?.reports.total || 0}
+                {stats.reports.total}
               </div>
               <div className="space-y-1 text-sm">
                 <p className="text-green-600">
-                  {stats?.reports.submitted || 0} Submitted
+                  {stats.reports.submitted} Submitted
                 </p>
               </div>
             </div>
@@ -272,7 +263,7 @@ export default function DashboardPage() {
                       Asset Inspections
                     </p>
                     <p className="text-sm text-gray-600">
-                      {stats?.assets.needingInspection || 0} assets require
+                      {stats.assets.needingInspection} assets require
                       inspection
                     </p>
                   </div>
@@ -290,7 +281,7 @@ export default function DashboardPage() {
                       DWSP Documentation
                     </p>
                     <p className="text-sm text-gray-600">
-                      {stats?.compliance.approved || 0} approved plans
+                      {stats.compliance.approved} approved plans
                     </p>
                   </div>
                 </div>

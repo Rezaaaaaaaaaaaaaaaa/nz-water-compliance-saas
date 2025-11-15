@@ -75,19 +75,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const login = async (email: string, password: string) => {
-    try {
-      const response = await authApi.login(email, password);
-      // Handle {success, data} format
-      const accessToken = response.data?.accessToken || response.accessToken;
-      const userData = response.data?.user || response.user;
+    const response = await authApi.login(email, password);
+    // Handle {success, data} format
+    const accessToken = response.data?.accessToken || response.accessToken;
+    const userData = response.data?.user || response.user;
 
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('auth_token', accessToken);
-      }
-      setUser(userData);
-    } catch (error) {
-      throw error;
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('auth_token', accessToken);
     }
+    setUser(userData);
   };
 
   const register = async (data: {
@@ -98,19 +94,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     organizationName?: string;
     organizationType?: string;
   }) => {
-    try {
-      const response = await authApi.register(data);
-      // Handle {success, data} format
-      const accessToken = response.data?.accessToken || response.accessToken;
-      const userData = response.data?.user || response.user;
+    const response = await authApi.register(data);
+    // Handle {success, data} format
+    const accessToken = response.data?.accessToken || response.accessToken;
+    const userData = response.data?.user || response.user;
 
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('auth_token', accessToken);
-      }
-      setUser(userData);
-    } catch (error) {
-      throw error;
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('auth_token', accessToken);
     }
+    setUser(userData);
   };
 
   const logout = async () => {
