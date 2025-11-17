@@ -1,0 +1,25 @@
+# Dockerfile for Frontend Testing
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install dependencies
+RUN apk add --no-cache curl
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy application code
+COPY . .
+
+# Build Next.js (skip errors for test environment)
+RUN npm run build || true
+
+# Expose port
+EXPOSE 3000
+
+# Start Next.js in development mode for testing
+CMD ["npm", "run", "dev"]

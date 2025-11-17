@@ -5,7 +5,7 @@
  */
 
 import * as Sentry from '@sentry/node';
-import { ProfilingIntegration } from '@sentry/profiling-node';
+import { nodeProfilingIntegration } from '@sentry/profiling-node';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import { config } from './index.js';
 
@@ -32,7 +32,7 @@ export function initSentry(): void {
     // Profiling
     profilesSampleRate: config.nodeEnv === 'production' ? 0.1 : 1.0,
     integrations: [
-      new ProfilingIntegration(),
+      nodeProfilingIntegration(),
     ],
 
     // Release tracking
@@ -111,7 +111,7 @@ export function addBreadcrumb(breadcrumb: Sentry.Breadcrumb): void {
  *
  * Automatically captures errors and adds request context
  */
-export function sentryPlugin(fastify: FastifyInstance, options: any, done: () => void): void {
+export function sentryPlugin(fastify: FastifyInstance, _options: any, done: () => void): void {
   // Add request data to Sentry scope
   fastify.addHook('onRequest', async (request: FastifyRequest) => {
     Sentry.getCurrentScope().setContext('request', {

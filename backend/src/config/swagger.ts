@@ -12,7 +12,7 @@ import { config } from './index.js';
 /**
  * Swagger/OpenAPI specification
  */
-const swaggerOptions = {
+const swaggerOptions: any = {
   openapi: {
     openapi: '3.0.3',
     info: {
@@ -155,7 +155,7 @@ const swaggerOptions = {
 /**
  * Swagger UI configuration
  */
-const swaggerUiOptions = {
+const swaggerUiOptions: any = {
   routePrefix: '/docs',
   uiConfig: {
     docExpansion: 'list',

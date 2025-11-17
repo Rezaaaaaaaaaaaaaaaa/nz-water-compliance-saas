@@ -358,9 +358,9 @@ async function cleanup() {
   }
 }
 
-// Start server if run directly (skip in test environment)
-if (process.env.NODE_ENV !== 'test') {
-  // Always start in development mode with tsx watch
+// Start server if run directly (skip only when running Jest tests)
+// Allow starting in test mode for the test server container
+if (!process.env.JEST_WORKER_ID) {
   void start();
 }
 

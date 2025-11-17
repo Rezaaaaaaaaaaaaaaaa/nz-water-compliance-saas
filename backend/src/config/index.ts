@@ -97,6 +97,19 @@ const configSchema = z.object({
     anthropicApiKey: z.string().optional(),
     model: z.string().default('claude-3-5-sonnet-20241022'),
   }),
+
+  // Telemetry (OpenTelemetry)
+  telemetry: z
+    .object({
+      enabled: z.boolean().default(false),
+      serviceName: z.string().default('flowcomply-backend'),
+      otlpEndpoint: z.string().default('http://localhost:4318/v1/traces'),
+      headers: z.record(z.string()).optional(),
+    })
+    .optional(),
+
+  // Version
+  version: z.string().default('1.0.0'),
 });
 
 // Parse and validate configuration
@@ -188,6 +201,17 @@ function loadConfig() {
         anthropicApiKey: process.env.ANTHROPIC_API_KEY,
         model: process.env.AI_MODEL || 'claude-3-5-sonnet-20241022',
       },
+
+      // Telemetry
+      telemetry: {
+        enabled: process.env.TELEMETRY_ENABLED === 'true',
+        serviceName: process.env.TELEMETRY_SERVICE_NAME || 'flowcomply-backend',
+        otlpEndpoint: process.env.OTLP_ENDPOINT || 'http://localhost:4318/v1/traces',
+        headers: process.env.OTLP_HEADERS ? JSON.parse(process.env.OTLP_HEADERS) : undefined,
+      },
+
+      // Version
+      version: process.env.npm_package_version || '1.0.0',
     };
 
     return configSchema.parse(rawConfig);

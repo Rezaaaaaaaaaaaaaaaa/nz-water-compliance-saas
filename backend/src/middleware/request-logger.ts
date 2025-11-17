@@ -6,7 +6,6 @@
  */
 
 import { FastifyRequest, FastifyReply, FastifyPluginCallback } from 'fastify';
-import { logger } from '../config/logger.js';
 
 /**
  * Request Logger Middleware
@@ -37,8 +36,19 @@ export async function requestLoggerMiddleware(
     referer: request.headers.referer,
   }, 'Incoming request');
 
+  // Store start time for response hook
+  (reply as any).startTime = start;
+}
+
+/**
+ * Fastify Plugin for Request Logging
+ */
+export const requestLoggerPlugin: FastifyPluginCallback = (fastify, _options, done) => {
+  fastify.addHook('onRequest', requestLoggerMiddleware);
+
   // Log response when sent
-  reply.addHook('onSend', async (request, reply, payload) => {
+  fastify.addHook('onResponse', async (request: FastifyRequest, reply: FastifyReply) => {
+    const start = (reply as any).startTime || Date.now();
     const duration = Date.now() - start;
 
     const logData = {
@@ -63,15 +73,7 @@ export async function requestLoggerMiddleware(
     } else {
       request.log.info(logData, 'Response sent');
     }
-
-    return payload;
   });
-}
 
-/**
- * Fastify Plugin for Request Logging
- */
-export const requestLoggerPlugin: FastifyPluginCallback = (fastify, options, done) => {
-  fastify.addHook('onRequest', requestLoggerMiddleware);
   done();
 };

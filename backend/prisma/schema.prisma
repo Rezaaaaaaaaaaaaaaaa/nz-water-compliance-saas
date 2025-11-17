@@ -78,6 +78,11 @@ model User {
   isActive    Boolean   @default(true)
   lastLoginAt DateTime?
 
+  // Multi-Factor Authentication
+  mfaEnabled     Boolean @default(false)
+  mfaSecret      String? // Encrypted TOTP secret
+  mfaBackupCodes Json?   // Array of hashed backup codes
+
   // Preferences
   notificationPreferences Json?
 

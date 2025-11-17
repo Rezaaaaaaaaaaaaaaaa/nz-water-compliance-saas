@@ -42,7 +42,7 @@ export async function correlationIdMiddleware(
  *
  * Registers the middleware as a Fastify plugin
  */
-export const correlationIdPlugin: FastifyPluginCallback = (fastify, options, done) => {
+export const correlationIdPlugin: FastifyPluginCallback = (fastify, _options, done) => {
   fastify.addHook('onRequest', correlationIdMiddleware);
   done();
 };
