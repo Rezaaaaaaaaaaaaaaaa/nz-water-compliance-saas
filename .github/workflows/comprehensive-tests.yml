@@ -1,0 +1,541 @@
+name: Comprehensive Test Suite
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+  workflow_dispatch: # Allow manual trigger
+
+env:
+  NODE_VERSION: '20'
+  POSTGRES_VERSION: '15'
+
+jobs:
+  # Fast configuration validation - runs on every PR
+  config-validation:
+    name: Configuration Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Run configuration validation tests
+        working-directory: backend
+        run: npm test -- --testPathPatterns=config-validation.test.ts
+        env:
+          CI: true
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: config-validation-results
+          path: backend/coverage/
+          retention-days: 7
+
+  # Environment-specific configuration tests
+  environment-validation:
+    name: Environment Configuration Tests
+    runs-on: ubuntu-latest
+    needs: config-validation
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Install js-yaml for environment tests
+        working-directory: backend
+        run: npm install --save-dev js-yaml @types/js-yaml
+
+      - name: Run environment validation tests
+        working-directory: backend
+        run: npm test -- --testPathPatterns=environment-validation.test.ts
+        env:
+          CI: true
+
+  # Unit tests - existing test suite
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: config-validation
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Run unit tests
+        working-directory: backend
+        run: npm test -- --testPathIgnorePatterns="(config-validation|connectivity|deployment-smoke|environment-validation|api-contract|health-check).test.ts"
+        env:
+          CI: true
+
+      - name: Upload coverage reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-coverage
+          path: backend/coverage/
+          retention-days: 7
+
+  # Integration tests with database
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: [config-validation, unit-tests]
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: compliance_saas
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Run database migrations
+        working-directory: backend
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/compliance_saas?schema=public
+
+      - name: Seed test data
+        working-directory: backend
+        run: npx prisma db seed
+        env:
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/compliance_saas?schema=public
+
+      - name: Run integration tests
+        working-directory: backend
+        run: npm test -- --testPathPatterns=integration.test.ts
+        env:
+          CI: true
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/compliance_saas?schema=public
+          REDIS_URL: redis://localhost:6379
+          NODE_ENV: test
+
+  # Connectivity and health check tests
+  connectivity-tests:
+    name: Connectivity & Health Check Tests
+    runs-on: ubuntu-latest
+    needs: [config-validation, unit-tests]
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: compliance_saas
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Run database migrations
+        working-directory: backend
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/compliance_saas?schema=public
+
+      - name: Seed test data
+        working-directory: backend
+        run: npx prisma db seed
+        env:
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/compliance_saas?schema=public
+
+      - name: Start backend server
+        working-directory: backend
+        run: |
+          npm run dev &
+          echo $! > backend.pid
+          sleep 10
+        env:
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/compliance_saas?schema=public
+          REDIS_URL: redis://localhost:6379
+          NODE_ENV: test
+          PORT: 3000
+
+      - name: Wait for backend to be ready
+        run: |
+          for i in {1..30}; do
+            if curl -f http://localhost:3000/health; then
+              echo "Backend is ready"
+              exit 0
+            fi
+            echo "Waiting for backend... ($i/30)"
+            sleep 2
+          done
+          echo "Backend failed to start"
+          exit 1
+
+      - name: Run connectivity tests
+        working-directory: backend
+        run: npm test -- --testPathPatterns=connectivity.test.ts
+        env:
+          CI: true
+
+      - name: Run health check tests
+        working-directory: backend
+        run: npm test -- --testPathPatterns=health-check.test.ts
+        env:
+          CI: true
+
+      - name: Stop backend server
+        if: always()
+        run: |
+          if [ -f backend/backend.pid ]; then
+            kill $(cat backend/backend.pid) || true
+          fi
+
+  # API contract validation tests
+  api-contract-tests:
+    name: API Contract Tests
+    runs-on: ubuntu-latest
+    needs: [connectivity-tests]
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: compliance_saas
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Run database migrations
+        working-directory: backend
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/compliance_saas?schema=public
+
+      - name: Seed test data
+        working-directory: backend
+        run: npx prisma db seed
+        env:
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/compliance_saas?schema=public
+
+      - name: Start backend server
+        working-directory: backend
+        run: |
+          npm run dev &
+          echo $! > backend.pid
+          sleep 10
+        env:
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/compliance_saas?schema=public
+          REDIS_URL: redis://localhost:6379
+          NODE_ENV: test
+          PORT: 3000
+
+      - name: Wait for backend to be ready
+        run: |
+          for i in {1..30}; do
+            if curl -f http://localhost:3000/health; then
+              echo "Backend is ready"
+              exit 0
+            fi
+            echo "Waiting for backend... ($i/30)"
+            sleep 2
+          done
+
+      - name: Run API contract tests
+        working-directory: backend
+        run: npm test -- --testPathPatterns=api-contract.test.ts
+        env:
+          CI: true
+
+      - name: Stop backend server
+        if: always()
+        run: |
+          if [ -f backend/backend.pid ]; then
+            kill $(cat backend/backend.pid) || true
+          fi
+
+  # Full deployment smoke tests - only on main branch
+  deployment-smoke-tests:
+    name: Deployment Smoke Tests
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    needs: [connectivity-tests, api-contract-tests]
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: compliance_saas
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Run database migrations
+        working-directory: backend
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/compliance_saas?schema=public
+
+      - name: Seed test data
+        working-directory: backend
+        run: npx prisma db seed
+        env:
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/compliance_saas?schema=public
+
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:3000/api/v1
+
+      - name: Start backend server
+        working-directory: backend
+        run: |
+          npm run dev &
+          echo $! > backend.pid
+          sleep 10
+        env:
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/compliance_saas?schema=public
+          REDIS_URL: redis://localhost:6379
+          NODE_ENV: test
+          PORT: 3000
+
+      - name: Start frontend server
+        working-directory: frontend
+        run: |
+          npm start &
+          echo $! > frontend.pid
+          sleep 10
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:3000/api/v1
+          PORT: 3001
+
+      - name: Wait for services to be ready
+        run: |
+          # Wait for backend
+          for i in {1..30}; do
+            if curl -f http://localhost:3000/health; then
+              echo "Backend is ready"
+              break
+            fi
+            echo "Waiting for backend... ($i/30)"
+            sleep 2
+          done
+
+          # Wait for frontend
+          for i in {1..30}; do
+            if curl -f http://localhost:3001; then
+              echo "Frontend is ready"
+              break
+            fi
+            echo "Waiting for frontend... ($i/30)"
+            sleep 2
+          done
+
+      - name: Run deployment smoke tests
+        working-directory: backend
+        run: npm test -- --testPathPatterns=deployment-smoke.test.ts
+        env:
+          CI: true
+
+      - name: Stop services
+        if: always()
+        run: |
+          if [ -f backend/backend.pid ]; then
+            kill $(cat backend/backend.pid) || true
+          fi
+          if [ -f frontend/frontend.pid ]; then
+            kill $(cat frontend/frontend.pid) || true
+          fi
+
+  # Test summary
+  test-summary:
+    name: Test Summary
+    runs-on: ubuntu-latest
+    needs:
+      - config-validation
+      - environment-validation
+      - unit-tests
+      - integration-tests
+      - connectivity-tests
+      - api-contract-tests
+    if: always()
+
+    steps:
+      - name: Check test results
+        run: |
+          echo "## Test Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Test Category | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Configuration Validation | ${{ needs.config-validation.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Environment Validation | ${{ needs.environment-validation.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Unit Tests | ${{ needs.unit-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Integration Tests | ${{ needs.integration-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Connectivity Tests | ${{ needs.connectivity-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| API Contract Tests | ${{ needs.api-contract-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+
+      - name: Fail if any test failed
+        if: |
+          needs.config-validation.result == 'failure' ||
+          needs.environment-validation.result == 'failure' ||
+          needs.unit-tests.result == 'failure' ||
+          needs.integration-tests.result == 'failure' ||
+          needs.connectivity-tests.result == 'failure' ||
+          needs.api-contract-tests.result == 'failure'
+        run: exit 1
