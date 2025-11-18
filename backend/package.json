@@ -30,7 +30,10 @@
     "test:unit": "jest --testPathPattern=src/.*\\.test\\.ts$",
     "start:test": "NODE_ENV=test node dist/server.js",
     "docker:up": "docker-compose up -d",
-    "docker:down": "docker-compose down"
+    "docker:down": "docker-compose down",
+    "auto-heal": "tsx ../scripts/auto-heal.ts",
+    "test:discovery": "jest --testPathPatterns=endpoint-discovery.test.ts",
+    "test:comprehensive": "jest --testPathPatterns=(config-validation|connectivity|health-check|api-contract|endpoint-discovery).test.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.69.0",

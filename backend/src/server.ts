@@ -137,6 +137,30 @@ async function buildApp(): Promise<FastifyInstance> {
     };
   });
 
+  // Readiness Probe - for Kubernetes/container orchestration
+  app.get('/health/ready', async (_request, reply) => {
+    try {
+      // Check database connectivity
+      await prisma.$queryRaw`SELECT 1 as health`;
+
+      return {
+        status: 'ready',
+        timestamp: new Date().toISOString(),
+        services: {
+          database: 'connected',
+          redis: redis.status === 'ready' ? 'connected' : 'disconnected',
+        },
+      };
+    } catch (error: any) {
+      void reply.code(503);
+      return {
+        status: 'not_ready',
+        timestamp: new Date().toISOString(),
+        error: error.message || String(error),
+      };
+    }
+  });
+
   // Detailed Health Checks
   app.get('/health/db', async (_request, reply) => {
     try {
