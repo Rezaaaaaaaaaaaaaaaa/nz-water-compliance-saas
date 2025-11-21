@@ -1,0 +1,79 @@
+image: node:20
+
+stages:
+  - test
+  - build
+
+variables:
+  POSTGRES_DB: flowcomply_test
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  DATABASE_URL: postgresql://postgres:postgres@postgres:5432/flowcomply_test
+  REDIS_HOST: redis
+  REDIS_PORT: 6379
+  NODE_ENV: test
+
+services:
+  - postgres:15
+  - redis:7-alpine
+
+cache:
+  paths:
+    - backend/node_modules/
+    - frontend/node_modules/
+    - frontend/.next/cache/
+
+before_script:
+  - cd backend && npm ci
+  - cd ../frontend && npm ci
+  - cd ..
+
+backend-test:
+  stage: test
+  script:
+    - cd backend
+    - npx prisma generate
+    - npx prisma migrate deploy
+    - npm run test
+    - npm run lint
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: backend/coverage/cobertura-coverage.xml
+    expire_in: 30 days
+
+frontend-test:
+  stage: test
+  script:
+    - cd frontend
+    - npm run lint
+    - npm run test
+  artifacts:
+    reports:
+      junit: frontend/junit.xml
+    expire_in: 30 days
+
+backend-build:
+  stage: build
+  script:
+    - cd backend
+    - npm run build
+  artifacts:
+    paths:
+      - backend/dist/
+    expire_in: 7 days
+
+frontend-build:
+  stage: build
+  script:
+    - cd frontend
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/.next/
+    expire_in: 7 days
+  only:
+    - main
+    - develop
